@@ -3,21 +3,27 @@ package bst
 import bst.balancers.AbstractBSTBalancer
 import bst.balancers.AVLTreeBalancer
 import bst.nodes.AVLTreeNode
+import bst.nodes.RedBlackTreeNode
 
 class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTreeNode<K, V>>() {
     override var balancer: AbstractBSTBalancer<K, V, AVLTreeNode<K, V>> = AVLTreeBalancer()
 
     override fun search(key: K): V? {
-        return null // TODO
+        return super.search(key)
     }
 
-    override fun insert(key: K, value: V): Boolean {
+    override fun insert(key: K, value: V): AVLTreeNode<K, V> {
+        val newNode = super.insert(key, value)
         super.balance(balancer::inserter)
-        return false // TODO
+        return newNode // TODO
     }
 
     override fun remove(key: K): V? {
         super.balance(balancer::remover)
         return null // TODO
+    }
+
+    override fun createNode(key: K, value: V): AVLTreeNode<K, V> {
+        return AVLTreeNode(key, value, null, 1)
     }
 }
