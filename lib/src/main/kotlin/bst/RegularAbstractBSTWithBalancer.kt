@@ -6,8 +6,8 @@ import bst.nodes.AbstractBSTNodeWithParent
 abstract class RegularAbstractBSTWithBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWithParent<K, V, R>> : RegularAbstractBST<K, V, R>() {
     abstract var balancer: AbstractBSTBalancer<K, V, R>
 
-    fun balance(balanceFunction: (R) -> Unit) {
-        val balanceNode = root ?: return
+    fun balance(balanceFunction: (R) -> Unit, node: R? = root) {
+        val balanceNode = node ?: return
         balanceFunction(balanceNode)
     }
 }
