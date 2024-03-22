@@ -1,8 +1,8 @@
 package bst.balancers
 
-import bst.nodes.AbstractBSTNodeWithParent
+import bst.nodes.AbstractBSTNode
 
-abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWithParent<K, V, R>> {
+abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> {
 
     abstract fun inserter(node: R)
     abstract fun remover(node: R)
