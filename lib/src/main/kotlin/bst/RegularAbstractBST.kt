@@ -9,8 +9,8 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return null // TODO
     }
 
-    override fun insert(key: K, value: V): Boolean {
-        return false // TODO
+    override fun insert(key: K, value: V): R {
+        return createNode(key, value) // TODO
     }
 
     override fun remove(key: K): V? {
@@ -22,4 +22,5 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return traverseMethod.traverse(traverseNode, extractFunction)
     }
 
+    protected abstract fun createNode(key: K, value: V): R
 }
