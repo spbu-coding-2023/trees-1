@@ -12,12 +12,12 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
     }
 
     override fun insert(key: K, value: V): RedBlackTreeNode<K, V> {
-        super.balance(balancer::inserter)
+        super.balance(balancer::inserter, root)
         return createNode(key, value) // TODO
     }
 
     override fun remove(key: K): V? {
-        super.balance(balancer::remover)
+        super.balance(balancer::remover, root)
         return null // TODO
     }
 
