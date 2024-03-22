@@ -23,4 +23,6 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
     }
 
     protected abstract fun createNode(key: K, value: V): R
+    protected abstract fun setNodeLeft(nodeParent: R, nodeChild: R?)
+    protected abstract fun setNodeRight(nodeParent: R, nodeChild: R?)
 }

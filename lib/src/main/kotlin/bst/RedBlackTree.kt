@@ -7,6 +7,14 @@ import bst.nodes.RedBlackTreeNode
 class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, RedBlackTreeNode<K, V>>() {
     override var balancer: AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>> = RedBlackTreeBalancer()
 
+    override fun setNodeRight(nodeParent: RedBlackTreeNode<K, V>, nodeChild: RedBlackTreeNode<K, V>?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun setNodeLeft(nodeParent: RedBlackTreeNode<K, V>, nodeChild: RedBlackTreeNode<K, V>?) {
+        TODO("Not yet implemented")
+    }
+
     override fun search(key: K): V? {
         return null // TODO
     }
