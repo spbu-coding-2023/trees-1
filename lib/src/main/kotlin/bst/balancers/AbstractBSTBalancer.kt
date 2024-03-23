@@ -7,14 +7,34 @@ abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWith
     abstract fun inserter(node: R)
     abstract fun remover(node: R)
 
-    fun rotateLeft(node: R) {
-        // TODO
     open fun rotateLeft(node: R) {
+        val isParentLinkRight = node.parent?.right == node
+        val switchNode = node.right
+        switchNode?.parent = node.parent
+        node.parent = switchNode
+        if (isParentLinkRight) {
+            switchNode?.parent?.right = switchNode
+        } else {
+            switchNode?.parent?.left = switchNode
+        }
+        node.right = switchNode?.left
+        switchNode?.left?.parent = node
+        switchNode?.left = node
     }
 
-    fun rotateRight(node: R) {
-        // TODO
     open fun rotateRight(node: R) {
+        val isParentLinkRight = node.parent?.right == node
+        val switchNode = node.left
+        switchNode?.parent = node.parent
+        node.parent = switchNode
+        if (isParentLinkRight) {
+            switchNode?.parent?.right = switchNode
+        } else {
+            switchNode?.parent?.left = switchNode
+        }
+        node.left = switchNode?.right
+        switchNode?.right?.parent = node
+        switchNode?.right = node
     }
 }
 
