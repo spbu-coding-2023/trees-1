@@ -26,4 +26,8 @@ class RegularTree<K : Comparable<K>, V> : RegularAbstractBST<K, V, BSTNode<K, V>
     override fun setNodeRight(nodeParent: BSTNode<K, V>, nodeChild: BSTNode<K, V>?) {
         TODO("Not yet implemented")
     }
+
+    override fun setNode(node: BSTNode<K, V>, newNode: BSTNode<K, V>) {
+        TODO("Not yet implemented")
+    }
 }

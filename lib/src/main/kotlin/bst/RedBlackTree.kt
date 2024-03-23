@@ -32,4 +32,8 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
     override fun createNode(key: K, value: V): RedBlackTreeNode<K, V> {
         return RedBlackTreeNode(key, value, null)
     }
+
+    override fun setNode(node: RedBlackTreeNode<K, V>, newNode: RedBlackTreeNode<K, V>) {
+        TODO("Not yet implemented")
+    }
 }
