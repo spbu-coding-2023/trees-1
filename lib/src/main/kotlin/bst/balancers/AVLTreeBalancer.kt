@@ -46,7 +46,6 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
     override fun inserter(node: AVLTreeNode<K, V>) {
         var current = node
         var bf = current.getBalanceFactor()
-        println("bf: $bf of ${current.left?.height} and ${current.right?.height} for node ${current.key}")
         while(bf != 0) {
             if (bf == 2) {
                 if (current.right?.getBalanceFactor() == 1) {
