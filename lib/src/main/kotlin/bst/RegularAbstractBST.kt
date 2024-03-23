@@ -9,8 +9,33 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return null // TODO
     }
 
+    private fun insertRec(root: R, node: R) { // TODO: may not be the best solution, but it works
+        if (root.key.compareTo(node.key) == 0) {
+            setNode(root, node)
+        } else if (root.key.compareTo(node.key) < 0) {
+            if (root.right == null) {
+                setNodeRight(root, node)
+                return
+            }
+            insertRec(root.right!!, node)
+        } else {
+            if (root.left == null) {
+                setNodeLeft(root, node)
+                return
+            }
+            insertRec(root.left!!, node)
+        }
+    }
+
     override fun insert(key: K, value: V): R {
-        return createNode(key, value) // TODO
+        // TODO: make better, it is just a placeholder so it can work
+        val newNode = createNode(key, value)
+        if (root == null) {
+            root = newNode
+            return newNode
+        }
+        insertRec(root!!, newNode)
+        return newNode
     }
 
     override fun remove(key: K): V? {
