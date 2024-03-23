@@ -1,18 +1,20 @@
 package bst.balancers
 
-import bst.nodes.AbstractBSTNode
+import bst.nodes.AbstractBSTNodeWithParent
 
-abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> {
+abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWithParent<K, V, R>> {
 
     abstract fun inserter(node: R)
     abstract fun remover(node: R)
 
     fun rotateLeft(node: R) {
         // TODO
+    open fun rotateLeft(node: R) {
     }
 
     fun rotateRight(node: R) {
         // TODO
+    open fun rotateRight(node: R) {
     }
 }
 
