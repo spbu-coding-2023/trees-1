@@ -51,12 +51,13 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
     override fun insert(key: K, value: V): AVLTreeNode<K, V> {
         val newNode = super.insert(key, value)
         super.balance(balancer::inserter, newNode.parent)
-        return newNode // TODO
+        return newNode
     }
 
     override fun remove(key: K): V? {
+        val removedNode = super.remove(key)
         super.balance(balancer::remover, root)
-        return null // TODO
+        return removedNode
     }
 
     override fun createNode(key: K, value: V): AVLTreeNode<K, V> {
