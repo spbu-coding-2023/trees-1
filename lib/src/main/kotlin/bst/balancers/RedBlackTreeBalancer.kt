@@ -27,19 +27,21 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 uncle.setBlack()
                 grandparent.setRed()
                 inserter(grandparent)
-            } else if (node == node.parent.right && node.parent == grandparent.left) {
-                super.rotateLeft(node.parent)
-                node = node.left
-            } else if (node == node.parent.left && node.parent == grandparent.right) {
-                super.rotateRight(node.parent)
-                node = node.right
-            }
-            node.parent.setBlack()
-            grandparent.setRed()
-            if (node == node.parent.left && node.parent == grandparent.left) {
-                rotateRight(grandparent)
             } else {
-                rotateLeft(grandparent)
+                if (node == node.parent.right && node.parent == grandparent.left) {
+                    super.rotateLeft(node.parent)
+                    node = node.left
+                } else if (node == node.parent.left && node.parent == grandparent.right) {
+                    super.rotateRight(node.parent)
+                    node = node.right
+                }
+                node.parent.setBlack()
+                grandparent.setRed()
+                if (node == node.parent.left && node.parent == grandparent.left) {
+                    rotateRight(grandparent)
+                } else {
+                    rotateLeft(grandparent)
+                }
             }
         }
     }
