@@ -69,7 +69,8 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         node.value = newNode.value
         node.right = newNode.right
         node.left = newNode.left
-        node.height = newNode.height // TODO
+        node.height = newNode.height
         node.parent = newNode.parent
+        super.balance(balancer::inserter, node)
     }
 }
