@@ -11,10 +11,13 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
             else -> null
         }
     }
+
     private fun RedBlackTreeNode<K, V>.findGrandparent() : RedBlackTreeNode<K, V>? {
         return this.parent?.parent
     }
+
     override fun inserter(node: RedBlackTreeNode<K, V>) {
+        node.setRed()
         if (node.parent == null) {
             node.setBlack()
         } else if (node.parent.isBlack()) {
