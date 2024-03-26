@@ -20,8 +20,8 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
         } else if (node.parent.isBlack()) {
             // do nothing
         } else {
-            val uncle = node.findUncle()
-            val grandparent = node.f1indGrandparent() // grandparent exists since parent is red and root is always black
+            val uncle = node.findUncle() // uncle doesn't need to be updated so val
+            var grandparent = node.findGrandparent() // grandparent exists since parent is red and root is always black
             if (uncle != null && uncle.isRed()) {
                 node.parent.setBlack()
                 uncle.setBlack()
@@ -35,6 +35,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                     super.rotateRight(node.parent)
                     node = node.right
                 }
+                grandparent = node.findGrandparent()
                 node.parent.setBlack()
                 grandparent.setRed()
                 if (node == node.parent.left && node.parent == grandparent.left) {
