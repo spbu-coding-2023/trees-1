@@ -21,7 +21,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
             // do nothing
         } else {
             val uncle = node.findUncle()
-            val grandparent = node.findGrandparent() // grandparent exists since parent is red and root is always black
+            val grandparent = node.f1indGrandparent() // grandparent exists since parent is red and root is always black
             if (uncle != null && uncle.isRed()) {
                 node.parent.setBlack()
                 uncle.setBlack()
@@ -56,7 +56,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
 
     override fun remover(node: RedBlackTreeNode<K, V>) {
         if (node.parent != null) {
-            val sibling = node.findSibling()
+            var sibling = node.findSibling()
             if (sibling.isRed()) {
                 node.parent.setRed()
                 sibling.setBlack()
@@ -65,6 +65,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 } else {
                     super.rotateRight(node.parent)
                 }
+                sibling = node.findSibling()
             }
             if (node.parent.isBlack() && sibling.isBlack() && sibling.left.isBlack() && sibling.right.isBlack()) {
                 sibling.setRed()
@@ -84,6 +85,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                             sibling.right.setBlack()
                             super.rotateLeft(sibling)
                         }
+                        sibling = node.findSibling()
                     }
                     if (node.parent.isRed()) {
                         sibling.setRed()
