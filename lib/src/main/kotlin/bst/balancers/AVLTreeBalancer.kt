@@ -4,7 +4,6 @@ import bst.nodes.AVLTreeNode
 import kotlin.math.max
 
 class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeNode<K, V>>() {
-
     private fun updateHeightAndBelow(node: AVLTreeNode<K, V>?): Int {
         if (node == null) {
             return 0
@@ -15,7 +14,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
     }
 
     private fun updateHeightAbove(node: AVLTreeNode<K, V>) {
-        var current: AVLTreeNode<K,V>? = node
+        var current: AVLTreeNode<K, V>? = node
         while (current != null) {
             current = current.parent
             if (current == null) break
@@ -30,7 +29,6 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
 
         node.height = updateHeightAndBelow(node)
         updateHeightAbove(node)
-
     }
 
     override fun rotateRight(node: AVLTreeNode<K, V>) {
@@ -46,7 +44,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
     override fun inserter(node: AVLTreeNode<K, V>) {
         var current = node
         var bf = current.getBalanceFactor()
-        while(bf != 0) {
+        while (bf != 0) {
             if (bf == 2) {
                 if (current.right?.getBalanceFactor() == 1) {
                     rotateLeft(current)

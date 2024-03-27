@@ -3,16 +3,16 @@ package bst.balancers
 import bst.nodes.RedBlackTreeNode
 
 class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>>() {
-    private fun RedBlackTreeNode<K, V>.findUncle() : RedBlackTreeNode<K, V>? {
+    private fun RedBlackTreeNode<K, V>.findUncle(): RedBlackTreeNode<K, V>? {
         val grandparent = findGrandparent(this) ?: return null
-        return when(this.parent) {
+        return when (this.parent) {
             grandparent.left -> grandparent.right
             grandparent.right -> grandparent.left
             else -> null
         }
     }
 
-    private fun RedBlackTreeNode<K, V>.findGrandparent() : RedBlackTreeNode<K, V>? {
+    private fun RedBlackTreeNode<K, V>.findGrandparent(): RedBlackTreeNode<K, V>? {
         return this.parent?.parent
     }
 
@@ -50,7 +50,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
         }
     }
 
-    private fun RedBlackTreeNode<K, V>.findSibling() : RedBlackTreeNode<K, V>? {
+    private fun RedBlackTreeNode<K, V>.findSibling(): RedBlackTreeNode<K, V>? {
         when (this) {
             this.parent.left -> return this.parent.right
             this.parent.right -> return this.parent.left

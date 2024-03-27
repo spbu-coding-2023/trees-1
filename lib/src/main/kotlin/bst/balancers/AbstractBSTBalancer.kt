@@ -3,8 +3,8 @@ package bst.balancers
 import bst.nodes.AbstractBSTNodeWithParent
 
 abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWithParent<K, V, R>> {
-
     abstract fun inserter(node: R)
+
     abstract fun remover(node: R)
 
     open fun rotateLeft(node: R) {
@@ -37,4 +37,3 @@ abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWith
         switchNode?.right = node
     }
 }
-
