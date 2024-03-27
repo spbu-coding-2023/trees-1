@@ -104,6 +104,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
                     }
                 }
                 current = current.parent ?: break
+                bf = current.getBalanceFactor()
             } else if (bf == -2) {
                 val leftNodeBf = current.left?.getBalanceFactor()
                 if (leftNodeBf == -1) {
@@ -122,6 +123,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
                     }
                 }
                 current = current.parent ?: break
+                bf = current.getBalanceFactor()
             }
 
             val nodeParentBf = current.parent?.getBalanceFactor() ?: 0
@@ -129,6 +131,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
                 break
 
             current = current.parent ?: break
+            bf = current.getBalanceFactor()
         }
     }
 }
