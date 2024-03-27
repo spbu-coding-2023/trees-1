@@ -24,7 +24,7 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         } else {
             if (node == node.parent.left) {
                 node.parent.left = child
-            } else {x
+            } else {
                 node.parent.right = child
             }
         }
