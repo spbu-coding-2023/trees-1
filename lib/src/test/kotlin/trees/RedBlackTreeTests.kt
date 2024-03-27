@@ -103,12 +103,38 @@ private fun setUpAnotherUnbalancedRBTree() : RedBlackTree<Int, String> {
 }
 
 class RedBlackTreeTest : RegularTreeTest() {
-    private fun isBalancedInColourRBTree(RedBlackTree<K, V>) {
-        TODO("Not finished")
+    private fun numberOfBlackNodesDownwardsAndRBConditionChecker(node : RedBlackTreeNode<K, V>) : Int {
+        if (node == null) {
+            return 1
+        }
+        if (node.parent == null && node.isRed()) {
+            return -1
+        }
+        val leftBlackHeight = isBalancedInColourRBTree(node.left)
+        val rightBlackHeight = isBalancedInColourRBTree(node.right)
+        if (leftBlackHeight == -1 || rightBlackHeight == -1 || leftBlackHeight != rightBlackHeight) {
+            return -1
+        }
+        if (node.isRed() && node.parent?.isRed()) {
+            return -1
+        }
+        return if (node.isBlack()) leftHeight + 1 else leftHeight
+    }
+
+    private fun isBalancedInColourRBTree(RBTree : RedBlackTree<K, V>) : Int {
+        return numberOfBlackNodesDownwardsAndRBConditionChecker(RBTree.root) != -1 // -1 means conditions are not met
     }
 
     @Test
-    private fun isBalancedInKeysRBTreeTest(RedBlackTree<K, V>) {
+    fun isBalancedInColourRBTreeTest() {
+        assertEquals(true, isBalancedInColourRBTree(setUpBalancedTree()))
+        assertEquals(true, isBalancedInColourRBTree(setUpAnotherBalancedTree()))
+        assertEquals(false, isBalancedInColourRBTree(setUpUnbalancedTree()))
+        assertEquals(false, isBalancedInColourRBTree(setUpAnotherUnbalancedTree()))
+    }
+
+    @Test
+    private fun isBalancedInKeysRBTreeTest() {
         assertEquals(true, super.isBalancedInKeys(setUpBalancedRBTree()))
         assertEquals(true, super.isBalancedInKeys(setUpAnotherBalancedRBTree()))
         assertEquals(false, super.isBalancedInKeys(setUpUnbalancedRBTree()))
@@ -116,11 +142,14 @@ class RedBlackTreeTest : RegularTreeTest() {
     }
 
     @Test
-    fun isBalancedInColourRBTreeTest() {
-        val balancedRedBlackTree = setUpBalancedTree()
-        val unbalancedRedBlackTree = setUpUnbalancedTree()
-        assertEquals(true, balancedRedBlackTree.)
+    private fun searchTest() {
+        val RBTree = setUpBalancedRBTree()
+        val anotherRBTree = setUpAnotherRBTree()
+        assertEquals(RBTree.search(15), "sixth")
+        assertEquals(anotherRBTree.search(35), "eleventh")
+        assertEquals(RBTree.search(7), null)
+        assertEquals(anotherRBTree.search(21), null)
     }
 
-    // Many more tests to come...
+
 }
