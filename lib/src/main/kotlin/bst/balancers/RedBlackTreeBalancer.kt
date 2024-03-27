@@ -73,20 +73,32 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 }
                 sibling = node.findSibling()
             }
-            if (sibling != null && node.parent!!.isBlack() && sibling.isBlack() && (sibling.left != null && sibling.left!!.isBlack()) && (sibling.right != null && sibling.right!!.isBlack())) {
+            if (
+                sibling != null && node.parent!!.isBlack() && sibling.isBlack() &&
+                (sibling.left != null && sibling.left!!.isBlack()) && (sibling.right != null && sibling.right!!.isBlack())
+            ) {
                 sibling.setRed()
                 remover(node.parent!!)
             } else {
-                if (sibling != null && node.parent!!.isRed() && sibling.isBlack() && (sibling.left != null && sibling.left!!.isBlack()) && (sibling.right != null && sibling.right!!.isBlack())) {
+                if (
+                    sibling != null && node.parent!!.isRed() && sibling.isBlack() &&
+                    (sibling.left != null && sibling.left!!.isBlack()) && (sibling.right != null && sibling.right!!.isBlack())
+                ) {
                     sibling.setRed()
                     node.parent!!.setBlack()
                 } else {
                     if (sibling != null && sibling.isBlack()) {
-                        if (node == node.parent!!.left && (sibling.right != null && sibling.right!!.isBlack()) && (sibling.left != null && sibling.left!!.isRed())) {
+                        if (
+                            node == node.parent!!.left && (sibling.right != null && sibling.right!!.isBlack()) &&
+                            (sibling.left != null && sibling.left!!.isRed())
+                        ) {
                             sibling.setRed()
                             if (sibling.left != null) sibling.left!!.setBlack()
                             rotateRight(sibling)
-                        } else if (sibling != null && node == node.parent!!.right && (sibling.left != null && sibling.left!!.isBlack()) && (sibling.right != null && sibling.right!!.isRed())) {
+                        } else if (
+                            sibling != null && node == node.parent!!.right &&
+                            (sibling.left != null && sibling.left!!.isBlack()) && (sibling.right != null && sibling.right!!.isRed())
+                        ) {
                             sibling.setRed()
                             if (sibling.right != null) sibling.right!!.setBlack()
                             rotateLeft(sibling)
