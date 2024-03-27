@@ -5,11 +5,15 @@ import bst.traversals.BSTTraversal
 
 abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
     override var root: R? = null
+
     override fun search(key: K): V? {
         return null // TODO
     }
 
-    private fun insertRec(root: R, node: R) { // TODO: may not be the best solution, but it works
+    private fun insertRec(
+        root: R,
+        node: R,
+    ) { // TODO: may not be the best solution, but it works
         if (root.key.compareTo(node.key) == 0) {
             setNode(root, node)
         } else if (root.key.compareTo(node.key) < 0) {
@@ -27,7 +31,10 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         }
     }
 
-    override fun insert(key: K, value: V): R {
+    override fun insert(
+        key: K,
+        value: V,
+    ): R {
         // TODO: make better, it is just a placeholder so it can work
         val newNode = createNode(key, value)
         if (root == null) {
@@ -42,13 +49,31 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return null // TODO
     }
 
-    fun <T> traverse(traverseMethod: BSTTraversal<K, V, R>, extractFunction: (R) -> T): List<T> {
+    fun <T> traverse(
+        traverseMethod: BSTTraversal<K, V, R>,
+        extractFunction: (R) -> T,
+    ): List<T> {
         val traverseNode = root ?: return listOf()
         return traverseMethod.traverse(traverseNode, extractFunction)
     }
 
-    protected abstract fun createNode(key: K, value: V): R
-    protected abstract fun setNodeLeft(nodeParent: R, nodeChild: R?)
-    protected abstract fun setNodeRight(nodeParent: R, nodeChild: R?)
-    protected abstract fun setNode(node: R, newNode: R)
+    protected abstract fun createNode(
+        key: K,
+        value: V,
+    ): R
+
+    protected abstract fun setNodeLeft(
+        nodeParent: R,
+        nodeChild: R?,
+    )
+
+    protected abstract fun setNodeRight(
+        nodeParent: R,
+        nodeChild: R?,
+    )
+
+    protected abstract fun setNode(
+        node: R,
+        newNode: R,
+    )
 }

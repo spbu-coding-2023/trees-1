@@ -11,13 +11,19 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         return super.search(key)
     }
 
-    override fun insert(key: K, value: V): RedBlackTreeNode<K, V> {
+    override fun insert(
+        key: K,
+        value: V,
+    ): RedBlackTreeNode<K, V> {
         val newNode = super.insert(key, value)
         super.balance(balancer::inserter, newNode)
         return newNode
     }
 
-    private fun replaceNodeAndChild(node: RedBlackTreeNode<K, V>, child: RedBlackTreeNode<K, V>) {
+    private fun replaceNodeAndChild(
+        node: RedBlackTreeNode<K, V>,
+        child: RedBlackTreeNode<K, V>,
+    ) {
         child?.parent = node.parent
         if (node.parent == null) {
             root = child
@@ -36,7 +42,7 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
             return super.remove(key)
         }
         val child = if (nodeToRemove.left != null) nodeToRemove.left else nodeToRemove.right // the other one is null so we don't lose anything
-        replaceNodeAndChild (nodeToRemove, child)
+        replaceNodeAndChild(nodeToRemove, child)
         if (nodeToRemove.isBlack()) {
             if (child?.isRed()) {
                 child.setBlack()
@@ -47,7 +53,10 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         return nodeToRemove.value
     }
 
-    override fun createNode(key: K, value: V): RedBlackTreeNode<K, V> {
+    override fun createNode(
+        key: K,
+        value: V,
+    ): RedBlackTreeNode<K, V> {
         return RedBlackTreeNode(key, value, null)
     }
 }

@@ -4,7 +4,6 @@ import bst.nodes.AVLTreeNode
 import kotlin.math.max
 
 class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeNode<K, V>>() {
-
     private fun updateHeightAndBelow(node: AVLTreeNode<K, V>?): Int {
         if (node == null) {
             return 0
@@ -15,7 +14,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
     }
 
     private fun updateHeightAbove(node: AVLTreeNode<K, V>) {
-        var current: AVLTreeNode<K,V>? = node
+        var current: AVLTreeNode<K, V>? = node
         while (current != null) {
             current = current.parent
             if (current == null) break
@@ -30,7 +29,6 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
 
         node.height = updateHeightAndBelow(node)
         updateHeightAbove(node)
-
     }
 
     override fun rotateRight(node: AVLTreeNode<K, V>) {
@@ -46,7 +44,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
     override fun inserter(node: AVLTreeNode<K, V>) {
         var current = node
         var bf = current.getBalanceFactor()
-        while(bf != 0) {
+        while (bf != 0) {
             if (bf == 2) {
                 if (current.right?.getBalanceFactor() == 1) {
                     rotateLeft(current)
@@ -83,6 +81,55 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
     }
 
     override fun remover(node: AVLTreeNode<K, V>) {
-        // TODO
+        var current = node
+        var bf = current.getBalanceFactor()
+        while (true) {
+            if (bf == 2) {
+                val rightNodeBf = current.right?.getBalanceFactor()
+                if (rightNodeBf == 1) {
+                    rotateLeft(current)
+                } else if (rightNodeBf == 0) {
+                    rotateLeft(current)
+                    break
+                } else {
+                    val rightNode = current.right
+                    when {
+                        rightNode == null -> rotateLeft(current)
+                        else -> {
+                            rotateRight(rightNode)
+                            rotateLeft(current)
+                        }
+                    }
+                }
+                current = current.parent ?: break
+                bf = current.getBalanceFactor()
+            } else if (bf == -2) {
+                val leftNodeBf = current.left?.getBalanceFactor()
+                if (leftNodeBf == -1) {
+                    rotateRight(current)
+                } else if (leftNodeBf == 0) {
+                    rotateRight(current)
+                    break
+                } else {
+                    val leftNode = current.left
+                    when {
+                        leftNode == null -> rotateRight(current)
+                        else -> {
+                            rotateLeft(leftNode)
+                            rotateRight(current)
+                        }
+                    }
+                }
+                current = current.parent ?: break
+                bf = current.getBalanceFactor()
+            }
+
+            val nodeParentBf = current.parent?.getBalanceFactor() ?: 0
+            if (nodeParentBf == -1 || (current.parent?.left == current && nodeParentBf == 1))
+                break
+
+            current = current.parent ?: break
+            bf = current.getBalanceFactor()
+        }
     }
 }
