@@ -2,7 +2,6 @@ package bst
 
 import bst.nodes.AbstractBSTNode
 import bst.traversals.BSTTraversal
-import bst.traversals.InOrder
 
 abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
     override var root: R? = null
@@ -143,15 +142,25 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         value: V,
     ): R
 
-    protected abstract fun setNodeLeft(
+    open protected fun setNodeLeft( // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
         nodeParent: R,
         nodeChild: R?,
-    )
+    ) {
+        val newRoot = createNode(nodeParent.key, nodeParent.value)
+        setNode(newRoot, nodeParent)
+        newRoot.left = nodeChild
+        setNode(nodeParent, newRoot)
+    }
 
-    protected abstract fun setNodeRight(
+    open protected fun setNodeRight( // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
         nodeParent: R,
         nodeChild: R?,
-    )
+    ) {
+        val newRoot = createNode(nodeParent.key, nodeParent.value)
+        setNode(newRoot, nodeParent)
+        newRoot.right = nodeChild
+        setNode(nodeParent, newRoot)
+    }
 
     protected abstract fun setNode(
         node: R,
