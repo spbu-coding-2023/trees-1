@@ -6,28 +6,58 @@ import bst.traversals.BSTTraversal
 abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
     override var root: R? = null
 
+    private fun searchRec(
+        node: R,
+        key: K,
+    ): V? {
+        val compareKeys = node.key.compareTo(key)
+        return when {
+            compareKeys == 0 -> node.value
+            compareKeys < 0 -> {
+                val nodeRight = node.right
+                when {
+                    nodeRight == null -> return null
+                    else -> return searchRec(nodeRight, key)
+                }
+            }
+            else -> {
+                val nodeLeft = node.left
+                when {
+                    nodeLeft == null -> null
+                    else -> return searchRec(nodeLeft, key)
+                }
+            }
+        }
+    }
+
     override fun search(key: K): V? {
-        return null // TODO
+        val searchFrom = root
+        return when {
+            searchFrom == null -> null
+            else -> searchRec(searchFrom, key)
+        }
     }
 
     private fun insertRec(
         root: R,
         node: R,
-    ) { // TODO: may not be the best solution, but it works
+    ) {
         if (root.key.compareTo(node.key) == 0) {
             setNode(root, node)
         } else if (root.key.compareTo(node.key) < 0) {
-            if (root.right == null) {
+            val rootRight = root.right
+            if (rootRight == null) {
                 setNodeRight(root, node)
                 return
             }
-            insertRec(root.right!!, node)
+            insertRec(rootRight, node)
         } else {
-            if (root.left == null) {
+            val rootLeft = root.left
+            if (rootLeft == null) {
                 setNodeLeft(root, node)
                 return
             }
-            insertRec(root.left!!, node)
+            insertRec(rootLeft, node)
         }
     }
 
@@ -35,18 +65,53 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         key: K,
         value: V,
     ): R {
-        // TODO: make better, it is just a placeholder so it can work
         val newNode = createNode(key, value)
-        if (root == null) {
-            root = newNode
-            return newNode
+        val insertFrom = root
+        when {
+            insertFrom == null -> {
+                root = insertFrom
+            }
+            else -> {
+                insertRec(insertFrom, newNode)
+            }
         }
-        insertRec(root!!, newNode)
         return newNode
     }
 
     override fun remove(key: K): V? {
-        return null // TODO
+        val removeNode = findNode(key) ?: return null
+        root = removeRec(root, key)
+        return removeNode.value
+    }
+
+    private fun removeRec(
+        node: R?,
+        key: K,
+    ): R? {
+        if (node == null) return null
+
+        val compareValue = key.compareTo(node.key)
+        when {
+            compareValue < 0 -> node.left = removeRec(node.left, key)
+            compareValue > 0 -> node.right = removeRec(node.right, key)
+            else -> {
+                if (node.left == null) return node.right
+                if (node.right == null) return node.left
+
+                val minInOrderNode = getMinInOrder(node.right!!)
+                setNode(node, minInOrderNode)
+                node.right = removeRec(node.right, minInOrderNode.key)
+            }
+        }
+        return node
+    }
+
+    private fun getMinInOrder(node: R): R {
+        var current = node
+        while (current.left != null) {
+            current = current.left!!
+        }
+        return current
     }
 
     fun <T> traverse(
@@ -57,20 +122,49 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return traverseMethod.traverse(traverseNode, extractFunction)
     }
 
+    protected fun findNode(key: K): R? {
+        val treeRoot = root ?: return null
+        return findNodeRec(treeRoot, key)
+    }
+
+    private fun findNodeRec(
+        current: R?,
+        key: K,
+    ): R? {
+        if (current == null) return null
+        return when (current.key.compareTo(key)) {
+            0 -> current
+            1 -> findNodeRec(current.left, key)
+            else -> findNodeRec(current.right, key)
+        }
+    }
+
     protected abstract fun createNode(
         key: K,
         value: V,
     ): R
 
-    protected abstract fun setNodeLeft(
+    // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
+    protected open fun setNodeLeft(
         nodeParent: R,
         nodeChild: R?,
-    )
+    ) {
+        val newRoot = createNode(nodeParent.key, nodeParent.value)
+        setNode(newRoot, nodeParent)
+        newRoot.left = nodeChild
+        setNode(nodeParent, newRoot)
+    }
 
-    protected abstract fun setNodeRight(
+    // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
+    protected open fun setNodeRight(
         nodeParent: R,
         nodeChild: R?,
-    )
+    ) {
+        val newRoot = createNode(nodeParent.key, nodeParent.value)
+        setNode(newRoot, nodeParent)
+        newRoot.right = nodeChild
+        setNode(nodeParent, newRoot)
+    }
 
     protected abstract fun setNode(
         node: R,
