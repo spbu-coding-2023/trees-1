@@ -10,7 +10,7 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
     override fun setNode(
         node: RedBlackTreeNode<K, V>,
         newNode: RedBlackTreeNode<K, V>,
-    ) {
+    ) { // NOT FUNCTIONAL AND UNUSED, DOES NOT BALANCE THE TREE. PLACEHOLDER BECAUSE OF INHERITANCE
         node.key = newNode.key
         node.value = newNode.value
         node.parent = newNode.parent
@@ -26,19 +26,15 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
     override fun setNodeRight(
         nodeParent: RedBlackTreeNode<K, V>,
         nodeChild: RedBlackTreeNode<K, V>?,
-    ) {
+    ) { // NOT FUNCTIONAL AND UNUSED, DOES NOT BALANCE THE TREE. PLACEHOLDER BECAUSE OF INHERITANCE
         nodeParent.right = nodeChild?.right
     }
 
     override fun setNodeLeft(
         nodeParent: RedBlackTreeNode<K, V>,
         nodeChild: RedBlackTreeNode<K, V>?,
-    ) {
+    ) { // NOT FUNCTIONAL AND UNUSED, DOES NOT BALANCE THE TREE. PLACEHOLDER BECAUSE OF INHERITANCE
         nodeParent.left = nodeChild?.left
-    }
-
-    override fun search(key: K): V? {
-        return super.search(key)
     }
 
     override fun insert(
@@ -52,9 +48,9 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
 
     private fun replaceNodeAndChild(
         node: RedBlackTreeNode<K, V>,
-        child: RedBlackTreeNode<K, V>,
+        child: RedBlackTreeNode<K, V>?,
     ) {
-        child.parent = node.parent
+        child?.parent = node.parent
         if (node.parent == null) {
             root = child
         } else {
@@ -89,9 +85,9 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
             return super.remove(key)
         }
         val child = if (nodeToRemove.left != null) nodeToRemove.left else nodeToRemove.right
-        replaceNodeAndChild(nodeToRemove, child!!)
+        replaceNodeAndChild(nodeToRemove, child)
         if (nodeToRemove.isBlack()) {
-            if (child.isRed()) {
+            if (child?.isRed() == true) {
                 child.setBlack()
             } else {
                 super.balance(balancer::remover, root)
