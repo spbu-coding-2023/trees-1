@@ -7,7 +7,7 @@ abstract class RegularAbstractBSTWithBalancer<K : Comparable<K>, V, R : Abstract
     RegularAbstractBST<K, V, R>() {
     abstract var balancer: AbstractBSTBalancer<K, V, R>
 
-    fun balance(
+    protected fun balance(
         balanceFunction: (R) -> Unit,
         node: R?,
     ) {
