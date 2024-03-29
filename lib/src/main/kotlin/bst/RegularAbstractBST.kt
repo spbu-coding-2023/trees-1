@@ -75,8 +75,27 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return newNode
     }
 
+    protected fun getAmountOfChildren(node: R): Int {
+        return (if (node.left != null) 1 else 0) + (if (node.right != null) 1 else 0)
+    }
+
     override fun remove(key: K): V? {
-        return null // TODO
+        val removeNode = findNode(key) ?: return null
+        val totalChildren = getAmountOfChildren(removeNode)
+        return when {
+            totalChildren == 0 -> {
+                val value = removeNode.value
+
+                value
+            }
+            totalChildren == 1 -> {
+                TODO()
+            }
+            totalChildren == 2 -> {
+                TODO()
+            }
+            else -> null
+        }
     }
 
     fun <T> traverse(
@@ -85,6 +104,23 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
     ): List<T> {
         val traverseNode = root ?: return listOf()
         return traverseMethod.traverse(traverseNode, extractFunction)
+    }
+
+    protected fun findNode(key: K): R? {
+        val treeRoot = root ?: return null
+        return findNodeRec(treeRoot, key)
+    }
+
+    private fun findNodeRec(
+        current: R?,
+        key: K,
+    ): R? {
+        if (current == null) return null
+        return when (current.key.compareTo(key)) {
+            0 -> current
+            1 -> findNodeRec(current.left, key)
+            else -> findNodeRec(current.right, key)
+        }
     }
 
     protected abstract fun createNode(
