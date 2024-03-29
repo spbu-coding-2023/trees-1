@@ -6,28 +6,55 @@ import bst.traversals.BSTTraversal
 abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
     override var root: R? = null
 
+    private fun searchRec(node: R, key: K): V? {
+        val compareKeys = node.key.compareTo(key)
+        return when {
+            compareKeys == 0 -> node.value
+            compareKeys < 0 -> {
+                val nodeRight = node.right
+                when {
+                    nodeRight == null -> return null
+                    else -> return searchRec(nodeRight, key)
+                }
+            }
+            else -> {
+                val nodeLeft = node.left
+                when {
+                    nodeLeft == null -> null
+                    else -> return searchRec(nodeLeft, key)
+                }
+            }
+        }
+    }
+
     override fun search(key: K): V? {
-        return null // TODO
+        val searchFrom = root
+        return when {
+            searchFrom == null -> null
+            else -> searchRec(searchFrom, key)
+        }
     }
 
     private fun insertRec(
         root: R,
         node: R,
-    ) { // TODO: may not be the best solution, but it works
+    ) {
         if (root.key.compareTo(node.key) == 0) {
             setNode(root, node)
         } else if (root.key.compareTo(node.key) < 0) {
-            if (root.right == null) {
+            val rootRight = root.right
+            if (rootRight == null) {
                 setNodeRight(root, node)
                 return
             }
-            insertRec(root.right!!, node)
+            insertRec(rootRight, node)
         } else {
-            if (root.left == null) {
+            val rootLeft = root.left
+            if (rootLeft == null) {
                 setNodeLeft(root, node)
                 return
             }
-            insertRec(root.left!!, node)
+            insertRec(rootLeft, node)
         }
     }
 
@@ -35,13 +62,16 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         key: K,
         value: V,
     ): R {
-        // TODO: make better, it is just a placeholder so it can work
         val newNode = createNode(key, value)
-        if (root == null) {
-            root = newNode
-            return newNode
+        val insertFrom = root
+        when {
+            insertFrom == null -> {
+                root = insertFrom
+            }
+            else -> {
+                insertRec(insertFrom, newNode)
+            }
         }
-        insertRec(root!!, newNode)
         return newNode
     }
 
