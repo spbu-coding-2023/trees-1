@@ -75,10 +75,6 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return newNode
     }
 
-//    protected fun getAmountOfChildren(node: R): Int {
-//        return (if (node.left != null) 1 else 0) + (if (node.right != null) 1 else 0)
-//    }
-
     override fun remove(key: K): V? {
         val removeNode = findNode(key) ?: return null
         root = removeRec(root, key)
