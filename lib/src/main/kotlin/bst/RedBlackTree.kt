@@ -62,23 +62,6 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         }
     }
 
-    private fun findNode(key: K): RedBlackTreeNode<K, V>? {
-        val treeRoot = root ?: return null
-        return findNodeRec(treeRoot, key)
-    }
-
-    private fun findNodeRec(
-        current: RedBlackTreeNode<K, V>?,
-        key: K,
-    ): RedBlackTreeNode<K, V>? {
-        if (current == null) return null
-        return when (current.key.compareTo(key)) {
-            0 -> current
-            1 -> findNodeRec(current.left, key)
-            else -> findNodeRec(current.right, key)
-        }
-    }
-
     override fun remove(key: K): V? {
         val nodeToRemove = findNode(key) ?: return null
         if (nodeToRemove.left != null && nodeToRemove.right != null) {
