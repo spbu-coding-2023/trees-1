@@ -2,6 +2,7 @@ package bst
 
 import bst.nodes.AbstractBSTNode
 import bst.traversals.BSTTraversal
+import bst.traversals.InOrder
 
 abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
     override var root: R? = null
@@ -75,27 +76,41 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return newNode
     }
 
-    protected fun getAmountOfChildren(node: R): Int {
-        return (if (node.left != null) 1 else 0) + (if (node.right != null) 1 else 0)
-    }
+//    protected fun getAmountOfChildren(node: R): Int {
+//        return (if (node.left != null) 1 else 0) + (if (node.right != null) 1 else 0)
+//    }
 
     override fun remove(key: K): V? {
         val removeNode = findNode(key) ?: return null
-        val totalChildren = getAmountOfChildren(removeNode)
-        return when {
-            totalChildren == 0 -> {
-                val value = removeNode.value
+        root = removeRec(root, key)
+        return removeNode.value
+    }
 
-                value
+    private fun removeRec(node: R?, key: K): R? {
+        if (node == null) return null
+
+        val compareValue = key.compareTo(node.key)
+        when {
+            compareValue < 0 -> node.left = removeRec(node.left, key)
+            compareValue > 0 -> node.right = removeRec(node.right, key)
+            else -> {
+                if (node.left == null) return node.right
+                if (node.right == null) return node.left
+
+                val minInOrderNode = getMinInOrder(node.right!!)
+                setNode(node, minInOrderNode)
+                node.right = removeRec(node.right, minInOrderNode.key)
             }
-            totalChildren == 1 -> {
-                TODO()
-            }
-            totalChildren == 2 -> {
-                TODO()
-            }
-            else -> null
         }
+        return node
+    }
+
+    private fun getMinInOrder(node: R): R {
+        var current = node
+        while (current.left != null) {
+            current = current.left!!
+        }
+        return current
     }
 
     fun <T> traverse(
