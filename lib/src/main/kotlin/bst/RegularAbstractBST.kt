@@ -6,7 +6,10 @@ import bst.traversals.BSTTraversal
 abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
     override var root: R? = null
 
-    private fun searchRec(node: R, key: K): V? {
+    private fun searchRec(
+        node: R,
+        key: K,
+    ): V? {
         val compareKeys = node.key.compareTo(key)
         return when {
             compareKeys == 0 -> node.value
@@ -81,7 +84,10 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return removeNode.value
     }
 
-    private fun removeRec(node: R?, key: K): R? {
+    private fun removeRec(
+        node: R?,
+        key: K,
+    ): R? {
         if (node == null) return null
 
         val compareValue = key.compareTo(node.key)
@@ -138,7 +144,8 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         value: V,
     ): R
 
-    open protected fun setNodeLeft( // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
+    // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
+    protected open fun setNodeLeft(
         nodeParent: R,
         nodeChild: R?,
     ) {
@@ -148,7 +155,8 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         setNode(nodeParent, newRoot)
     }
 
-    open protected fun setNodeRight( // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
+    // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
+    protected open fun setNodeRight(
         nodeParent: R,
         nodeChild: R?,
     ) {
