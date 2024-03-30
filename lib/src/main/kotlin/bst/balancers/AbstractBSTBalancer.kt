@@ -3,7 +3,6 @@ package bst.balancers
 import bst.nodes.AbstractBSTNodeWithParent
 
 abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWithParent<K, V, R>> {
-
     // returns root of a balanced tree
     abstract fun inserter(node: R): R
 
