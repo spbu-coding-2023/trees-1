@@ -127,7 +127,6 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
             }
 
             super.balance(balancer::remover, removeNodeParent)
-
         }
         return removedValue
     }

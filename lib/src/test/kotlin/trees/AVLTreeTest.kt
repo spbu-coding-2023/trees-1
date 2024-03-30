@@ -331,7 +331,7 @@ class AVLTreeTest {
     }
 
     private fun isBalanced(tree: AVLTree<Int, String>) {
-        for (node in tree.traverse(LevelOrder()) {it}) {
+        for (node in tree.traverse(LevelOrder()) { it }) {
             val heightLeft = calculateHeight(node.left)
             val heightRight = calculateHeight(node.right)
             val isBfInRange = (heightRight - heightLeft) in -1..1
