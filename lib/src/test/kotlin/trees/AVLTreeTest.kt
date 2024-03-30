@@ -1,7 +1,6 @@
 package trees
 
 import bst.AVLTree
-import bst.traversals.InOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -164,6 +163,70 @@ class AVLTreeTest {
         assertEquals("Tanzania", tree.remove(7))
         assertEquals("Serbia", tree.remove(6))
         assertEquals("Austria", tree.remove(9))
+    }
+
+    @Test
+    fun `remove 1 node`() {
+        tree.insert(23, "Germany")
+        assertEquals("Germany", tree.remove(23))
+        assertNull(tree.root)
+    }
+
+    @Test
+    fun `insert rebalanced small tree`() {
+        tree.insert(20, "Uganda")
+        tree.insert(4, "Haiti")
+
+        assertNotNull(tree.root)
+        assertNotNull(tree.root?.left)
+
+        tree.insert(15, "New Zealand")
+        assertNotNull(tree.root)
+        assertNotNull(tree.root?.left)
+        assertNotNull(tree.root?.right)
+        assertNull(tree.root?.left?.right)
+        assertNull(tree.root?.left?.left)
+        assertNull(tree.root?.right?.right)
+        assertNull(tree.root?.right?.left)
+        assertEquals("New Zealand", tree.root?.value)
+        assertEquals("Haiti", tree.root?.left?.value)
+        assertEquals("Uganda", tree.root?.right?.value)
+    }
+
+    @Test
+    fun `insert rebalanced medium tree`() {
+        tree.insert(20, "Uganda")
+        tree.insert(4, "Haiti")
+        tree.insert(26, "Rwanda")
+        tree.insert(3, "Botswana")
+        tree.insert(9, "Grenada")
+
+        assertNotNull(tree.root)
+        assertNotNull(tree.root?.left)
+        assertNotNull(tree.root?.left?.right)
+        assertNotNull(tree.root?.left?.left)
+        assertNotNull(tree.root?.right)
+
+        tree.insert(15, "New Zealand")
+        assertNotNull(tree.root)
+        assertNotNull(tree.root?.left)
+        assertNotNull(tree.root?.right)
+        assertNotNull(tree.root?.left?.left)
+        assertNull(tree.root?.left?.left?.left)
+        assertNull(tree.root?.left?.left?.right)
+        assertNull(tree.root?.left?.right)
+        assertNotNull(tree.root?.right?.right)
+        assertNull(tree.root?.right?.right?.left)
+        assertNull(tree.root?.right?.right?.right)
+        assertNotNull(tree.root?.right?.left)
+        assertNull(tree.root?.right?.left?.right)
+        assertNull(tree.root?.right?.left?.left)
+        assertEquals("Grenada", tree.root?.value)
+        assertEquals("Haiti", tree.root?.left?.value)
+        assertEquals("Uganda", tree.root?.right?.value)
+        assertEquals("Botswana", tree.root?.left?.left?.value)
+        assertEquals("Rwanda", tree.root?.right?.right?.value)
+        assertEquals("New Zealand", tree.root?.right?.left?.value)
     }
 
     @Test
