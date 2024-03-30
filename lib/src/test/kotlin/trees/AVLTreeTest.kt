@@ -1,7 +1,6 @@
 package trees
 
 import bst.AVLTree
-import bst.traversals.LevelOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -278,10 +277,7 @@ class AVLTreeTest {
         tree.insert(12, "12")
         tree.insert(13, "13")
 
-        println(tree.traverse(LevelOrder()) {it.key})
         assertEquals("1", tree.remove(1))
-
-        println(tree.traverse(LevelOrder()) {it.key})
 
         assertEquals("6", tree.root?.value)
         assertEquals("4", tree.root?.left?.value)
