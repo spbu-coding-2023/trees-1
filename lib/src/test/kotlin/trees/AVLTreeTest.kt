@@ -1,7 +1,6 @@
 package trees
 
 import bst.AVLTree
-import bst.traversals.InOrder
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
