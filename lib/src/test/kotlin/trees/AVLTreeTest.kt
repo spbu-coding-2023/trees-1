@@ -44,6 +44,20 @@ class AVLTreeTest {
     }
 
     @Test
+    fun `remove multiple nodes`() {
+        tree.insert(23, "Germany")
+        tree.insert(35, "Niger")
+        tree.insert(12, "Moldova")
+
+        assertNull(tree.remove(69))
+        assertEquals("Niger", tree.remove(35))
+        assertNull(tree.remove(55))
+        assertEquals("Germany", tree.remove(23))
+        assertNull(tree.remove(7))
+        assertEquals("Moldova", tree.remove(12))
+    }
+
+    @Test
     fun insert() {
     }
 
