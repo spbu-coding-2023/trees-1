@@ -2,7 +2,7 @@
 // import bst.nodes.AVLTreeNode
 import bst.nodes.RedBlackTreeNode
 import bst.tests.setUpBalancedRBTree
-import bst.traversals.InOrder
+import bst.traversals.LevelOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -12,7 +12,7 @@ class LevelOrderTraversalTest() {
         val redBlackTree = setUpBalancedRBTree()
         // val BSTree = setUpBalancedBSTree()
         // val AVLTree = setUpBalancedAVLTree()
-        val levelOrderRB = InOrder<Int, String, RedBlackTreeNode<Int, String>>()
+        val levelOrderRB = LevelOrder<Int, String, RedBlackTreeNode<Int, String>>()
         // val levelOrderBST = InOrder<Int, String, BSTNode<Int, String>>()
         // val levelOrderAVL = InOrder<Int, String, AVLTreeNode<Int, String>>()
         val redBlackTreeResult: List<Int> = redBlackTree.traverse(levelOrderRB) { node: RedBlackTreeNode<Int, String> -> node.key }
