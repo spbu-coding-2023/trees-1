@@ -1,6 +1,8 @@
 package trees
 
 import bst.AVLTree
+import bst.nodes.AVLTreeNode
+import bst.traversals.LevelOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -294,10 +296,64 @@ class AVLTreeTest {
     }
 
     @Test
-    fun insert() {
+    fun `insert for node in root`() {
+        tree.insert(23, "aba")
+
+        assertEquals("aba", tree.search(23))
+
+        tree.insert(23, "dcdc")
+
+        assertEquals("dcdc", tree.search(23))
     }
 
     @Test
-    fun remove() {
+    fun `insert for node in root child`() {
+        tree.insert(23, "aba")
+
+        assertEquals("aba", tree.search(23))
+
+        tree.insert(35, "dcdc")
+
+        assertEquals("dcdc", tree.search(35))
+
+        tree.insert(35, "fgfg")
+
+        assertEquals("fgfg", tree.search(35))
+        assertEquals(tree.root?.right?.parent, tree.root)
+    }
+
+    private fun calculateHeight(node: AVLTreeNode<Int, String>?): Int {
+        if (node == null) return 0
+        val heightLeft = calculateHeight(node.left)
+        val heightRight = calculateHeight(node.right)
+        val heightMax = if (heightRight > heightLeft) heightRight else heightLeft
+        return heightMax + 1
+    }
+
+    private fun isBalanced(tree: AVLTree<Int, String>) {
+        for (node in tree.traverse(LevelOrder()) {it}) {
+            val heightLeft = calculateHeight(node.left)
+            val heightRight = calculateHeight(node.right)
+            val isBfInRange = (heightRight - heightLeft) in -1..1
+            assertEquals(true, isBfInRange)
+        }
+    }
+
+    @Test
+    fun `fuzzing small`() {
+        val keysRange = -10..10
+        val percentageOfInserts = 70
+        val totalTries = 1000
+
+        repeat(totalTries) {
+            val randKey = keysRange.random()
+            if ((1..100).random() < percentageOfInserts) {
+                tree.insert(randKey, "a")
+            } else {
+                tree.remove(randKey)
+            }
+        }
+
+        isBalanced(tree)
     }
 }
