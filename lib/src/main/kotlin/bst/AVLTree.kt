@@ -64,9 +64,9 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
     }
 
     override fun remove(key: K): V? {
-        val removedNode = super.remove(key)
+        val removedValue = super.remove(key)
         super.balance(balancer::remover, root)
-        return removedNode
+        return removedValue
     }
 
     override fun createNode(

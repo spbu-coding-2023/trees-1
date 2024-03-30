@@ -79,9 +79,9 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
     }
 
     override fun remove(key: K): V? {
-        val removeNode = findNode(key) ?: return null
+        val removeValue = search(key) ?: return null
         root = removeRec(root, key)
-        return removeNode.value
+        return removeValue
     }
 
     private fun removeRec(
@@ -99,7 +99,8 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
                 if (node.right == null) return node.left
 
                 val minInOrderNode = getMinInOrder(node.right!!)
-                setNode(node, minInOrderNode)
+                node.key = minInOrderNode.key
+                node.value = minInOrderNode.value
                 node.right = removeRec(node.right, minInOrderNode.key)
             }
         }
