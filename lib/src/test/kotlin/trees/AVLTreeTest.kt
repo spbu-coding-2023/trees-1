@@ -1,6 +1,7 @@
 package trees
 
 import bst.AVLTree
+import bst.traversals.InOrder
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
@@ -55,6 +56,27 @@ class AVLTreeTest {
         assertEquals("Germany", tree.remove(23))
         assertNull(tree.remove(7))
         assertEquals("Moldova", tree.remove(12))
+    }
+
+    @Test
+    fun `insert 5right`() {
+        tree.insert(5, "Grenada")
+        tree.insert(6, "Serbia")
+        tree.insert(7, "Tanzania")
+        tree.insert(8, "Solomon Islands")
+        tree.insert(9, "Austria")
+
+        assertNotNull(tree.root)
+        assertNotNull(tree.root?.left)
+        assertNotNull(tree.root?.right)
+        assertNotNull(tree.root?.right?.right)
+        assertNotNull(tree.root?.right?.left)
+
+        assertEquals("Grenada", tree.root?.left?.value)
+        assertEquals("Serbia", tree.root?.value)
+        assertEquals("Solomon Islands", tree.root?.right?.value)
+        assertEquals("Tanzania", tree.root?.right?.left?.value)
+        assertEquals("Austria", tree.root?.right?.right?.value)
     }
 
     @Test
