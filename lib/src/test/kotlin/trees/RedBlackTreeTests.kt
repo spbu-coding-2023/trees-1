@@ -103,7 +103,8 @@ private fun setUpAnotherUnbalancedRBTree(): RedBlackTree<Int, String> {
     return redBlackTree
 }
 
-class RedBlackTreeTest /* : RegularTreeTest  Hello darkness my old friend */ {
+// : RegularTreeTest  Hello darkness my old friend
+class RedBlackTreeTest {
     private fun numberOfBlackNodesDownwardsAndRBConditionChecker(node: RedBlackTreeNode<Int, String>?): Int {
         if (node == null) {
             return 1

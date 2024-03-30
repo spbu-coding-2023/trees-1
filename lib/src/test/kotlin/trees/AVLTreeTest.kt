@@ -1,14 +1,13 @@
 package trees
 
 import bst.AVLTree
-import bst.traversals.InOrder
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-
 class AVLTreeTest {
-
     lateinit var tree: AVLTree<Int, String>
 
     @BeforeEach
