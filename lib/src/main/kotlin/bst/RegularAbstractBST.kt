@@ -69,7 +69,7 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         val insertFrom = root
         when {
             insertFrom == null -> {
-                root = insertFrom
+                root = newNode
             }
             else -> {
                 insertRec(insertFrom, newNode)
