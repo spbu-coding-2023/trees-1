@@ -16,7 +16,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
         return this.parent?.parent
     }
 
-    override fun inserter(node: RedBlackTreeNode<K, V>) {
+    override fun inserter(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> {
         var current = node
         current.setRed()
         if (current.parent == null) {
@@ -49,6 +49,10 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 }
             }
         }
+
+        var findRoot = current
+        while (findRoot.parent != null) findRoot = findRoot.parent!!
+        return findRoot
     }
 
     private fun RedBlackTreeNode<K, V>.findSibling(): RedBlackTreeNode<K, V>? {
@@ -59,7 +63,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
         }
     }
 
-    override fun remover(node: RedBlackTreeNode<K, V>) {
+    override fun remover(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> {
         if (node.parent != null) {
             var sibling = node.findSibling()
 
@@ -109,5 +113,9 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 }
             }
         }
+
+        var findRoot = node
+        while (findRoot.parent != null) findRoot = findRoot.parent!!
+        return findRoot
     }
 }
