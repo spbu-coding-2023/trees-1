@@ -13,6 +13,8 @@ plugins {
     `java-library`
 
     id("org.jlleitschuh.gradle.ktlint") version "12.1.0"
+
+    jacoco
 }
 
 repositories {
@@ -46,4 +48,23 @@ java {
 tasks.named<Test>("test") {
     // Use JUnit Platform for unit tests.
     useJUnitPlatform()
+}
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.required = true
+    }
+    dependsOn(tasks.test)
+}
+
+tasks.named<JacocoCoverageVerification>("jacocoTestCoverageVerification") {
+    violationRules {
+        rule {
+            limit {
+                minimum = "0.7".toBigDecimal()
+            }
+        }
+    }
 }
