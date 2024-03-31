@@ -98,7 +98,6 @@ class RedBlackTreeTest {
         return redBlackTree
     }
 
-
     private fun numberOfBlackNodesDownwardsAndRBConditionChecker(node: RedBlackTreeNode<Int, String>?): Int {
         if (node == null) {
             return 1

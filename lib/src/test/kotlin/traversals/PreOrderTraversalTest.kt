@@ -30,8 +30,8 @@ class PreOrderTraversalTest() {
 
     @Test
     fun traversed() {
-        assertEquals(listOf(6, 3, 2, 5, 8), avlTree.traverse(PreOrder()) {it.key})
-        assertEquals(listOf(6, 3, 2, 5, 8), rbTree.traverse(PreOrder()) {it.key})
-        assertEquals(listOf(6, 2, 3, 5, 8), regularTree.traverse(PreOrder()) {it.key})
+        assertEquals(listOf(6, 3, 2, 5, 8), avlTree.traverse(PreOrder()) { it.key })
+        assertEquals(listOf(6, 3, 2, 5, 8), rbTree.traverse(PreOrder()) { it.key })
+        assertEquals(listOf(6, 2, 3, 5, 8), regularTree.traverse(PreOrder()) { it.key })
     }
 }
