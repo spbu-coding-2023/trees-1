@@ -330,21 +330,22 @@ class AVLTreeTest {
         return heightMax + 1
     }
 
-    private fun isBalanced(tree: AVLTree<Int, String>) {
+    private fun isBalanced(tree: AVLTree<Int, String>): Boolean {
         for (node in tree.traverse(LevelOrder()) { it }) {
             val heightLeft = calculateHeight(node.left)
             val heightRight = calculateHeight(node.right)
             val isBfInRange = (heightRight - heightLeft) in -1..1
-            assertEquals(true, isBfInRange)
+            if (!isBfInRange) return false
         }
+        return true
     }
 
-    @Test
-    fun `fuzzing small`() {
-        val keysRange = -10..10
-        val percentageOfInserts = 70
-        val totalTries = 1000
-
+    fun fuzz(
+        tree: AVLTree<Int, String>,
+        keysRange: IntRange,
+        percentageOfInserts: Int,
+        totalTries: Int,
+    ) {
         repeat(totalTries) {
             val randKey = keysRange.random()
             if ((1..100).random() < percentageOfInserts) {
@@ -353,7 +354,145 @@ class AVLTreeTest {
                 tree.remove(randKey)
             }
         }
+    }
 
-        isBalanced(tree)
+    @Test
+    fun `fuzzing fewKeys mostInsert fewTimes`() {
+        fuzz(tree, 1..100, 70, 1000)
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `fuzzing aLotKeys mostInsert aLotTimes`() {
+        fuzz(tree, 1..10000, 70, 100000)
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `fuzzing fewKeys mostRemove fewTimes`() {
+        fuzz(tree, 1..100, 20, 1000)
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `fuzzing aLotKeys mostRemove aLotTimes`() {
+        fuzz(tree, 1..10000, 20, 100000)
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `fuzzing fewKeys mostInsert aLotTimes`() {
+        fuzz(tree, 1..100, 70, 100000)
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `single rotate right`() {
+        tree.insert(9, "9")
+        tree.insert(4, "4")
+        tree.insert(10, "10")
+        tree.insert(3, "3")
+        tree.insert(6, "6")
+
+        assertEquals(true, isBalanced(tree))
+
+        tree.insert(2, "2")
+
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `single rotate right with remove`() {
+        val path =
+            listOf(
+                listOf(1, 6),
+                listOf(1, 8),
+                listOf(1, 10),
+                listOf(1, 9),
+                listOf(1, 3),
+                listOf(0, 8),
+                listOf(1, 4),
+                listOf(1, 2),
+            )
+
+        for (p in path) {
+            if (p[0] == 1) {
+                tree.insert(p[1], "a")
+            } else {
+                tree.remove(p[1])
+            }
+
+            if (!isBalanced(tree)) {
+                break
+            }
+        }
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `insert twice remove once`() {
+        tree.insert(23, "a")
+        tree.insert(23, "a")
+        assertEquals("a", tree.remove(23))
+        assertNull(tree.root)
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `insert twice remove once 3 nodes`() {
+        tree.insert(23, "a")
+        tree.insert(24, "b")
+        tree.insert(22, "c")
+        tree.insert(20, "d")
+        tree.insert(20, "p")
+        assertEquals("p", tree.remove(20))
+        assertNotNull(tree.root)
+        assertEquals(true, isBalanced(tree))
+    }
+
+    @Test
+    fun `search if 1 node`() {
+        tree.insert(23, "a")
+
+        assertEquals("a", tree.search(23))
+        assertEquals("a", tree.search(23))
+    }
+
+    @Test
+    fun `search if 3 nodes`() {
+        tree.insert(23, "a")
+        tree.insert(34, "b")
+        tree.insert(45, "c")
+
+        assertEquals("a", tree.search(23))
+        assertEquals("a", tree.search(23))
+        assertEquals("b", tree.search(34))
+        assertEquals("b", tree.search(34))
+        assertEquals("c", tree.search(45))
+        assertEquals("c", tree.search(45))
+        assertEquals("a", tree.search(23))
+        assertEquals("a", tree.search(23))
+        assertEquals("b", tree.search(34))
+        assertEquals("b", tree.search(34))
+        assertEquals("c", tree.search(45))
+        assertEquals("c", tree.search(45))
+    }
+
+    @Test
+    fun `search replaced node`() {
+        tree.insert(23, "a")
+        tree.insert(34, "b")
+        tree.insert(45, "c")
+
+        assertEquals("b", tree.search(34))
+        tree.insert(34, "d")
+        assertEquals("d", tree.search(34))
+
+        assertEquals("d", tree.search(34))
+        assertEquals("a", tree.search(23))
+        assertEquals("c", tree.search(45))
+        assertEquals("d", tree.search(34))
+        assertEquals("a", tree.search(23))
+        assertEquals("c", tree.search(45))
     }
 }

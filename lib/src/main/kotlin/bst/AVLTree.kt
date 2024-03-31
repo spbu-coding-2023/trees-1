@@ -15,6 +15,12 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         when (nodeChild) {
             null -> {
                 nodeParent.right = null
+
+                var current = nodeParent
+                while (current.parent != null) {
+                    current.height = getHeight(current)
+                    current = current.parent!!
+                }
             }
             else -> {
                 nodeChild.parent = nodeParent
@@ -29,6 +35,10 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         }
     }
 
+    private fun getHeight(node: AVLTreeNode<K, V>): Int {
+        return max(node.right?.height ?: 0, node.left?.height ?: 0) + 1
+    }
+
     override fun setNodeLeft(
         nodeParent: AVLTreeNode<K, V>,
         nodeChild: AVLTreeNode<K, V>?,
@@ -36,6 +46,12 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         when (nodeChild) {
             null -> {
                 nodeParent.left = null
+
+                var current = nodeParent
+                while (current.parent != null) {
+                    current.height = getHeight(current)
+                    current = current.parent!!
+                }
             }
             else -> {
                 nodeChild.parent = nodeParent
