@@ -29,23 +29,20 @@ class RegularTree<K : Comparable<K>, V> : RegularAbstractBST<K, V, BSTNode<K, V>
         nodeParent: BSTNode<K, V>,
         nodeChild: BSTNode<K, V>?,
     ) {
-        nodeParent.left = nodeChild?.left
+        nodeParent.left = nodeChild
     }
 
     override fun setNodeRight(
         nodeParent: BSTNode<K, V>,
         nodeChild: BSTNode<K, V>?,
     ) {
-        nodeParent.right = nodeChild?.right
+        nodeParent.right = nodeChild
     }
 
     override fun setNode(
         node: BSTNode<K, V>,
         newNode: BSTNode<K, V>,
     ) {
-        node.key = newNode.key
         node.value = newNode.value
-        node.left = newNode.left
-        node.right = newNode.right
     }
 }
