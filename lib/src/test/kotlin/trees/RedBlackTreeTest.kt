@@ -6,105 +6,99 @@ import bst.traversals.InOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-/* RedBlackTreeNode(
-key: K,
-value: V,
-parent: RedBlackTreeNode<K, V>?,
-) */
-
-fun setUpBalancedRBTree(): RedBlackTree<Int, String> {
-    val redBlackTree = RedBlackTree<Int, String>()
-    redBlackTree.root = RedBlackTreeNode(13, "1", null)
-    redBlackTree.root!!.setBlack()
-
-    redBlackTree.root!!.left = RedBlackTreeNode(8, "2", redBlackTree.root)
-    redBlackTree.root!!.left!!.setRed()
-
-    redBlackTree.root!!.right = RedBlackTreeNode(17, "3", redBlackTree.root)
-    redBlackTree.root!!.right!!.setRed()
-
-    redBlackTree.root!!.left!!.left = RedBlackTreeNode(1, "4", redBlackTree.root!!.left)
-    redBlackTree.root!!.left!!.left!!.setBlack()
-
-    redBlackTree.root!!.left!!.right = RedBlackTreeNode(11, "5", redBlackTree.root!!.left)
-    redBlackTree.root!!.left!!.right!!.setBlack()
-
-    redBlackTree.root!!.right!!.left = RedBlackTreeNode(15, "6", redBlackTree.root!!.right)
-    redBlackTree.root!!.right!!.left!!.setBlack()
-
-    redBlackTree.root!!.right!!.right = RedBlackTreeNode(25, "7", redBlackTree.root!!.right)
-    redBlackTree.root!!.right!!.right!!.setBlack()
-
-    redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(6, "8", redBlackTree.root!!.left!!.left)
-    redBlackTree.root!!.left!!.left!!.right!!.setRed()
-
-    redBlackTree.root!!.right!!.right!!.left = RedBlackTreeNode(22, "9", redBlackTree.root!!.right!!.right)
-    redBlackTree.root!!.right!!.right!!.left!!.setRed()
-
-    redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(27, "10", redBlackTree.root!!.right!!.right)
-    redBlackTree.root!!.right!!.right!!.right!!.setRed()
-    return redBlackTree
-}
-
-fun setUpAnotherBalancedRBTree(): RedBlackTree<Int, String> {
-    val redBlackTree = RedBlackTree<Int, String>()
-    redBlackTree.root = RedBlackTreeNode(10, "1", null)
-    redBlackTree.root!!.setBlack()
-
-    redBlackTree.root!!.left = RedBlackTreeNode(7, "2", redBlackTree.root)
-    redBlackTree.root!!.left!!.setBlack()
-
-    redBlackTree.root!!.right = RedBlackTreeNode(40, "3", redBlackTree.root)
-    redBlackTree.root!!.right!!.setBlack()
-
-    redBlackTree.root!!.left!!.left = RedBlackTreeNode(3, "4", redBlackTree.root!!.left)
-    redBlackTree.root!!.left!!.left!!.setBlack()
-
-    redBlackTree.root!!.left!!.right = RedBlackTreeNode(8, "5", redBlackTree.root!!.left)
-    redBlackTree.root!!.left!!.right!!.setBlack()
-
-    redBlackTree.root!!.right!!.left = RedBlackTreeNode(30, "6", redBlackTree.root!!.right)
-    redBlackTree.root!!.right!!.left!!.setRed()
-
-    redBlackTree.root!!.right!!.right = RedBlackTreeNode(45, "7", redBlackTree.root!!.right)
-    redBlackTree.root!!.right!!.right!!.setBlack()
-
-    redBlackTree.root!!.left!!.left!!.left = RedBlackTreeNode(1, "8", redBlackTree.root!!.left!!.left)
-    redBlackTree.root!!.left!!.left!!.left!!.setRed()
-
-    redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(5, "9", redBlackTree.root!!.left!!.left)
-    redBlackTree.root!!.left!!.left!!.right!!.setRed()
-
-    redBlackTree.root!!.right!!.left!!.left = RedBlackTreeNode(20, "10", redBlackTree.root!!.right!!.left)
-    redBlackTree.root!!.right!!.left!!.left!!.setBlack()
-
-    redBlackTree.root!!.right!!.left!!.right = RedBlackTreeNode(35, "11", redBlackTree.root!!.right!!.left)
-    redBlackTree.root!!.right!!.left!!.right!!.setBlack()
-
-    redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(60, "12", redBlackTree.root!!.right!!.right)
-    redBlackTree.root!!.right!!.right!!.right!!.setRed()
-
-    redBlackTree.root!!.right!!.left!!.left!!.right = RedBlackTreeNode(25, "13", redBlackTree.root!!.right!!.left!!.left)
-    redBlackTree.root!!.right!!.left!!.left!!.right!!.setRed()
-    return redBlackTree
-}
-
-private fun setUpUnbalancedRBTree(): RedBlackTree<Int, String> {
-    val redBlackTree = setUpBalancedRBTree()
-    redBlackTree.root!!.right!!.left!!.setRed()
-    redBlackTree.root!!.left!!.right!!.key = 20
-    return redBlackTree
-}
-
-private fun setUpAnotherUnbalancedRBTree(): RedBlackTree<Int, String> {
-    val redBlackTree = setUpAnotherBalancedRBTree()
-    redBlackTree.root!!.left!!.right!!.setRed()
-    redBlackTree.root!!.right!!.left!!.right!!.key = 19
-    return redBlackTree
-}
-
-// : RegularTreeTest  Hello darkness my old friend
 class RedBlackTreeTest {
+    private fun setUpBalancedRBTree(): RedBlackTree<Int, String> {
+        val redBlackTree = RedBlackTree<Int, String>()
+        redBlackTree.root = RedBlackTreeNode(13, "1", null)
+        redBlackTree.root!!.setBlack()
+
+        redBlackTree.root!!.left = RedBlackTreeNode(8, "2", redBlackTree.root)
+        redBlackTree.root!!.left!!.setRed()
+
+        redBlackTree.root!!.right = RedBlackTreeNode(17, "3", redBlackTree.root)
+        redBlackTree.root!!.right!!.setRed()
+
+        redBlackTree.root!!.left!!.left = RedBlackTreeNode(1, "4", redBlackTree.root!!.left)
+        redBlackTree.root!!.left!!.left!!.setBlack()
+
+        redBlackTree.root!!.left!!.right = RedBlackTreeNode(11, "5", redBlackTree.root!!.left)
+        redBlackTree.root!!.left!!.right!!.setBlack()
+
+        redBlackTree.root!!.right!!.left = RedBlackTreeNode(15, "6", redBlackTree.root!!.right)
+        redBlackTree.root!!.right!!.left!!.setBlack()
+
+        redBlackTree.root!!.right!!.right = RedBlackTreeNode(25, "7", redBlackTree.root!!.right)
+        redBlackTree.root!!.right!!.right!!.setBlack()
+
+        redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(6, "8", redBlackTree.root!!.left!!.left)
+        redBlackTree.root!!.left!!.left!!.right!!.setRed()
+
+        redBlackTree.root!!.right!!.right!!.left = RedBlackTreeNode(22, "9", redBlackTree.root!!.right!!.right)
+        redBlackTree.root!!.right!!.right!!.left!!.setRed()
+
+        redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(27, "10", redBlackTree.root!!.right!!.right)
+        redBlackTree.root!!.right!!.right!!.right!!.setRed()
+        return redBlackTree
+    }
+
+    private fun setUpAnotherBalancedRBTree(): RedBlackTree<Int, String> {
+        val redBlackTree = RedBlackTree<Int, String>()
+        redBlackTree.root = RedBlackTreeNode(10, "1", null)
+        redBlackTree.root!!.setBlack()
+
+        redBlackTree.root!!.left = RedBlackTreeNode(7, "2", redBlackTree.root)
+        redBlackTree.root!!.left!!.setBlack()
+
+        redBlackTree.root!!.right = RedBlackTreeNode(40, "3", redBlackTree.root)
+        redBlackTree.root!!.right!!.setBlack()
+
+        redBlackTree.root!!.left!!.left = RedBlackTreeNode(3, "4", redBlackTree.root!!.left)
+        redBlackTree.root!!.left!!.left!!.setBlack()
+
+        redBlackTree.root!!.left!!.right = RedBlackTreeNode(8, "5", redBlackTree.root!!.left)
+        redBlackTree.root!!.left!!.right!!.setBlack()
+
+        redBlackTree.root!!.right!!.left = RedBlackTreeNode(30, "6", redBlackTree.root!!.right)
+        redBlackTree.root!!.right!!.left!!.setRed()
+
+        redBlackTree.root!!.right!!.right = RedBlackTreeNode(45, "7", redBlackTree.root!!.right)
+        redBlackTree.root!!.right!!.right!!.setBlack()
+
+        redBlackTree.root!!.left!!.left!!.left = RedBlackTreeNode(1, "8", redBlackTree.root!!.left!!.left)
+        redBlackTree.root!!.left!!.left!!.left!!.setRed()
+
+        redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(5, "9", redBlackTree.root!!.left!!.left)
+        redBlackTree.root!!.left!!.left!!.right!!.setRed()
+
+        redBlackTree.root!!.right!!.left!!.left = RedBlackTreeNode(20, "10", redBlackTree.root!!.right!!.left)
+        redBlackTree.root!!.right!!.left!!.left!!.setBlack()
+
+        redBlackTree.root!!.right!!.left!!.right = RedBlackTreeNode(35, "11", redBlackTree.root!!.right!!.left)
+        redBlackTree.root!!.right!!.left!!.right!!.setBlack()
+
+        redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(60, "12", redBlackTree.root!!.right!!.right)
+        redBlackTree.root!!.right!!.right!!.right!!.setRed()
+
+        redBlackTree.root!!.right!!.left!!.left!!.right = RedBlackTreeNode(25, "13", redBlackTree.root!!.right!!.left!!.left)
+        redBlackTree.root!!.right!!.left!!.left!!.right!!.setRed()
+        return redBlackTree
+    }
+
+    private fun setUpUnbalancedRBTree(): RedBlackTree<Int, String> {
+        val redBlackTree = setUpBalancedRBTree()
+        redBlackTree.root!!.right!!.left!!.setRed()
+        redBlackTree.root!!.left!!.right!!.key = 20
+        return redBlackTree
+    }
+
+    private fun setUpAnotherUnbalancedRBTree(): RedBlackTree<Int, String> {
+        val redBlackTree = setUpAnotherBalancedRBTree()
+        redBlackTree.root!!.left!!.right!!.setRed()
+        redBlackTree.root!!.right!!.left!!.right!!.key = 19
+        return redBlackTree
+    }
+
+
     private fun numberOfBlackNodesDownwardsAndRBConditionChecker(node: RedBlackTreeNode<Int, String>?): Int {
         if (node == null) {
             return 1
