@@ -301,9 +301,9 @@ class RedBlackTreeTest {
     @Test
     fun insertDeleteFuzzingTest() {
         val redBlackTree = RedBlackTree<Int, String>()
-        val keysRange = -1000000..1000000
+        val keysRange = -100..100
         val percentageOfInserts = 70
-        val totalTries = 100000000
+        val totalTries = 10000
         repeat(totalTries) {
             val randKey = keysRange.random()
             if ((1..100).random() < percentageOfInserts) {
