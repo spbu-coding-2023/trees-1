@@ -185,7 +185,10 @@ class RedBlackTreeTest {
             tree.traverse(
                 inOrderInstance,
             ) { node: RedBlackTreeNode<Int, String> -> Pair(node.key, node.value) }
-        val frequencyMapAfter = listAfter.groupingBy { it }.eachCount()
+        val frequencyMapAfter = listAfter.groupingBy { it }.eachCount().toMutableMap()
+        if (changeInNumberOfElements != 0) {
+            frequencyMapAfter[Pair(key, changingValue)] = frequencyMapAfter.getOrDefault(Pair(key, changingValue), 0)
+        }
         if (changeInNumberOfElements != 0) {
             frequencyMapBefore[
                 Pair(
@@ -241,6 +244,6 @@ class RedBlackTreeTest {
         universalTreeCompareAfterOperation(anotherRBTree, 8, "", -1, false)
         universalTreeCompareAfterOperation(anotherRBTree, 8, "", 0, false)
         universalTreeCompareAfterOperation(anotherRBTree, 2, "", 0, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 3, "", 0, false)
+        universalTreeCompareAfterOperation(anotherRBTree, 4, "", 0, false)
     }
 }

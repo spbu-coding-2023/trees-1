@@ -49,8 +49,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 }
             }
         }
-
-        var findRoot = current
+        var findRoot = node
         while (findRoot.parent != null) findRoot = findRoot.parent!!
         return findRoot
     }
@@ -65,55 +64,80 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
 
     override fun remover(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> {
         if (node.parent != null) {
-            var sibling = node.findSibling()
-
-            if (sibling!!.isRed()) {
-                node.parent!!.setRed()
-                sibling.setBlack()
-                if (node == node.parent!!.left) {
-                    rotateLeft(node.parent!!)
-                } else {
-                    rotateRight(node.parent!!)
-                }
-                sibling = node.findSibling()
-            }
-            if (node.parent!!.isBlack() && sibling!!.isBlack() && sibling.left!!.isBlack() && sibling.right!!.isBlack()) {
-                sibling.setRed()
+            val sibling = node.findSibling()
+            if (sibling == null) {
                 remover(node.parent!!)
             } else {
-                if (node.parent!!.isRed() && sibling!!.isBlack() && sibling.left!!.isBlack() && sibling.right!!.isBlack()) {
-                    sibling.setRed()
-                    node.parent!!.setBlack()
-                } else {
-                    if (sibling!!.isBlack()) {
-                        if (node == node.parent!!.left && sibling.right!!.isBlack() && sibling.left!!.isRed()) {
-                            sibling.setRed()
-                            sibling.left!!.setBlack()
-                            rotateRight(sibling)
-                        } else if (node == node.parent!!.right && sibling.left!!.isBlack() && sibling.right!!.isRed()) {
-                            sibling.setRed()
-                            sibling.right!!.setBlack()
-                            rotateLeft(sibling)
-                        }
-                        sibling = node.findSibling()
-                    }
-                    if (node.parent!!.isRed()) {
-                        sibling!!.setRed()
-                    } else {
-                        sibling!!.setBlack()
-                    }
-                    node.parent!!.setBlack()
-                    if (node == node.parent!!.left) {
-                        sibling.right!!.setBlack()
-                        rotateLeft(node.parent!!)
-                    } else {
-                        sibling.left!!.setBlack()
+                if (sibling.isRed()) {
+                    node.parent!!.setRed()
+                    sibling.setBlack()
+
+                    if (sibling == sibling.parent!!.left) {
                         rotateRight(node.parent!!)
+                    } else {
+                        rotateLeft(node.parent!!)
+                    }
+                    remover(node)
+                } else {
+                    if (sibling.left?.isRed() == true || sibling.right?.isRed() == true) {
+                        if (sibling.left?.isRed() == true) {
+                            if (sibling == sibling.parent!!.left) {
+                                if (sibling.isRed()) {
+                                    sibling.left!!.setRed()
+                                } else {
+                                    sibling.left!!.setBlack()
+                                }
+                                if (node.parent!!.isRed()) {
+                                    sibling.setRed()
+                                } else {
+                                    sibling.setBlack()
+                                }
+                                rotateRight(node.parent!!)
+                            } else {
+                                if (node.parent!!.isRed()) {
+                                    sibling.left!!.setRed()
+                                    node.parent!!.setBlack()
+                                } else {
+                                    sibling.left!!.setBlack()
+                                }
+                                rotateRight(sibling)
+                                rotateLeft(node.parent!!)
+                            }
+                        } else {
+                            if (sibling == sibling.parent!!.left) {
+                                if (node.parent!!.isRed()) {
+                                    sibling.right!!.setRed()
+                                    node.parent!!.setBlack()
+                                } else {
+                                    sibling.right!!.setBlack()
+                                }
+                                rotateLeft(sibling)
+                                rotateRight(node.parent!!)
+                            } else {
+                                if (sibling.isRed()) {
+                                    sibling.right!!.setRed()
+                                } else {
+                                    sibling.right!!.setBlack()
+                                }
+                                if (node.parent!!.isRed()) {
+                                    sibling.setRed()
+                                } else {
+                                    sibling.setBlack()
+                                }
+                                rotateLeft(node.parent!!)
+                            }
+                        }
+                    } else {
+                        sibling.setRed()
+                        if (node.parent!!.isBlack()) {
+                            remover(node.parent!!)
+                        } else {
+                            node.parent!!.setBlack()
+                        }
                     }
                 }
             }
         }
-
         var findRoot = node
         while (findRoot.parent != null) findRoot = findRoot.parent!!
         return findRoot
