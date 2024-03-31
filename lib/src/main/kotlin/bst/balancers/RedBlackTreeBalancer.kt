@@ -65,77 +65,65 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
     override fun remover(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> {
         if (node.parent != null) {
             val sibling = node.findSibling()
-            if (sibling == null) {
-                remover(node.parent!!)
-            } else {
-                if (sibling.isRed()) {
-                    node.parent!!.setRed()
-                    sibling.setBlack()
+            if (sibling!!.isRed()) {
+                node.parent!!.setRed()
+                sibling.setBlack()
 
-                    if (sibling == sibling.parent!!.left) {
-                        rotateRight(node.parent!!)
-                    } else {
-                        rotateLeft(node.parent!!)
-                    }
-                    remover(node)
+                if (sibling == sibling.parent!!.left) {
+                    rotateRight(node.parent!!)
                 } else {
-                    if (sibling.left?.isRed() == true || sibling.right?.isRed() == true) {
-                        if (sibling.left?.isRed() == true) {
-                            if (sibling == sibling.parent!!.left) {
-                                if (sibling.isRed()) {
-                                    sibling.left!!.setRed()
-                                } else {
-                                    sibling.left!!.setBlack()
-                                }
-                                if (node.parent!!.isRed()) {
-                                    sibling.setRed()
-                                    node.parent!!.setBlack()
-                                } else {
-                                    sibling.setBlack()
-                                }
-                                rotateRight(node.parent!!)
+                    rotateLeft(node.parent!!)
+                }
+                remover(node)
+            } else {
+                if (sibling.left?.isRed() == true || sibling.right?.isRed() == true) {
+                    if (sibling.left?.isRed() == true) {
+                        if (sibling == sibling.parent!!.left) {
+                            sibling.left!!.setBlack()
+                            if (node.parent!!.isRed()) {
+                                sibling.setRed()
+                                node.parent!!.setBlack()
                             } else {
-                                if (node.parent!!.isRed()) {
-                                    sibling.left!!.setRed()
-                                    node.parent!!.setBlack()
-                                } else {
-                                    sibling.left!!.setBlack()
-                                }
-                                rotateRight(sibling)
-                                rotateLeft(node.parent!!)
+                                sibling.setBlack()
                             }
+                            rotateRight(node.parent!!)
                         } else {
-                            if (sibling == sibling.parent!!.left) {
-                                if (node.parent!!.isRed()) {
-                                    sibling.right!!.setRed()
-                                    node.parent!!.setBlack()
-                                } else {
-                                    sibling.right!!.setBlack()
-                                }
-                                rotateLeft(sibling)
-                                rotateRight(node.parent!!)
+                            if (node.parent!!.isRed()) {
+                                sibling.left!!.setRed()
+                                node.parent!!.setBlack()
                             } else {
-                                if (sibling.isRed()) {
-                                    sibling.right!!.setRed()
-                                } else {
-                                    sibling.right!!.setBlack()
-                                }
-                                if (node.parent!!.isRed()) {
-                                    sibling.setRed()
-                                    node.parent!!.setBlack()
-                                } else {
-                                    sibling.setBlack()
-                                }
-                                rotateLeft(node.parent!!)
+                                sibling.left!!.setBlack()
                             }
+                            rotateRight(sibling)
+                            rotateLeft(node.parent!!)
                         }
                     } else {
-                        sibling.setRed()
-                        if (node.parent!!.isBlack()) {
-                            remover(node.parent!!)
+                        if (sibling == sibling.parent!!.left) {
+                            if (node.parent!!.isRed()) {
+                                sibling.right!!.setRed()
+                                node.parent!!.setBlack()
+                            } else {
+                                sibling.right!!.setBlack()
+                            }
+                            rotateLeft(sibling)
+                            rotateRight(node.parent!!)
                         } else {
-                            node.parent!!.setBlack()
+                            sibling.right!!.setBlack()
+                            if (node.parent!!.isRed()) {
+                                sibling.setRed()
+                                node.parent!!.setBlack()
+                            } else {
+                                sibling.setBlack()
+                            }
+                            rotateLeft(node.parent!!)
                         }
+                    }
+                } else {
+                    sibling.setRed()
+                    if (node.parent!!.isBlack()) {
+                        remover(node.parent!!)
+                    } else {
+                        node.parent!!.setBlack()
                     }
                 }
             }

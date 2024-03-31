@@ -95,15 +95,11 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         }
         val nodeAndReplacementAreBlack = (replacementNode == null || replacementNode.isBlack()) and (nodeToRemove.isBlack())
         if (replacementNode == null) {
-            if (nodeToRemove == root) {
-                root = null
+            if (nodeAndReplacementAreBlack) {
+                balance(balancer::remover, nodeToRemove)
             } else {
-                if (nodeAndReplacementAreBlack) {
-                    balance(balancer::remover, nodeToRemove)
-                } else {
-                    if (nodeToRemove.findSibling() != null) {
-                        nodeToRemove.findSibling()!!.setRed()
-                    }
+                if (nodeToRemove.findSibling() != null) {
+                    nodeToRemove.findSibling()!!.setRed()
                 }
             }
             if (nodeToRemove.parent!!.left == nodeToRemove) {
@@ -124,11 +120,7 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
                 nodeToRemove.key = replacementNode.key
                 nodeToRemove.left = null
                 nodeToRemove.right = null
-                if (replacementNode.parent!!.left == replacementNode) {
-                    replacementNode.parent!!.left = null
-                } else {
-                    replacementNode.parent!!.right = null
-                }
+                replacementNode.parent!!.right = null
                 replacementNode.parent = null
                 replacementNode.left?.parent = null
                 replacementNode.right?.parent = null
@@ -144,11 +136,7 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
                 nodeToRemove.parent = null
                 nodeToRemove.left = null
                 nodeToRemove.right = null
-                if (nodeAndReplacementAreBlack) {
-                    balance(balancer::remover, replacementNode)
-                } else {
-                    replacementNode.setBlack()
-                }
+                replacementNode.setBlack()
             }
         } else {
             val tempVal = replacementNode.value
