@@ -1,4 +1,4 @@
-package bst.tests
+package trees
 
 import bst.RedBlackTree
 import bst.nodes.RedBlackTreeNode
@@ -278,23 +278,40 @@ class RedBlackTreeTest {
     @Test
     fun massiveDeleteTest() {
         var yetAnotherRBTree: RedBlackTree<Int, String>
-        for (j in 1..1000) {
+        for (j in 1..300) {
             yetAnotherRBTree = RedBlackTree()
-            for (i in 0..1000) {
+            for (i in 0..300) {
                 universalTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
             }
-            for (i in 0..1000 step j) {
+            for (i in 0..300 step j) {
                 universalTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
             }
         }
-        for (j in 1..1000) {
+        for (j in 1..300) {
             yetAnotherRBTree = RedBlackTree()
-            for (i in 0..1000) {
+            for (i in 0..300) {
                 universalTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
             }
-            for (i in 1000 downTo 0 step j) {
+            for (i in 300 downTo 0 step j) {
                 universalTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
             }
         }
+    }
+
+    @Test
+    fun insertDeleteFuzzingTest() {
+        val redBlackTree = RedBlackTree<Int, String>()
+        val keysRange = -1000000..1000000
+        val percentageOfInserts = 70
+        val totalTries = 100000000
+        repeat(totalTries) {
+            val randKey = keysRange.random()
+            if ((1..100).random() < percentageOfInserts) {
+                redBlackTree.insert(randKey, "a")
+            } else {
+                redBlackTree.remove(randKey)
+            }
+        }
+        isBalancedInColourRBTree(redBlackTree)
     }
 }

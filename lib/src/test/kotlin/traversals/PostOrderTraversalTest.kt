@@ -1,10 +1,10 @@
 // import bst.nodes.BSTNode
 // import bst.nodes.AVLTreeNode
 import bst.nodes.RedBlackTreeNode
-import bst.tests.setUpBalancedRBTree
 import bst.traversals.PostOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import trees.setUpBalancedRBTree
 
 class PostOrderTraversalTest() {
     @Test
