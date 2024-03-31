@@ -1,7 +1,3 @@
-
-
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-
 # 🌳 Derev'ja 🌳
 
 Derev'ja is a small kotlin library which provides simple yet powerful interface for working with different binary search trees. This projects implements many trees and adds tools to easily store and manipulate data inside bst.
@@ -23,10 +19,6 @@ val tree3 = RedBlackTree<Int, Int>()
 ### Insert
 ```kotlin
 tree.insert(23, "A")
-
-// or
-
-tree[23] = "A"
 ```
 ### Remove
 ```kotlin
@@ -35,10 +27,6 @@ val removedValue = tree.remove(23) // "A"
 ### Search
 ```kotlin
 val value1 = tree.search(23) // "A"
-
-// or
-
-val value2 = tree[23] // "A"
 ```
 ### Traverse
 ```kotlin
