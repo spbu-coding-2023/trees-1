@@ -69,5 +69,5 @@ Follow the steps to add your changes to the project:
 - [mshipilov5](https://www.github.com/mshipilov5)
 ## License
 
-[MIT](/)
+[MIT](LICENSE)
 
