@@ -1,25 +1,37 @@
-// import bst.nodes.BSTNode
-// import bst.nodes.AVLTreeNode
-import bst.nodes.RedBlackTreeNode
+import bst.AVLTree
+import bst.RedBlackTree
+import bst.RegularTree
 import bst.traversals.PostOrder
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import trees.setUpBalancedRBTree
 
 class PostOrderTraversalTest() {
+    lateinit var avlTree: AVLTree<Int, String>
+    lateinit var rbTree: RedBlackTree<Int, String>
+    lateinit var regularTree: RegularTree<Int, String>
+    val insertedNodes = listOf(6, 8, 2, 3, 5)
+
+    @BeforeEach
+    fun setup() {
+        avlTree = AVLTree()
+        rbTree = RedBlackTree()
+        regularTree = RegularTree()
+        setTreesData(insertedNodes)
+    }
+
+    fun setTreesData(insertedNodes: List<Int>) {
+        for (tree in listOf(avlTree, rbTree, regularTree)) {
+            for (node in insertedNodes) {
+                tree.insert(node, "A")
+            }
+        }
+    }
+
     @Test
-    fun postOrderIsValid() {
-        val redBlackTree = setUpBalancedRBTree()
-        // val BSTree = setUpBalancedBSTree()
-        // val AVLTree = setUpBalancedAVLTree()
-        val postOrderRB = PostOrder<Int, String, RedBlackTreeNode<Int, String>>()
-        // val postOrderBST = PostOrder<Int, String, BSTNode<Int, String>>()
-        // val postOrderAVL = PostOrder<Int, String, AVLTreeNode<Int, String>>()
-        val redBlackTreeResult: List<Int> = redBlackTree.traverse(postOrderRB) { node: RedBlackTreeNode<Int, String> -> node.key }
-        // val BSTreeResult : List<String> = redBlackTree.traverse(postOrderBST) {node : BSTNode<Int, String> -> node.value}
-        // val AVLTreeResult : List<AVLTreeNode<Int, String>> = redBlackTree.traverse(postOrderAVL) {node: AVLTreeNode<Int, String> -> node.left}
-        assertEquals(redBlackTreeResult, listOf(6, 1, 11, 8, 15, 22, 27, 25, 17, 13))
-        // assertEquals(BSTreeResult, [your hardcoded result here])
-        // assertEquals(AVLTreeResult, [your hardcoded result here])
+    fun traversed() {
+        assertEquals(listOf(2, 5, 3, 8, 6), avlTree.traverse(PostOrder()) {it.key})
+        assertEquals(listOf(2, 5, 3, 8, 6), rbTree.traverse(PostOrder()) {it.key})
+        assertEquals(listOf(5, 3, 2, 8, 6), regularTree.traverse(PostOrder()) {it.key})
     }
 }
