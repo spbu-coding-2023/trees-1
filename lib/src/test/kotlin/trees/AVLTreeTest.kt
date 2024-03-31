@@ -3,7 +3,9 @@ package trees
 import bst.AVLTree
 import bst.nodes.AVLTreeNode
 import bst.traversals.LevelOrder
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
@@ -338,7 +340,12 @@ class AVLTreeTest {
         return true
     }
 
-    fun fuzz(tree: AVLTree<Int, String>, keysRange: IntRange, percentageOfInserts: Int, totalTries: Int) {
+    fun fuzz(
+        tree: AVLTree<Int, String>,
+        keysRange: IntRange,
+        percentageOfInserts: Int,
+        totalTries: Int,
+    ) {
         repeat(totalTries) {
             val randKey = keysRange.random()
             if ((1..100).random() < percentageOfInserts) {
@@ -394,19 +401,19 @@ class AVLTreeTest {
         assertEquals(true, isBalanced(tree))
     }
 
-
     @Test
     fun `single rotate right with remove`() {
-        val path = listOf(
-            listOf(1, 6),
-            listOf(1, 8),
-            listOf(1, 10),
-            listOf(1, 9),
-            listOf(1, 3),
-            listOf(0, 8),
-            listOf(1, 4),
-            listOf(1, 2)
-        )
+        val path =
+            listOf(
+                listOf(1, 6),
+                listOf(1, 8),
+                listOf(1, 10),
+                listOf(1, 9),
+                listOf(1, 3),
+                listOf(0, 8),
+                listOf(1, 4),
+                listOf(1, 2),
+            )
 
         for (p in path) {
             if (p[0] == 1) {
@@ -457,18 +464,18 @@ class AVLTreeTest {
         tree.insert(34, "b")
         tree.insert(45, "c")
 
-        assertEquals("a",tree.search(23))
-        assertEquals("a",tree.search(23))
-        assertEquals("b",tree.search(34))
-        assertEquals("b",tree.search(34))
-        assertEquals("c",tree.search(45))
-        assertEquals("c",tree.search(45))
-        assertEquals("a",tree.search(23))
-        assertEquals("a",tree.search(23))
-        assertEquals("b",tree.search(34))
-        assertEquals("b",tree.search(34))
-        assertEquals("c",tree.search(45))
-        assertEquals("c",tree.search(45))
+        assertEquals("a", tree.search(23))
+        assertEquals("a", tree.search(23))
+        assertEquals("b", tree.search(34))
+        assertEquals("b", tree.search(34))
+        assertEquals("c", tree.search(45))
+        assertEquals("c", tree.search(45))
+        assertEquals("a", tree.search(23))
+        assertEquals("a", tree.search(23))
+        assertEquals("b", tree.search(34))
+        assertEquals("b", tree.search(34))
+        assertEquals("c", tree.search(45))
+        assertEquals("c", tree.search(45))
     }
 
     @Test
