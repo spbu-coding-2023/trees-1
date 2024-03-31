@@ -10,39 +10,47 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
     override fun setNode(
         node: RedBlackTreeNode<K, V>,
         newNode: RedBlackTreeNode<K, V>,
-    ) { // NOT FUNCTIONAL AND UNUSED, DOES NOT BALANCE THE TREE. PLACEHOLDER BECAUSE OF INHERITANCE
-        node.key = newNode.key
-        node.value = newNode.value
-        node.parent = newNode.parent
-        node.left = newNode.left
-        node.right = newNode.right
-        if (newNode.isRed()) {
-            node.setRed()
+    ) {
+        if (node == node.parent?.left) {
+            node.parent!!.left = newNode
+        } else if (node == node.parent?.right) {
+            node.parent!!.right = newNode
+        }
+        node.right?.parent = newNode
+        node.left?.parent = newNode
+        newNode.parent = node.parent
+        newNode.right = node.right
+        newNode.left = node.left
+        if (node.isBlack()) {
+            newNode.setBlack()
         } else {
-            node.setBlack()
+            newNode.setRed()
         }
     }
 
     override fun setNodeRight(
         nodeParent: RedBlackTreeNode<K, V>,
         nodeChild: RedBlackTreeNode<K, V>?,
-    ) { // NOT FUNCTIONAL AND UNUSED, DOES NOT BALANCE THE TREE. PLACEHOLDER BECAUSE OF INHERITANCE
-        nodeParent.right = nodeChild?.right
+    ) {
+        nodeParent.right = nodeChild
+        nodeChild!!.parent = nodeParent
     }
 
     override fun setNodeLeft(
         nodeParent: RedBlackTreeNode<K, V>,
         nodeChild: RedBlackTreeNode<K, V>?,
-    ) { // NOT FUNCTIONAL AND UNUSED, DOES NOT BALANCE THE TREE. PLACEHOLDER BECAUSE OF INHERITANCE
-        nodeParent.left = nodeChild?.left
+    ) {
+        nodeParent.left = nodeChild
+        nodeChild!!.parent = nodeParent
     }
 
     override fun insert(
         key: K,
         value: V,
     ): RedBlackTreeNode<K, V> {
+        val doBalance = search(key) == null
         val newNode = super.insert(key, value)
-        super.balance(balancer::inserter, newNode)
+        if (doBalance) super.balance(balancer::inserter, newNode)
         return newNode
     }
 
@@ -57,6 +65,10 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
     override fun remove(key: K): V? {
         val nodeToRemove = findNode(key) ?: return null
         val valueToReturn = nodeToRemove.value
+        if (nodeToRemove == root && nodeToRemove.left == null && nodeToRemove.right == null) {
+            root = null
+            return valueToReturn
+        }
         removeNode(nodeToRemove)
         return valueToReturn
     }
@@ -124,8 +136,6 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
                 }
                 replacementNode.parent = nodeToRemove.parent
                 nodeToRemove.parent = null
-                nodeToRemove.left?.parent = null
-                nodeToRemove.right?.parent = null
                 nodeToRemove.left = null
                 nodeToRemove.right = null
                 if (nodeAndReplacementAreBlack) {

@@ -14,77 +14,77 @@ parent: RedBlackTreeNode<K, V>?,
 
 fun setUpBalancedRBTree(): RedBlackTree<Int, String> {
     val redBlackTree = RedBlackTree<Int, String>()
-    redBlackTree.root = RedBlackTreeNode(13, "first", null)
+    redBlackTree.root = RedBlackTreeNode(13, "1", null)
     redBlackTree.root!!.setBlack()
 
-    redBlackTree.root!!.left = RedBlackTreeNode(8, "second", redBlackTree.root)
+    redBlackTree.root!!.left = RedBlackTreeNode(8, "2", redBlackTree.root)
     redBlackTree.root!!.left!!.setRed()
 
-    redBlackTree.root!!.right = RedBlackTreeNode(17, "third", redBlackTree.root)
+    redBlackTree.root!!.right = RedBlackTreeNode(17, "3", redBlackTree.root)
     redBlackTree.root!!.right!!.setRed()
 
-    redBlackTree.root!!.left!!.left = RedBlackTreeNode(1, "fourth", redBlackTree.root!!.left)
+    redBlackTree.root!!.left!!.left = RedBlackTreeNode(1, "4", redBlackTree.root!!.left)
     redBlackTree.root!!.left!!.left!!.setBlack()
 
-    redBlackTree.root!!.left!!.right = RedBlackTreeNode(11, "fifth", redBlackTree.root!!.left)
+    redBlackTree.root!!.left!!.right = RedBlackTreeNode(11, "5", redBlackTree.root!!.left)
     redBlackTree.root!!.left!!.right!!.setBlack()
 
-    redBlackTree.root!!.right!!.left = RedBlackTreeNode(15, "sixth", redBlackTree.root!!.right)
+    redBlackTree.root!!.right!!.left = RedBlackTreeNode(15, "6", redBlackTree.root!!.right)
     redBlackTree.root!!.right!!.left!!.setBlack()
 
-    redBlackTree.root!!.right!!.right = RedBlackTreeNode(25, "seventh", redBlackTree.root!!.right)
+    redBlackTree.root!!.right!!.right = RedBlackTreeNode(25, "7", redBlackTree.root!!.right)
     redBlackTree.root!!.right!!.right!!.setBlack()
 
-    redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(6, "eighth", redBlackTree.root!!.left!!.left)
+    redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(6, "8", redBlackTree.root!!.left!!.left)
     redBlackTree.root!!.left!!.left!!.right!!.setRed()
 
-    redBlackTree.root!!.right!!.right!!.left = RedBlackTreeNode(22, "ninth", redBlackTree.root!!.right!!.right)
+    redBlackTree.root!!.right!!.right!!.left = RedBlackTreeNode(22, "9", redBlackTree.root!!.right!!.right)
     redBlackTree.root!!.right!!.right!!.left!!.setRed()
 
-    redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(27, "tenth", redBlackTree.root!!.right!!.right)
+    redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(27, "10", redBlackTree.root!!.right!!.right)
     redBlackTree.root!!.right!!.right!!.right!!.setRed()
     return redBlackTree
 }
 
 fun setUpAnotherBalancedRBTree(): RedBlackTree<Int, String> {
     val redBlackTree = RedBlackTree<Int, String>()
-    redBlackTree.root = RedBlackTreeNode(10, "first", null)
+    redBlackTree.root = RedBlackTreeNode(10, "1", null)
     redBlackTree.root!!.setBlack()
 
-    redBlackTree.root!!.left = RedBlackTreeNode(7, "second", redBlackTree.root)
+    redBlackTree.root!!.left = RedBlackTreeNode(7, "2", redBlackTree.root)
     redBlackTree.root!!.left!!.setBlack()
 
-    redBlackTree.root!!.right = RedBlackTreeNode(40, "third", redBlackTree.root)
+    redBlackTree.root!!.right = RedBlackTreeNode(40, "3", redBlackTree.root)
     redBlackTree.root!!.right!!.setBlack()
 
-    redBlackTree.root!!.left!!.left = RedBlackTreeNode(3, "fourth", redBlackTree.root!!.left)
+    redBlackTree.root!!.left!!.left = RedBlackTreeNode(3, "4", redBlackTree.root!!.left)
     redBlackTree.root!!.left!!.left!!.setBlack()
 
-    redBlackTree.root!!.left!!.right = RedBlackTreeNode(8, "fifth", redBlackTree.root!!.left)
+    redBlackTree.root!!.left!!.right = RedBlackTreeNode(8, "5", redBlackTree.root!!.left)
     redBlackTree.root!!.left!!.right!!.setBlack()
 
-    redBlackTree.root!!.right!!.left = RedBlackTreeNode(30, "sixth", redBlackTree.root!!.right)
+    redBlackTree.root!!.right!!.left = RedBlackTreeNode(30, "6", redBlackTree.root!!.right)
     redBlackTree.root!!.right!!.left!!.setRed()
 
-    redBlackTree.root!!.right!!.right = RedBlackTreeNode(45, "seventh", redBlackTree.root!!.right)
+    redBlackTree.root!!.right!!.right = RedBlackTreeNode(45, "7", redBlackTree.root!!.right)
     redBlackTree.root!!.right!!.right!!.setBlack()
 
-    redBlackTree.root!!.left!!.left!!.left = RedBlackTreeNode(1, "eighth", redBlackTree.root!!.left!!.left)
+    redBlackTree.root!!.left!!.left!!.left = RedBlackTreeNode(1, "8", redBlackTree.root!!.left!!.left)
     redBlackTree.root!!.left!!.left!!.left!!.setRed()
 
-    redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(5, "ninth", redBlackTree.root!!.left!!.left)
+    redBlackTree.root!!.left!!.left!!.right = RedBlackTreeNode(5, "9", redBlackTree.root!!.left!!.left)
     redBlackTree.root!!.left!!.left!!.right!!.setRed()
 
-    redBlackTree.root!!.right!!.left!!.left = RedBlackTreeNode(20, "tenth", redBlackTree.root!!.right!!.left)
+    redBlackTree.root!!.right!!.left!!.left = RedBlackTreeNode(20, "10", redBlackTree.root!!.right!!.left)
     redBlackTree.root!!.right!!.left!!.left!!.setBlack()
 
-    redBlackTree.root!!.right!!.left!!.right = RedBlackTreeNode(35, "eleventh", redBlackTree.root!!.right!!.left)
+    redBlackTree.root!!.right!!.left!!.right = RedBlackTreeNode(35, "11", redBlackTree.root!!.right!!.left)
     redBlackTree.root!!.right!!.left!!.right!!.setBlack()
 
-    redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(60, "twelfth", redBlackTree.root!!.right!!.right)
+    redBlackTree.root!!.right!!.right!!.right = RedBlackTreeNode(60, "12", redBlackTree.root!!.right!!.right)
     redBlackTree.root!!.right!!.right!!.right!!.setRed()
 
-    redBlackTree.root!!.right!!.left!!.left!!.right = RedBlackTreeNode(25, "thirteenth", redBlackTree.root!!.right!!.left!!.left)
+    redBlackTree.root!!.right!!.left!!.left!!.right = RedBlackTreeNode(25, "13", redBlackTree.root!!.right!!.left!!.left)
     redBlackTree.root!!.right!!.left!!.left!!.right!!.setRed()
     return redBlackTree
 }
@@ -149,8 +149,8 @@ class RedBlackTreeTest {
     fun searchTest() {
         val redBlackTree = setUpBalancedRBTree()
         val anotherRBTree = setUpAnotherBalancedRBTree()
-        assertEquals("sixth", redBlackTree.search(15))
-        assertEquals("eleventh", anotherRBTree.search(35))
+        assertEquals("6", redBlackTree.search(15))
+        assertEquals("11", anotherRBTree.search(35))
         assertEquals(redBlackTree.search(7), null)
         assertEquals(anotherRBTree.search(21), null)
     }
@@ -169,9 +169,15 @@ class RedBlackTreeTest {
                 inOrderInstance,
             ) { node: RedBlackTreeNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapBefore = listBefore.groupingBy { it }.eachCount().toMutableMap()
+        var oldValue: String = ""
+        if (isInsert && changeInNumberOfElements == 0) {
+            oldValue = tree.search(key)!!
+            frequencyMapBefore[Pair(key, oldValue)] = 0
+            frequencyMapBefore[Pair(key, changingValue)] = 1
+        }
         if (changeInNumberOfElements == 0) {
             if (isInsert) {
-                assertEquals(tree.insert(key, changingValue), null)
+                tree.insert(key, changingValue)
             } else {
                 assertEquals(tree.remove(key), null)
             }
@@ -188,14 +194,14 @@ class RedBlackTreeTest {
         val frequencyMapAfter = listAfter.groupingBy { it }.eachCount().toMutableMap()
         if (changeInNumberOfElements != 0) {
             frequencyMapAfter[Pair(key, changingValue)] = frequencyMapAfter.getOrDefault(Pair(key, changingValue), 0)
-        }
-        if (changeInNumberOfElements != 0) {
             frequencyMapBefore[
                 Pair(
                     key,
                     changingValue,
                 ),
             ] = frequencyMapBefore.getOrDefault(Pair(key, changingValue), 0) + changeInNumberOfElements
+        } else if (isInsert) {
+            frequencyMapAfter[Pair(key, oldValue)] = frequencyMapAfter.getOrDefault(Pair(key, oldValue), 0)
         }
         assertEquals(frequencyMapAfter, frequencyMapBefore)
         assertEquals(tree.search(key), if (isInsert) changingValue else null)
@@ -207,22 +213,34 @@ class RedBlackTreeTest {
     fun insertTest() {
         val redBlackTree = setUpBalancedRBTree()
         val anotherRBTree = setUpAnotherBalancedRBTree()
-        universalTreeCompareAfterOperation(redBlackTree, 16, "eleventh", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 16, "twelfth", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 150, "twelfth", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 150, "thirteenth", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 12, "thirteenth", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 12, "fourteenth", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 17, "fourteenth", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 15, "fourteenth", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 36, "fourteenth", 1, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 36, "fifteenth", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 400, "fifteenth", 1, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 400, "sixteenth", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 41, "sixteenth", 1, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 41, "seventeenth", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 40, "seventeenth", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 25, "seventeenth", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 16, "11", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 16, "12", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 150, "13", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 150, "14", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 12, "15", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 12, "16", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 10, "17", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 10, "18", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 9, "19", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 9, "20", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 17, "21", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 15, "22", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 18, "23", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 19, "24", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 20, "25", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 21, "26", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 22, "27", 0, true)
+        universalTreeCompareAfterOperation(redBlackTree, 23, "28", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 24, "29", 1, true)
+        universalTreeCompareAfterOperation(redBlackTree, 15000, "30", 1, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 36, "16", 1, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 36, "17", 0, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 400, "18", 1, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 400, "19", 0, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 41, "20", 1, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 41, "21", 0, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 40, "22", 0, true)
+        universalTreeCompareAfterOperation(anotherRBTree, 25, "23", 0, true)
     }
 
     @Test
@@ -237,13 +255,45 @@ class RedBlackTreeTest {
         universalTreeCompareAfterOperation(redBlackTree, 15, "", 0, false)
         universalTreeCompareAfterOperation(redBlackTree, 2, "", 0, false)
         universalTreeCompareAfterOperation(redBlackTree, 3, "", 0, false)
+        universalTreeCompareAfterOperation(redBlackTree, 8, "", -1, false)
+        universalTreeCompareAfterOperation(redBlackTree, 25, "", -1, false)
+        universalTreeCompareAfterOperation(redBlackTree, 1, "", -1, false)
+        universalTreeCompareAfterOperation(redBlackTree, 6, "", -1, false)
+        universalTreeCompareAfterOperation(redBlackTree, 15000, "", 0, false)
+        universalTreeCompareAfterOperation(redBlackTree, 17, "", -1, false)
+        universalTreeCompareAfterOperation(redBlackTree, 11, "", -1, false)
+        universalTreeCompareAfterOperation(redBlackTree, 22, "", -1, false)
+        universalTreeCompareAfterOperation(redBlackTree, 0, "", 0, false)
         universalTreeCompareAfterOperation(anotherRBTree, 1, "", -1, false)
         universalTreeCompareAfterOperation(anotherRBTree, 1, "", 0, false)
         universalTreeCompareAfterOperation(anotherRBTree, 35, "", -1, false)
         universalTreeCompareAfterOperation(anotherRBTree, 35, "", 0, false)
         universalTreeCompareAfterOperation(anotherRBTree, 8, "", -1, false)
+        universalTreeCompareAfterOperation(anotherRBTree, 60, "", -1, false)
         universalTreeCompareAfterOperation(anotherRBTree, 8, "", 0, false)
         universalTreeCompareAfterOperation(anotherRBTree, 2, "", 0, false)
         universalTreeCompareAfterOperation(anotherRBTree, 4, "", 0, false)
+    }
+
+    @Test
+    fun massiveDeleteTest() {
+        var yetAnotherRBTree = RedBlackTree<Int, String>()
+        for (j in 1..1000) {
+            for (i in 0..1000) {
+                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
+            }
+            for (i in 0..1000 step j) {
+                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
+            }
+        }
+        for (j in 1..1000) {
+            yetAnotherRBTree = RedBlackTree()
+            for (i in 0..1000) {
+                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
+            }
+            for (i in 1000 downTo 0 step j) {
+                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
+            }
+        }
     }
 }

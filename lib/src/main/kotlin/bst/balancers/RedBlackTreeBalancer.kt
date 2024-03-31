@@ -89,6 +89,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                                 }
                                 if (node.parent!!.isRed()) {
                                     sibling.setRed()
+                                    node.parent!!.setBlack()
                                 } else {
                                     sibling.setBlack()
                                 }
@@ -121,6 +122,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                                 }
                                 if (node.parent!!.isRed()) {
                                     sibling.setRed()
+                                    node.parent!!.setBlack()
                                 } else {
                                     sibling.setBlack()
                                 }
