@@ -1,6 +1,8 @@
 package trees
 
 import bst.AVLTree
+import bst.nodes.AVLTreeNode
+import bst.traversals.LevelOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -230,10 +232,128 @@ class AVLTreeTest {
     }
 
     @Test
-    fun insert() {
+    fun `remove balanced small tree`() {
+        tree.insert(2, "Rwanda")
+        tree.insert(1, "Botswana")
+        tree.insert(4, "Uganda")
+        tree.insert(3, "Haiti")
+        tree.insert(5, "Grenada")
+
+        assertNotNull(tree.root)
+        assertNotNull(tree.root?.left)
+        assertNotNull(tree.root?.right)
+        assertNotNull(tree.root?.right?.left)
+        assertNotNull(tree.root?.right?.right)
+
+        assertEquals("Botswana", tree.remove(1))
+
+        assertNotNull(tree.root)
+        assertNotNull(tree.root?.left)
+        assertNotNull(tree.root?.right)
+        assertNotNull(tree.root?.left?.right)
+        assertNull(tree.root?.right?.right)
+        assertNull(tree.root?.right?.left)
+        assertNull(tree.root?.left?.left)
+        assertNull(tree.root?.left?.right?.right)
+        assertNull(tree.root?.left?.right?.left)
+
+        assertEquals("Rwanda", tree.root?.left?.value)
+        assertEquals("Uganda", tree.root?.value)
+        assertEquals("Grenada", tree.root?.right?.value)
+        assertEquals("Haiti", tree.root?.left?.right?.value)
     }
 
     @Test
-    fun remove() {
+    fun `remove balanced medium tree`() {
+        tree.insert(6, "6")
+        tree.insert(2, "2")
+        tree.insert(9, "9")
+        tree.insert(1, "1")
+        tree.insert(4, "4")
+        tree.insert(8, "8")
+        tree.insert(11, "11")
+        tree.insert(3, "3")
+        tree.insert(5, "5")
+        tree.insert(7, "7")
+        tree.insert(10, "10")
+        tree.insert(12, "12")
+        tree.insert(13, "13")
+
+        assertEquals("1", tree.remove(1))
+
+        assertEquals("6", tree.root?.value)
+        assertEquals("4", tree.root?.left?.value)
+        assertEquals("9", tree.root?.right?.value)
+        assertEquals("2", tree.root?.left?.left?.value)
+        assertEquals("5", tree.root?.left?.right?.value)
+        assertEquals("8", tree.root?.right?.left?.value)
+        assertEquals("11", tree.root?.right?.right?.value)
+        assertEquals("3", tree.root?.left?.left?.right?.value)
+        assertEquals("7", tree.root?.right?.left?.left?.value)
+        assertEquals("10", tree.root?.right?.right?.left?.value)
+        assertEquals("12", tree.root?.right?.right?.right?.value)
+        assertEquals("13", tree.root?.right?.right?.right?.right?.value)
+    }
+
+    @Test
+    fun `insert for node in root`() {
+        tree.insert(23, "aba")
+
+        assertEquals("aba", tree.search(23))
+
+        tree.insert(23, "dcdc")
+
+        assertEquals("dcdc", tree.search(23))
+    }
+
+    @Test
+    fun `insert for node in root child`() {
+        tree.insert(23, "aba")
+
+        assertEquals("aba", tree.search(23))
+
+        tree.insert(35, "dcdc")
+
+        assertEquals("dcdc", tree.search(35))
+
+        tree.insert(35, "fgfg")
+
+        assertEquals("fgfg", tree.search(35))
+        assertEquals(tree.root?.right?.parent, tree.root)
+    }
+
+    private fun calculateHeight(node: AVLTreeNode<Int, String>?): Int {
+        if (node == null) return 0
+        val heightLeft = calculateHeight(node.left)
+        val heightRight = calculateHeight(node.right)
+        val heightMax = if (heightRight > heightLeft) heightRight else heightLeft
+        return heightMax + 1
+    }
+
+    private fun isBalanced(tree: AVLTree<Int, String>) {
+        for (node in tree.traverse(LevelOrder()) { it }) {
+            val heightLeft = calculateHeight(node.left)
+            val heightRight = calculateHeight(node.right)
+            val isBfInRange = (heightRight - heightLeft) in -1..1
+            assertEquals(true, isBfInRange)
+        }
+    }
+
+    @Test
+    fun `fuzzing small`() {
+        val keysRange = -10..10
+        val percentageOfInserts = 70
+        val totalTries = 1000
+
+        repeat(totalTries) {
+            val randKey = keysRange.random()
+            if ((1..100).random() < percentageOfInserts) {
+                tree.insert(randKey, "a")
+            } else {
+                tree.remove(randKey)
+            }
+        }
+
+        isBalanced(tree)
     }
 }
