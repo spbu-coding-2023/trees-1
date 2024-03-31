@@ -41,7 +41,7 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
         updateHeight(node.parent)
     }
 
-    override fun inserter(node: AVLTreeNode<K, V>) {
+    override fun inserter(node: AVLTreeNode<K, V>): AVLTreeNode<K, V> {
         var current = node
         var bf = current.getBalanceFactor()
         while (bf != 0) {
@@ -78,9 +78,15 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
             current = current.parent ?: break
             bf = current.getBalanceFactor()
         }
+
+        var findRoot = current
+        while (findRoot.parent != null) {
+            findRoot = findRoot.parent!!
+        }
+        return findRoot
     }
 
-    override fun remover(node: AVLTreeNode<K, V>) {
+    override fun remover(node: AVLTreeNode<K, V>): AVLTreeNode<K, V> {
         var current = node
         var bf = current.getBalanceFactor()
         while (true) {
@@ -102,7 +108,6 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
                     }
                 }
                 current = current.parent ?: break
-                bf = current.getBalanceFactor()
             } else if (bf == -2) {
                 val leftNodeBf = current.left?.getBalanceFactor()
                 if (leftNodeBf == -1) {
@@ -121,7 +126,6 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
                     }
                 }
                 current = current.parent ?: break
-                bf = current.getBalanceFactor()
             }
 
             val nodeParentBf = current.parent?.getBalanceFactor() ?: 0
@@ -132,5 +136,11 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
             current = current.parent ?: break
             bf = current.getBalanceFactor()
         }
+
+        var findRoot = current
+        while (findRoot.parent != null) {
+            findRoot = findRoot.parent!!
+        }
+        return findRoot
     }
 }

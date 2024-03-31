@@ -8,10 +8,10 @@ abstract class RegularAbstractBSTWithBalancer<K : Comparable<K>, V, R : Abstract
     abstract var balancer: AbstractBSTBalancer<K, V, R>
 
     protected fun balance(
-        balanceFunction: (R) -> Unit,
+        balanceFunction: (R) -> R,
         node: R?,
     ) {
         val balanceNode = node ?: return
-        balanceFunction(balanceNode)
+        root = balanceFunction(balanceNode)
     }
 }

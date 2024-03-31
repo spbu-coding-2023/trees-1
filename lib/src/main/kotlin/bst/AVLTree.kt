@@ -15,6 +15,12 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         when (nodeChild) {
             null -> {
                 nodeParent.right = null
+
+                var current = nodeParent
+                while (current.parent != null) {
+                    current.height = getHeight(current)
+                    current = current.parent!!
+                }
             }
             else -> {
                 nodeChild.parent = nodeParent
@@ -29,6 +35,10 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         }
     }
 
+    private fun getHeight(node: AVLTreeNode<K, V>): Int {
+        return max(node.right?.height ?: 0, node.left?.height ?: 0) + 1
+    }
+
     override fun setNodeLeft(
         nodeParent: AVLTreeNode<K, V>,
         nodeChild: AVLTreeNode<K, V>?,
@@ -36,6 +46,12 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         when (nodeChild) {
             null -> {
                 nodeParent.left = null
+
+                var current = nodeParent
+                while (current.parent != null) {
+                    current.height = getHeight(current)
+                    current = current.parent!!
+                }
             }
             else -> {
                 nodeChild.parent = nodeParent
@@ -63,10 +79,72 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         return newNode
     }
 
+    private fun minInOrder(node: AVLTreeNode<K, V>): AVLTreeNode<K, V> {
+        var current = node
+        while (current.left != null) current = current.left!!
+        return current
+    }
+
     override fun remove(key: K): V? {
-        val removedNode = super.remove(key)
-        super.balance(balancer::remover, root)
-        return removedNode
+        var removeNode = findNode(key) ?: return null
+        val removedValue = removeNode.value
+
+        if (removeNode.left != null && removeNode.right != null) {
+            val nextNode = minInOrder(removeNode.right!!)
+            removeNode.key = nextNode.key
+            removeNode.value = nextNode.value
+            removeNode = nextNode
+        }
+
+        val replaceNode = if (removeNode.left != null) removeNode.left else removeNode.right
+
+        if (replaceNode != null) {
+            replaceNode.parent = removeNode.parent
+
+            if (removeNode.parent == null) {
+                root = replaceNode
+                return removedValue
+            } else if (removeNode == removeNode.parent?.left) {
+                setNodeLeft(removeNode.parent!!, replaceNode)
+                if (replaceNode.parent?.getBalanceFactor() == 1) {
+                    removeNode.left = null
+                    removeNode.right = null
+                    removeNode.parent = null
+                    return removedValue
+                }
+            } else {
+                setNodeRight(removeNode.parent!!, replaceNode)
+                if (replaceNode.parent?.getBalanceFactor() == -1) {
+                    removeNode.left = null
+                    removeNode.right = null
+                    removeNode.parent = null
+                    return removedValue
+                }
+            }
+
+            removeNode.left = null
+            removeNode.right = null
+            removeNode.parent = null
+            super.balance(balancer::remover, replaceNode.parent)
+        } else if (removeNode.parent == null) {
+            root = null
+            return removedValue
+        } else {
+            val removeNodeParent = removeNode.parent!!
+
+            if (removeNode == removeNodeParent.left) {
+                setNodeLeft(removeNodeParent, null)
+                removeNode.parent = null
+                if (removeNodeParent.getBalanceFactor() == 1) return removedValue
+            } else {
+                setNodeRight(removeNodeParent, null)
+                removeNode.parent = null
+                if (removeNodeParent.getBalanceFactor() == -1) return removedValue
+            }
+
+            super.balance(balancer::remover, removeNodeParent)
+        }
+        return removedValue
     }
 
     override fun createNode(
@@ -80,12 +158,6 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         node: AVLTreeNode<K, V>,
         newNode: AVLTreeNode<K, V>,
     ) {
-        node.key = newNode.key
         node.value = newNode.value
-        node.right = newNode.right
-        node.left = newNode.left
-        node.height = newNode.height
-        node.parent = newNode.parent
-        super.balance(balancer::inserter, node)
     }
 }

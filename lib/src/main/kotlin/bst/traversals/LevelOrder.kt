@@ -16,18 +16,16 @@ class LevelOrder<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : BSTTraver
         extractionFunction: (R) -> T,
         result: MutableList<T>,
     ): List<T> {
-        if (node != null) {
-            val queue = ArrayDeque<R>()
-            queue.add(node)
-            while (queue.isNotEmpty()) {
-                val currentNode = queue.poll()
-                result.add(extractionFunction(currentNode))
-                if (currentNode.left != null) {
-                    queue.add(currentNode.left)
-                }
-                if (currentNode.right != null) {
-                    queue.add(currentNode.right)
-                }
+        val queue = ArrayDeque<R>()
+        queue.add(node)
+        while (queue.isNotEmpty()) {
+            val currentNode = queue.poll()
+            result.add(extractionFunction(currentNode))
+            if (currentNode.left != null) {
+                queue.add(currentNode.left!!)
+            }
+            if (currentNode.right != null) {
+                queue.add(currentNode.right!!)
             }
         }
         return result
