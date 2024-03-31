@@ -279,6 +279,7 @@ class RedBlackTreeTest {
     fun massiveDeleteTest() {
         var yetAnotherRBTree = RedBlackTree<Int, String>()
         for (j in 1..1000) {
+            yetAnotherRBTree = RedBlackTree()
             for (i in 0..1000) {
                 universalTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
             }
