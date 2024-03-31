@@ -169,7 +169,7 @@ class RedBlackTreeTest {
                 inOrderInstance,
             ) { node: RedBlackTreeNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapBefore = listBefore.groupingBy { it }.eachCount().toMutableMap()
-        var oldValue: String = ""
+        var oldValue = ""
         if (isInsert && changeInNumberOfElements == 0) {
             oldValue = tree.search(key)!!
             frequencyMapBefore[Pair(key, oldValue)] = 0
@@ -277,7 +277,7 @@ class RedBlackTreeTest {
 
     @Test
     fun massiveDeleteTest() {
-        var yetAnotherRBTree = RedBlackTree<Int, String>()
+        var yetAnotherRBTree: RedBlackTree<Int, String>
         for (j in 1..1000) {
             yetAnotherRBTree = RedBlackTree()
             for (i in 0..1000) {
