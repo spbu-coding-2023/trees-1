@@ -80,7 +80,7 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
 
     override fun remove(key: K): V? {
         val removeValue = search(key) ?: return null
-        root = removeRec(root, key)
+        root = removeRec(root!!, key)
         return removeValue
     }
 
@@ -88,9 +88,7 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         node: R?,
         key: K,
     ): R? {
-        if (node == null) return null
-
-        val compareValue = key.compareTo(node.key)
+        val compareValue = key.compareTo(node!!.key)
         when {
             compareValue < 0 -> node.left = removeRec(node.left, key)
             compareValue > 0 -> node.right = removeRec(node.right, key)
@@ -145,27 +143,15 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         value: V,
     ): R
 
-    // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
-    protected open fun setNodeLeft(
+    protected abstract fun setNodeLeft(
         nodeParent: R,
         nodeChild: R?,
-    ) {
-        val newRoot = createNode(nodeParent.key, nodeParent.value)
-        setNode(newRoot, nodeParent)
-        newRoot.left = nodeChild
-        setNode(nodeParent, newRoot)
-    }
+    )
 
-    // THIS FUNCTION IS DEPRECATED TO OVERRIDE! does not have to be overridden
-    protected open fun setNodeRight(
+    protected abstract fun setNodeRight(
         nodeParent: R,
         nodeChild: R?,
-    ) {
-        val newRoot = createNode(nodeParent.key, nodeParent.value)
-        setNode(newRoot, nodeParent)
-        newRoot.right = nodeChild
-        setNode(nodeParent, newRoot)
-    }
+    )
 
     protected abstract fun setNode(
         node: R,
