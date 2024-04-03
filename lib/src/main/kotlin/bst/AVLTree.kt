@@ -6,7 +6,7 @@ import bst.nodes.AVLTreeNode
 import kotlin.math.max
 
 class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTreeNode<K, V>>() {
-    override var balancer: AbstractBSTBalancer<K, V, AVLTreeNode<K, V>> = AVLTreeBalancer()
+    override val balancer: AbstractBSTBalancer<K, V, AVLTreeNode<K, V>> = AVLTreeBalancer()
 
     override fun setNodeRight(
         nodeParent: AVLTreeNode<K, V>,
@@ -28,7 +28,7 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
 
                 var currentNode = nodeChild
                 while (currentNode != root) {
-                    currentNode = currentNode?.parent ?: break
+                    currentNode = currentNode!!.parent!!
                     currentNode.height = max(currentNode.right?.height ?: 0, currentNode.left?.height ?: 0) + 1
                 }
             }
@@ -59,7 +59,7 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
 
                 var currentNode = nodeChild
                 while (currentNode != root) {
-                    currentNode = currentNode?.parent ?: break
+                    currentNode = currentNode!!.parent!!
                     currentNode.height = max(currentNode.right?.height ?: 0, currentNode.left?.height ?: 0) + 1
                 }
             }
@@ -104,9 +104,9 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
             if (removeNode.parent == null) {
                 root = replaceNode
                 return removedValue
-            } else if (removeNode == removeNode.parent?.left) {
+            } else if (removeNode == removeNode.parent!!.left) {
                 setNodeLeft(removeNode.parent!!, replaceNode)
-                if (replaceNode.parent?.getBalanceFactor() == 1) {
+                if (replaceNode.parent!!.getBalanceFactor() == 1) {
                     removeNode.left = null
                     removeNode.right = null
                     removeNode.parent = null
@@ -114,7 +114,7 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
                 }
             } else {
                 setNodeRight(removeNode.parent!!, replaceNode)
-                if (replaceNode.parent?.getBalanceFactor() == -1) {
+                if (replaceNode.parent!!.getBalanceFactor() == -1) {
                     removeNode.left = null
                     removeNode.right = null
                     removeNode.parent = null
