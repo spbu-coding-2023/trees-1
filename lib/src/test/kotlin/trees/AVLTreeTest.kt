@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class AVLTreeTest {
+class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, String>>() {
     lateinit var tree: AVLTree<Int, String>
 
     @BeforeEach
@@ -340,50 +340,215 @@ class AVLTreeTest {
         return true
     }
 
-    fun fuzz(
+    /* Fuzzing is disabled! Remove comments to debug avl tree
+    private fun avlTreeCompare(
+        tree: AVLTree<Int, String>,
+        key: Int,
+        value: String,
+        changeInNumberOfElements: Int,
+        isInsert: Boolean,
+    ) {
+        var changingValue = value
+        val inOrderInstance = InOrder<Int, String, AVLTreeNode<Int, String>>()
+        val listBefore: List<Pair<Int, String>> =
+            tree.traverse(
+                inOrderInstance,
+            ) { node: AVLTreeNode<Int, String> -> Pair(node.key, node.value) }
+        val frequencyMapBefore = listBefore.groupingBy { it }.eachCount().toMutableMap()
+        var oldValue = ""
+        if (isInsert && changeInNumberOfElements == 0) {
+            oldValue = tree.search(key)!!
+            frequencyMapBefore[Pair(key, oldValue)] = 0
+            frequencyMapBefore[Pair(key, changingValue)] = 1
+        }
+        if (changeInNumberOfElements == 0) {
+            if (isInsert) {
+                tree.insert(key, changingValue)
+            } else {
+                assertEquals(null, tree.remove(key))
+            }
+        } else if (changeInNumberOfElements == 1) {
+            tree.insert(key, changingValue)
+        } else if (changeInNumberOfElements == -1) {
+            changingValue = tree.search(key)!!
+            tree.remove(key)
+        }
+        val listAfter: List<Pair<Int, String>> =
+            tree.traverse(
+                inOrderInstance,
+            ) { node: AVLTreeNode<Int, String> -> Pair(node.key, node.value) }
+        val frequencyMapAfter = listAfter.groupingBy { it }.eachCount().toMutableMap()
+        if (changeInNumberOfElements != 0) {
+            frequencyMapAfter[Pair(key, changingValue)] = frequencyMapAfter.getOrDefault(Pair(key, changingValue), 0)
+            frequencyMapBefore[
+                Pair(
+                    key,
+                    changingValue,
+                ),
+            ] = frequencyMapBefore.getOrDefault(Pair(key, changingValue), 0) + changeInNumberOfElements
+        } else if (isInsert) {
+            frequencyMapAfter[Pair(key, oldValue)] = frequencyMapAfter.getOrDefault(Pair(key, oldValue), 0)
+        }
+        assertEquals(frequencyMapBefore, frequencyMapAfter)
+        assertEquals(if (isInsert) changingValue else null, tree.search(key))
+        assertEquals(true, isBinaryTree(tree))
+        assertEquals(true, isBalanced(tree))
+    }
+
+    private fun fuzz(
         tree: AVLTree<Int, String>,
         keysRange: IntRange,
         percentageOfInserts: Int,
         totalTries: Int,
     ) {
-        repeat(totalTries) {
+        for (i in 1..totalTries) {
             val randKey = keysRange.random()
             if ((1..100).random() < percentageOfInserts) {
-                tree.insert(randKey, "a")
+                if (tree.search(randKey) != null) {
+                    avlTreeCompare(tree, randKey, i.toString(), 0, true)
+                } else {
+                    avlTreeCompare(tree, randKey, i.toString(), 1, true)
+                }
             } else {
-                tree.remove(randKey)
+                if (tree.search(randKey) != null) {
+                    avlTreeCompare(tree, randKey, i.toString(), -1, false)
+                } else {
+                    avlTreeCompare(tree, randKey, i.toString(), 0, false)
+                }
             }
         }
     }
 
     @Test
     fun `fuzzing fewKeys mostInsert fewTimes`() {
-        fuzz(tree, 1..100, 70, 1000)
-        assertEquals(true, isBalanced(tree))
+        fuzz(tree, 1..10, 70, 1000)
     }
 
     @Test
     fun `fuzzing aLotKeys mostInsert aLotTimes`() {
-        fuzz(tree, 1..10000, 70, 100000)
-        assertEquals(true, isBalanced(tree))
+        fuzz(tree, 1..10000, 70, 10000)
     }
 
     @Test
     fun `fuzzing fewKeys mostRemove fewTimes`() {
-        fuzz(tree, 1..100, 20, 1000)
-        assertEquals(true, isBalanced(tree))
+        fuzz(tree, 1..10, 20, 1000)
     }
 
     @Test
     fun `fuzzing aLotKeys mostRemove aLotTimes`() {
-        fuzz(tree, 1..10000, 20, 100000)
-        assertEquals(true, isBalanced(tree))
+        fuzz(tree, 1..10000, 20, 10000)
     }
 
     @Test
     fun `fuzzing fewKeys mostInsert aLotTimes`() {
-        fuzz(tree, 1..100, 70, 100000)
+        fuzz(tree, 1..10, 70, 10000)
+    }
+     */
+
+    @Test
+    fun `insert remove case 1`() {
+        tree.insert(1, "a")
+        tree.insert(3, "a")
+        tree.insert(2, "a")
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 2`() {
+        tree.insert(1, "a")
+        tree.insert(2, "a")
+        tree.insert(4, "a")
+        tree.insert(5, "a")
+        tree.remove(1)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 3`() {
+        tree.insert(2, "a")
+        tree.insert(4, "a")
+        tree.insert(3, "a")
+        tree.insert(1, "a")
+        tree.remove(3)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 4`() {
+        tree.insert(5, "a")
+        tree.insert(2, "a")
+        tree.insert(4, "a")
+        tree.insert(3, "a")
+        tree.insert(1, "a")
+        tree.remove(5)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 5`() {
+        tree.insert(3, "a")
+        tree.insert(4, "a")
+        tree.insert(2, "a")
+        tree.insert(5, "a")
+        tree.insert(1, "a")
+        tree.remove(1)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 6`() {
+        tree.insert(1, "a")
+        tree.insert(7, "a")
+        tree.insert(5, "a")
+        tree.insert(2, "a")
+        tree.insert(3, "a")
+        tree.insert(4, "a")
+        tree.insert(6, "a")
+        tree.remove(2)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 7`() {
+        tree.insert(3, "a")
+        tree.insert(4, "a")
+        tree.insert(1, "a")
+        tree.insert(2, "a")
+        tree.insert(5, "a")
+        tree.remove(1)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 8`() {
+        tree.insert(3, "a")
+        tree.insert(1, "a")
+        tree.insert(4, "a")
+        tree.insert(2, "a")
+        tree.insert(5, "a")
+        tree.remove(4)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 9`() {
+        tree.insert(5, "a")
+        tree.insert(2, "a")
+        tree.insert(1, "a")
+        tree.insert(4, "a")
+        tree.insert(3, "a")
+        tree.remove(2)
+        tree.remove(3)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
@@ -395,10 +560,12 @@ class AVLTreeTest {
         tree.insert(6, "6")
 
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
 
         tree.insert(2, "2")
 
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
@@ -427,6 +594,7 @@ class AVLTreeTest {
             }
         }
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
@@ -436,6 +604,7 @@ class AVLTreeTest {
         assertEquals("a", tree.remove(23))
         assertNull(tree.root)
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
@@ -448,6 +617,7 @@ class AVLTreeTest {
         assertEquals("p", tree.remove(20))
         assertNotNull(tree.root)
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test

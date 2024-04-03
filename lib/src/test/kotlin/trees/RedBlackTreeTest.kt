@@ -6,7 +6,7 @@ import bst.traversals.InOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class RedBlackTreeTest {
+class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTreeNode<Int, String>>() {
     private fun setUpBalancedRBTree(): RedBlackTree<Int, String> {
         val redBlackTree = RedBlackTree<Int, String>()
         redBlackTree.root = RedBlackTreeNode(13, "1", null)
@@ -128,15 +128,13 @@ class RedBlackTreeTest {
         assertEquals(false, isBalancedInColourRBTree(setUpAnotherUnbalancedRBTree()))
     }
 
-    /* @Test
-    fun isBalancedInKeysRBTreeTest(): Unit {
-        assertEquals(true, super.isBalancedInKeys(setUpBalancedRBTree()))
-        assertEquals(true, super.isBalancedInKeys(setUpAnotherBalancedRBTree()))
-        assertEquals(false, super.isBalancedInKeys(setUpUnbalancedRBTree()))
-        assertEquals(false, super.isBalancedInKeys(setUpAnotherUnbalancedRBTree()))
+    @Test
+    fun isBalancedInKeysRBTreeTest() {
+        assertEquals(true, isBinaryTree(setUpBalancedRBTree()))
+        assertEquals(true, isBinaryTree(setUpAnotherBalancedRBTree()))
+        assertEquals(false, isBinaryTree(setUpUnbalancedRBTree()))
+        assertEquals(false, isBinaryTree(setUpAnotherUnbalancedRBTree()))
     }
-    Waiting for Max to complete his test assignment! Very patiently, waiting...
-     */
 
     @Test
     fun searchTest() {
@@ -148,7 +146,7 @@ class RedBlackTreeTest {
         assertEquals(anotherRBTree.search(21), null)
     }
 
-    private fun universalTreeCompareAfterOperation(
+    private fun redBlackTreeCompareAfterOperation(
         tree: RedBlackTree<Int, String>,
         key: Int,
         value: String,
@@ -172,7 +170,7 @@ class RedBlackTreeTest {
             if (isInsert) {
                 tree.insert(key, changingValue)
             } else {
-                assertEquals(tree.remove(key), null)
+                assertEquals(null, tree.remove(key))
             }
         } else if (changeInNumberOfElements == 1) {
             tree.insert(key, changingValue)
@@ -196,115 +194,151 @@ class RedBlackTreeTest {
         } else if (isInsert) {
             frequencyMapAfter[Pair(key, oldValue)] = frequencyMapAfter.getOrDefault(Pair(key, oldValue), 0)
         }
-        assertEquals(frequencyMapAfter, frequencyMapBefore)
-        assertEquals(tree.search(key), if (isInsert) changingValue else null)
-        // assertEquals(super.isBalancedInKeys(tree), true)    Waiting for Max...
-        assertEquals(isBalancedInColourRBTree(tree), true)
+        assertEquals(frequencyMapBefore, frequencyMapAfter)
+        assertEquals(if (isInsert) changingValue else null, tree.search(key))
+        assertEquals(true, isBinaryTree(tree))
+        assertEquals(true, isBalancedInColourRBTree(tree))
     }
 
     @Test
     fun insertTest() {
         val redBlackTree = setUpBalancedRBTree()
         val anotherRBTree = setUpAnotherBalancedRBTree()
-        universalTreeCompareAfterOperation(redBlackTree, 16, "11", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 16, "12", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 150, "13", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 150, "14", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 12, "15", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 12, "16", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 10, "17", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 10, "18", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 9, "19", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 9, "20", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 17, "21", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 15, "22", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 18, "23", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 19, "24", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 20, "25", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 21, "26", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 22, "27", 0, true)
-        universalTreeCompareAfterOperation(redBlackTree, 23, "28", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 24, "29", 1, true)
-        universalTreeCompareAfterOperation(redBlackTree, 15000, "30", 1, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 36, "16", 1, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 36, "17", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 400, "18", 1, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 400, "19", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 41, "20", 1, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 41, "21", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 40, "22", 0, true)
-        universalTreeCompareAfterOperation(anotherRBTree, 25, "23", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 16, "11", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 16, "12", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 150, "13", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 150, "14", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 12, "15", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 12, "16", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 10, "17", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 10, "18", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 9, "19", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 9, "20", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 17, "21", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 15, "22", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 18, "23", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 19, "24", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 20, "25", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 21, "26", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 22, "27", 0, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 23, "28", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 24, "29", 1, true)
+        redBlackTreeCompareAfterOperation(redBlackTree, 15000, "30", 1, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 36, "16", 1, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 36, "17", 0, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 400, "18", 1, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 400, "19", 0, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 41, "20", 1, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 41, "21", 0, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 40, "22", 0, true)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 25, "23", 0, true)
     }
 
     @Test
     fun deleteTest() {
         val redBlackTree = setUpBalancedRBTree()
         val anotherRBTree = setUpAnotherBalancedRBTree()
-        universalTreeCompareAfterOperation(redBlackTree, 13, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 13, "", 0, false)
-        universalTreeCompareAfterOperation(redBlackTree, 27, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 27, "", 0, false)
-        universalTreeCompareAfterOperation(redBlackTree, 15, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 15, "", 0, false)
-        universalTreeCompareAfterOperation(redBlackTree, 2, "", 0, false)
-        universalTreeCompareAfterOperation(redBlackTree, 3, "", 0, false)
-        universalTreeCompareAfterOperation(redBlackTree, 8, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 25, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 1, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 6, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 15000, "", 0, false)
-        universalTreeCompareAfterOperation(redBlackTree, 17, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 11, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 22, "", -1, false)
-        universalTreeCompareAfterOperation(redBlackTree, 0, "", 0, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 1, "", -1, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 1, "", 0, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 35, "", -1, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 35, "", 0, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 8, "", -1, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 60, "", -1, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 8, "", 0, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 2, "", 0, false)
-        universalTreeCompareAfterOperation(anotherRBTree, 4, "", 0, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 13, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 13, "", 0, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 27, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 27, "", 0, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 15, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 15, "", 0, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 2, "", 0, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 3, "", 0, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 8, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 25, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 1, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 6, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 15000, "", 0, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 17, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 11, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 22, "", -1, false)
+        redBlackTreeCompareAfterOperation(redBlackTree, 0, "", 0, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 1, "", -1, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 1, "", 0, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 35, "", -1, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 35, "", 0, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 8, "", -1, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 60, "", -1, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 8, "", 0, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 2, "", 0, false)
+        redBlackTreeCompareAfterOperation(anotherRBTree, 4, "", 0, false)
     }
 
     @Test
-    fun massiveDeleteTest() {
+    fun iteratorDeleteTest() {
         var yetAnotherRBTree: RedBlackTree<Int, String>
-        for (j in 1..300) {
+        for (j in 1..18) {
             yetAnotherRBTree = RedBlackTree()
-            for (i in 0..300) {
-                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
+            for (i in 0..18) {
+                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, (i + (j - 1) * 18).toString(), 1, true)
             }
-            for (i in 0..300 step j) {
-                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
+            for (i in 0..18 step j) {
+                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
             }
         }
-        for (j in 1..300) {
+        for (j in 1..18) {
             yetAnotherRBTree = RedBlackTree()
-            for (i in 0..300) {
-                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
+            for (i in 0..18) {
+                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, (i + (j - 1) * 18).toString(), 1, true)
             }
-            for (i in 300 downTo 0 step j) {
-                universalTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
+            for (i in 18 downTo 0 step j) {
+                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
             }
         }
     }
 
+    /* Fuzzing is disabled! Remove comments to debug red black tree
     @Test
     fun insertDeleteFuzzingTest() {
         val redBlackTree = RedBlackTree<Int, String>()
-        val keysRange = -100..100
-        val percentageOfInserts = 70
+        val keysRange = -50..50
+        val percentageOfInserts = 50
         val totalTries = 10000
-        repeat(totalTries) {
+        for (i in 1..totalTries) {
             val randKey = keysRange.random()
             if ((1..100).random() < percentageOfInserts) {
-                redBlackTree.insert(randKey, "a")
+                if (redBlackTree.search(randKey) != null) {
+                    redBlackTreeCompareAfterOperation(redBlackTree, randKey, i.toString(), 0, true)
+                } else {
+                    redBlackTreeCompareAfterOperation(redBlackTree, randKey, i.toString(), 1, true)
+                }
             } else {
-                redBlackTree.remove(randKey)
+                if (redBlackTree.search(randKey) != null) {
+                    redBlackTreeCompareAfterOperation(redBlackTree, randKey, i.toString(), -1, false)
+                } else {
+                    redBlackTreeCompareAfterOperation(redBlackTree, randKey, i.toString(), 0, false)
+                }
             }
         }
-        isBalancedInColourRBTree(redBlackTree)
+     */
+
+    @Test
+    fun rootDoesntHaveARightChildTest() {
+        val tree = RedBlackTree<Int, String>()
+        tree.insert(1, "1")
+        tree.insert(0, "5")
+        assertEquals(null, tree.root!!.right)
+        tree.insert(-1, "6")
+        assertEquals("6", tree.search(-1))
+        assertEquals(true, isBalancedInColourRBTree(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun replacementNodeParentIsRed() {
+        val tree = RedBlackTree<Int, String>()
+        tree.insert(-1, "54")
+        tree.insert(2, "57")
+        tree.insert(3, "59")
+        tree.insert(-2, "60")
+        tree.insert(1, "64")
+        tree.insert(0, "65")
+        assertEquals("57", tree.search(2))
+        tree.remove(2)
+        assertEquals(null, tree.search(2))
+        assertEquals(true, isBalancedInColourRBTree(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 }

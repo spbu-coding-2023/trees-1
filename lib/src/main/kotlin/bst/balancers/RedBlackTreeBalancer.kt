@@ -4,16 +4,15 @@ import bst.nodes.RedBlackTreeNode
 
 class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>>() {
     private fun RedBlackTreeNode<K, V>.findUncle(): RedBlackTreeNode<K, V>? {
-        val grandparent = this.findGrandparent() ?: return null
-        return when (this.parent) {
+        val grandparent = this.findGrandparent()!!
+        return when (this.parent!!) {
             grandparent.left -> grandparent.right
-            grandparent.right -> grandparent.left
-            else -> null
+            else -> grandparent.left
         }
     }
 
     private fun RedBlackTreeNode<K, V>.findGrandparent(): RedBlackTreeNode<K, V>? {
-        return this.parent?.parent
+        return this.parent!!.parent
     }
 
     override fun inserter(node: RedBlackTreeNode<K, V>): RedBlackTreeNode<K, V> {
@@ -42,7 +41,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 grandparent = current.findGrandparent()
                 current.parent!!.setBlack()
                 grandparent!!.setRed()
-                if (current == current.parent!!.left && current.parent == grandparent.left) {
+                if (current.parent == grandparent.left) {
                     rotateRight(grandparent)
                 } else {
                     rotateLeft(grandparent)
@@ -56,9 +55,8 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
 
     private fun RedBlackTreeNode<K, V>.findSibling(): RedBlackTreeNode<K, V>? {
         return when (this) {
-            this.parent?.left -> this.parent?.right
-            this.parent?.right -> this.parent?.left
-            else -> null
+            this.parent!!.left -> this.parent!!.right
+            else -> this.parent!!.left
         }
     }
 
