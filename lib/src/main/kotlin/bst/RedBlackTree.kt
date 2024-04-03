@@ -5,27 +5,13 @@ import bst.balancers.RedBlackTreeBalancer
 import bst.nodes.RedBlackTreeNode
 
 class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, RedBlackTreeNode<K, V>>() {
-    override var balancer: AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>> = RedBlackTreeBalancer()
+    override val balancer: AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>> = RedBlackTreeBalancer()
 
     override fun setNode(
         node: RedBlackTreeNode<K, V>,
         newNode: RedBlackTreeNode<K, V>,
     ) {
-        if (node == node.parent?.left) {
-            node.parent!!.left = newNode
-        } else if (node == node.parent?.right) {
-            node.parent!!.right = newNode
-        }
-        node.right?.parent = newNode
-        node.left?.parent = newNode
-        newNode.parent = node.parent
-        newNode.right = node.right
-        newNode.left = node.left
-        if (node.isBlack()) {
-            newNode.setBlack()
-        } else {
-            newNode.setRed()
-        }
+        node.value = newNode.value
     }
 
     override fun setNodeRight(
@@ -49,23 +35,16 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         value: V,
     ): RedBlackTreeNode<K, V> {
         val doBalance = search(key) == null
-        val foundNode = findNode(key)
         val newNode: RedBlackTreeNode<K, V>
-        if (foundNode != null && foundNode.key == key) {
-            foundNode.value = value
-            newNode = foundNode
-        } else {
-            newNode = super.insert(key, value)
-        }
+        newNode = super.insert(key, value)
         if (doBalance) super.balance(balancer::inserter, newNode)
         return newNode
     }
 
     private fun RedBlackTreeNode<K, V>.findSibling(): RedBlackTreeNode<K, V>? {
         return when (this) {
-            this.parent?.left -> this.parent?.right
-            this.parent?.right -> this.parent?.left
-            else -> null
+            this.parent!!.left -> this.parent!!.right
+            else -> this.parent!!.left
         }
     }
 
@@ -109,8 +88,6 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
                 nodeToRemove.parent!!.right = null
             }
             nodeToRemove.parent = null
-            nodeToRemove.left?.parent = null
-            nodeToRemove.right?.parent = null
             nodeToRemove.left = null
             nodeToRemove.right = null
             return
@@ -123,8 +100,6 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
                 nodeToRemove.right = null
                 replacementNode.parent!!.right = null
                 replacementNode.parent = null
-                replacementNode.left?.parent = null
-                replacementNode.right?.parent = null
                 replacementNode.left = null
                 replacementNode.right = null
             } else {
