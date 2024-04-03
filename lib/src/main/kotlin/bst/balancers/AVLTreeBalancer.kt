@@ -108,7 +108,6 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
             if (nodeParentBf == -1 || (current.parent?.left == current && nodeParentBf == 1)) {
                 break
             }
-
             current = current.parent ?: break
             bf = current.getBalanceFactor()
         }

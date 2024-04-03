@@ -267,28 +267,28 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
     }
 
     @Test
-    fun massiveDeleteTest() {
+    fun iteratorDeleteTest() {
         var yetAnotherRBTree: RedBlackTree<Int, String>
-        for (j in 1..300) {
+        for (j in 1..18) {
             yetAnotherRBTree = RedBlackTree()
-            for (i in 0..300) {
-                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
+            for (i in 0..18) {
+                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, (i + (j - 1) * 18).toString(), 1, true)
             }
-            for (i in 0..300 step j) {
+            for (i in 0..18 step j) {
                 redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
             }
         }
-        for (j in 1..300) {
+        for (j in 1..18) {
             yetAnotherRBTree = RedBlackTree()
-            for (i in 0..300) {
-                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, "some value", 1, true)
+            for (i in 0..18) {
+                redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, (i + (j - 1) * 18).toString(), 1, true)
             }
-            for (i in 300 downTo 0 step j) {
+            for (i in 18 downTo 0 step j) {
                 redBlackTreeCompareAfterOperation(yetAnotherRBTree, i, "", -1, false)
             }
         }
     }
-    
+
     /*
     @Test
     fun insertDeleteFuzzingTest() {

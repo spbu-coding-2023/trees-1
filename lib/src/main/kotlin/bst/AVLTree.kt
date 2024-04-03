@@ -100,7 +100,6 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
 
         if (replaceNode != null) {
             replaceNode.parent = removeNode.parent
-
             if (removeNode.parent == null) {
                 root = replaceNode
                 return removedValue
@@ -121,7 +120,6 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
                     return removedValue
                 }
             }
-
             removeNode.left = null
             removeNode.right = null
             removeNode.parent = null

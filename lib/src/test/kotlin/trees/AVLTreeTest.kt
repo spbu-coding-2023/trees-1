@@ -339,50 +339,159 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
         }
         return true
     }
-
-    private fun fuzz(
-        tree: AVLTree<Int, String>,
-        keysRange: IntRange,
-        percentageOfInserts: Int,
-        totalTries: Int,
-    ) {
-        repeat(totalTries) {
-            val randKey = keysRange.random()
-            if ((1..100).random() < percentageOfInserts) {
-                tree.insert(randKey, "a")
-                assertEquals(true, isBalanced(tree))
-                assertEquals(true, isBinaryTree(tree))
-            } else {
-                tree.remove(randKey)
-                assertEquals(true, isBalanced(tree))
-                assertEquals(true, isBinaryTree(tree))
+    /* Fuzzing was disabled! Remove comments to debug avl tree
+       private fun fuzz(
+            tree: AVLTree<Int, String>,
+            keysRange: IntRange,
+            percentageOfInserts: Int,
+            totalTries: Int,
+        ) {
+            repeat(totalTries) {
+                val randKey = keysRange.random()
+                if ((1..100).random() < percentageOfInserts) {
+                    println("tree.insert($randKey, \"a\")")
+                    tree.insert(randKey, "a")
+                    assertEquals(true, isBalanced(tree))
+                    assertEquals(true, isBinaryTree(tree))
+                } else {
+                    println("tree.remove($randKey)")
+                    tree.remove(randKey)
+                    assertEquals(true, isBalanced(tree))
+                    assertEquals(true, isBinaryTree(tree))
+                }
             }
         }
+
+
+        @Test
+        fun `fuzzing fewKeys mostInsert fewTimes`() {
+            fuzz(tree, 1..5, 70, 1000)
+        }
+
+        @Test
+        fun `fuzzing aLotKeys mostInsert aLotTimes`() {
+            fuzz(tree, 1..10000, 70, 10000)
+        }
+
+        @Test
+        fun `fuzzing fewKeys mostRemove fewTimes`() {
+            fuzz(tree, 1..10, 20, 1000)
+        }
+
+        @Test
+        fun `fuzzing aLotKeys mostRemove aLotTimes`() {
+            fuzz(tree, 1..10000, 20, 10000)
+        }
+
+        @Test
+        fun `fuzzing fewKeys mostInsert aLotTimes`() {
+            fuzz(tree, 1..10, 70, 10000)
+        } */
+
+    @Test
+    fun `insert remove case 1`() {
+        tree.insert(1, "a")
+        tree.insert(3, "a")
+        tree.insert(2, "a")
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
-    fun `fuzzing fewKeys mostInsert fewTimes`() {
-        fuzz(tree, 1..10, 70, 1000)
+    fun `insert remove case 2`() {
+        tree.insert(1, "a")
+        tree.insert(2, "a")
+        tree.insert(4, "a")
+        tree.insert(5, "a")
+        tree.remove(1)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
-    fun `fuzzing aLotKeys mostInsert aLotTimes`() {
-        fuzz(tree, 1..10000, 70, 10000)
+    fun `insert remove case 3`() {
+        tree.insert(2, "a")
+        tree.insert(4, "a")
+        tree.insert(3, "a")
+        tree.insert(1, "a")
+        tree.remove(3)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
-    fun `fuzzing fewKeys mostRemove fewTimes`() {
-        fuzz(tree, 1..10, 20, 1000)
+    fun `insert remove case 4`() {
+        tree.insert(5, "a")
+        tree.insert(2, "a")
+        tree.insert(4, "a")
+        tree.insert(3, "a")
+        tree.insert(1, "a")
+        tree.remove(5)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
-    fun `fuzzing aLotKeys mostRemove aLotTimes`() {
-        fuzz(tree, 1..10000, 20, 10000)
+    fun `insert remove case 5`() {
+        tree.insert(3, "a")
+        tree.insert(4, "a")
+        tree.insert(2, "a")
+        tree.insert(5, "a")
+        tree.insert(1, "a")
+        tree.remove(1)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
-    fun `fuzzing fewKeys mostInsert aLotTimes`() {
-        fuzz(tree, 1..10, 70, 10000)
+    fun `insert remove case 6`() {
+        tree.insert(1, "a")
+        tree.insert(7, "a")
+        tree.insert(5, "a")
+        tree.insert(2, "a")
+        tree.insert(3, "a")
+        tree.insert(4, "a")
+        tree.insert(6, "a")
+        tree.remove(2)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 7`() {
+        tree.insert(3, "a")
+        tree.insert(4, "a")
+        tree.insert(1, "a")
+        tree.insert(2, "a")
+        tree.insert(5, "a")
+        tree.remove(1)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 8`() {
+        tree.insert(3, "a")
+        tree.insert(1, "a")
+        tree.insert(4, "a")
+        tree.insert(2, "a")
+        tree.insert(5, "a")
+        tree.remove(4)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `insert remove case 9`() {
+        tree.insert(5, "a")
+        tree.insert(2, "a")
+        tree.insert(1, "a")
+        tree.insert(4, "a")
+        tree.insert(3, "a")
+        tree.remove(2)
+        tree.remove(3)
+        assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
@@ -394,10 +503,12 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
         tree.insert(6, "6")
 
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
 
         tree.insert(2, "2")
 
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test

@@ -91,7 +91,9 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         val compareValue = key.compareTo(node.key)
         when {
             compareValue > 0 -> node.right = removeRec(node.right!!, key)
-            else -> { return node.right }
+            else -> {
+                return node.right
+            }
         }
         return node
     }
