@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class AVLTreeTest {
+class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, String>>(){
     lateinit var tree: AVLTree<Int, String>
 
     @BeforeEach
@@ -340,7 +340,7 @@ class AVLTreeTest {
         return true
     }
 
-    fun fuzz(
+    private fun fuzz(
         tree: AVLTree<Int, String>,
         keysRange: IntRange,
         percentageOfInserts: Int,
@@ -350,40 +350,39 @@ class AVLTreeTest {
             val randKey = keysRange.random()
             if ((1..100).random() < percentageOfInserts) {
                 tree.insert(randKey, "a")
+                assertEquals(true, isBalanced(tree))
+                assertEquals(true, isBinaryTree(tree))
             } else {
                 tree.remove(randKey)
+                assertEquals(true, isBalanced(tree))
+                assertEquals(true, isBinaryTree(tree))
             }
         }
     }
 
     @Test
     fun `fuzzing fewKeys mostInsert fewTimes`() {
-        fuzz(tree, 1..100, 70, 1000)
-        assertEquals(true, isBalanced(tree))
+        fuzz(tree, 1..100, 70, 1000000)
     }
 
     @Test
     fun `fuzzing aLotKeys mostInsert aLotTimes`() {
         fuzz(tree, 1..10000, 70, 100000)
-        assertEquals(true, isBalanced(tree))
     }
 
     @Test
     fun `fuzzing fewKeys mostRemove fewTimes`() {
         fuzz(tree, 1..100, 20, 1000)
-        assertEquals(true, isBalanced(tree))
     }
 
     @Test
     fun `fuzzing aLotKeys mostRemove aLotTimes`() {
         fuzz(tree, 1..10000, 20, 100000)
-        assertEquals(true, isBalanced(tree))
     }
 
     @Test
     fun `fuzzing fewKeys mostInsert aLotTimes`() {
         fuzz(tree, 1..100, 70, 100000)
-        assertEquals(true, isBalanced(tree))
     }
 
     @Test
@@ -427,6 +426,7 @@ class AVLTreeTest {
             }
         }
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
@@ -436,6 +436,7 @@ class AVLTreeTest {
         assertEquals("a", tree.remove(23))
         assertNull(tree.root)
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test
@@ -448,6 +449,7 @@ class AVLTreeTest {
         assertEquals("p", tree.remove(20))
         assertNotNull(tree.root)
         assertEquals(true, isBalanced(tree))
+        assertEquals(true, isBinaryTree(tree))
     }
 
     @Test

@@ -1,13 +1,14 @@
 package trees
 
 import bst.RegularTree
+import bst.nodes.BSTNode
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class RegularTreeTest {
+class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, String>>(){
     lateinit var regularTree: RegularTree<Int, String>
 
     @BeforeEach

@@ -51,7 +51,8 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         val doBalance = search(key) == null
         val foundNode = findNode(key)
         val newNode: RedBlackTreeNode<K, V>
-        if (foundNode != null && foundNode.key == key && foundNode.value == value) {
+        if (foundNode != null && foundNode.key == key) {
+            foundNode.value = value
             newNode = foundNode
         } else {
             newNode = super.insert(key, value)
