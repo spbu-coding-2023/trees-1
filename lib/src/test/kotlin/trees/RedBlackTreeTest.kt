@@ -289,13 +289,13 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
         }
     }
 
-    /*
+    /* Fuzzing is disabled! Remove comments to debug red black tree
     @Test
     fun insertDeleteFuzzingTest() {
         val redBlackTree = RedBlackTree<Int, String>()
         val keysRange = -50..50
         val percentageOfInserts = 50
-        val totalTries = 100
+        val totalTries = 10000
         for (i in 1..totalTries) {
             val randKey = keysRange.random()
             if ((1..100).random() < percentageOfInserts) {
@@ -312,8 +312,7 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
                 }
             }
         }
-    }
-*/
+    */
 
     @Test
     fun rootDoesntHaveARightChildTest() {

@@ -339,7 +339,7 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
         }
         return true
     }
-    /* Fuzzing was disabled! Remove comments to debug avl tree
+    /* Fuzzing is disabled! Remove comments to debug avl tree
        private fun fuzz(
             tree: AVLTree<Int, String>,
             keysRange: IntRange,
