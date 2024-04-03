@@ -85,17 +85,32 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
     }
 
     private fun removeRec(
-        node: R,
+        node: R?,
         key: K,
     ): R? {
-        val compareValue = key.compareTo(node.key)
+        val compareValue = key.compareTo(node!!.key)
         when {
-            compareValue > 0 -> node.right = removeRec(node.right!!, key)
+            compareValue < 0 -> node.left = removeRec(node.left, key)
+            compareValue > 0 -> node.right = removeRec(node.right, key)
             else -> {
-                return node.right
+                if (node.left == null) return node.right
+                if (node.right == null) return node.left
+
+                val minInOrderNode = getMinInOrder(node.right!!)
+                node.key = minInOrderNode.key
+                node.value = minInOrderNode.value
+                node.right = removeRec(node.right, minInOrderNode.key)
             }
         }
         return node
+    }
+
+    private fun getMinInOrder(node: R): R {
+        var current = node
+        while (current.left != null) {
+            current = current.left!!
+        }
+        return current
     }
 
     fun <T> traverse(
