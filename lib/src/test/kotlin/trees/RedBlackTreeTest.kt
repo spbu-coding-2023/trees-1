@@ -129,7 +129,7 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
     }
 
     @Test
-    fun isBalancedInKeysRBTreeTest(): Unit {
+    fun isBalancedInKeysRBTreeTest() {
         assertEquals(true, isBinaryTree(setUpBalancedRBTree()))
         assertEquals(true, isBinaryTree(setUpAnotherBalancedRBTree()))
         assertEquals(false, isBinaryTree(setUpUnbalancedRBTree()))

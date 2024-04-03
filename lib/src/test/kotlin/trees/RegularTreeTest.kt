@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, String>>(){
+class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, String>>() {
     lateinit var regularTree: RegularTree<Int, String>
 
     @BeforeEach

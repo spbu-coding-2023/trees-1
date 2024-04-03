@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
-class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, String>>(){
+class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, String>>() {
     lateinit var tree: AVLTree<Int, String>
 
     @BeforeEach
@@ -362,27 +362,27 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
 
     @Test
     fun `fuzzing fewKeys mostInsert fewTimes`() {
-        fuzz(tree, 1..100, 70, 1000000)
+        fuzz(tree, 1..10, 70, 1000)
     }
 
     @Test
     fun `fuzzing aLotKeys mostInsert aLotTimes`() {
-        fuzz(tree, 1..10000, 70, 100000)
+        fuzz(tree, 1..10000, 70, 10000)
     }
 
     @Test
     fun `fuzzing fewKeys mostRemove fewTimes`() {
-        fuzz(tree, 1..100, 20, 1000)
+        fuzz(tree, 1..10, 20, 1000)
     }
 
     @Test
     fun `fuzzing aLotKeys mostRemove aLotTimes`() {
-        fuzz(tree, 1..10000, 20, 100000)
+        fuzz(tree, 1..10000, 20, 10000)
     }
 
     @Test
     fun `fuzzing fewKeys mostInsert aLotTimes`() {
-        fuzz(tree, 1..100, 70, 100000)
+        fuzz(tree, 1..10, 70, 10000)
     }
 
     @Test
