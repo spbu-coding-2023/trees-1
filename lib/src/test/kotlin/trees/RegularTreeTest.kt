@@ -87,7 +87,8 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
         assertEquals("SecondNubmerTwo", regularTree.search(2))
     }
 
-    /* private fun regularTreeCompareTreeNode( Fuzzing is disabled! Remove comments to debug regular tree
+    /* Fuzzing is disabled! Remove comments to debug regular tree
+    private fun regularTreeCompareTreeNode(
             tree: RegularTree<Int, String>,
             key: Int,
             value: String,
