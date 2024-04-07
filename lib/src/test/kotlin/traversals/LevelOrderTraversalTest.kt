@@ -1,8 +1,7 @@
 import bst.AVLTree
 import bst.RedBlackTree
 import bst.RegularTree
-import bst.traversals.LevelOrder
-import org.junit.jupiter.api.Assertions.assertEquals
+dimport org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 
