@@ -32,19 +32,19 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 inserter(grandparent)
             } else {
                 if (current == current.parent!!.right && current.parent == grandparent!!.left) {
-                    rotateLeft(current.parent!!)
+                    rotateLeftHasLeftChild(current.parent!!)
                     current = current.left!!
                 } else if (current == current.parent!!.left && current.parent == grandparent!!.right) {
-                    rotateRight(current.parent!!)
+                    rotateRightHasRightChild(current.parent!!)
                     current = current.right!!
                 }
                 grandparent = current.findGrandparentIfParentExists()
                 current.parent!!.setBlack()
                 grandparent!!.setRed()
                 if (current.parent == grandparent.left) {
-                    rotateRight(grandparent)
+                    rotateRightHasRightChild(grandparent)
                 } else {
-                    rotateLeft(grandparent)
+                    rotateLeftHasLeftChild(grandparent)
                 }
             }
         }
@@ -68,9 +68,9 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                 sibling.setBlack()
 
                 if (sibling == sibling.parent!!.left) {
-                    rotateRight(node.parent!!)
+                    rotateRightHasRightChild(node.parent!!)
                 } else {
-                    rotateLeft(node.parent!!)
+                    rotateLeftHasLeftChild(node.parent!!)
                 }
                 remover(node)
             } else {
@@ -84,7 +84,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                             } else {
                                 sibling.setBlack()
                             }
-                            rotateRight(node.parent!!)
+                            rotateRightHasRightChild(node.parent!!)
                         } else {
                             if (node.parent!!.isRed()) {
                                 sibling.left!!.setRed()
@@ -92,8 +92,8 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                             } else {
                                 sibling.left!!.setBlack()
                             }
-                            rotateRight(sibling)
-                            rotateLeft(node.parent!!)
+                            rotateRightHasRightChild(sibling)
+                            rotateLeftHasLeftChild(node.parent!!)
                         }
                     } else {
                         if (sibling == sibling.parent!!.left) {
@@ -103,8 +103,8 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                             } else {
                                 sibling.right!!.setBlack()
                             }
-                            rotateLeft(sibling)
-                            rotateRight(node.parent!!)
+                            rotateLeftHasLeftChild(sibling)
+                            rotateRightHasRightChild(node.parent!!)
                         } else {
                             sibling.right!!.setBlack()
                             if (node.parent!!.isRed()) {
@@ -113,7 +113,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                             } else {
                                 sibling.setBlack()
                             }
-                            rotateLeft(node.parent!!)
+                            rotateLeftHasLeftChild(node.parent!!)
                         }
                     }
                 } else {
