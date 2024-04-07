@@ -37,7 +37,7 @@ tree.search(23)
 ```
 or
 ```kotlin
-// returns "A"
+// returns "Apple"
 tree[23] 
 ```
 ### Traverse
