@@ -9,7 +9,7 @@ abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWith
     // returns root of a balanced tree
     abstract fun remover(node: R): R
 
-    open fun rotateLeft(node: R) {
+    open fun rotateLeftHasRightChild(node: R) {
         val isParentLinkRight = node.parent?.right == node
         val switchNode = node.right
         switchNode!!.parent = node.parent
@@ -24,7 +24,7 @@ abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWith
         switchNode.left = node
     }
 
-    open fun rotateRight(node: R) {
+    open fun rotateRightHasLeftChild(node: R) {
         val isParentLinkRight = node.parent?.right == node
         val switchNode = node.left
         switchNode!!.parent = node.parent

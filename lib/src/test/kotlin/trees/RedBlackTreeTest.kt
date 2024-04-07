@@ -2,7 +2,6 @@ package trees
 
 import bst.RedBlackTree
 import bst.nodes.RedBlackTreeNode
-import bst.traversals.InOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -154,11 +153,8 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
         isInsert: Boolean,
     ) {
         var changingValue = value
-        val inOrderInstance = InOrder<Int, String, RedBlackTreeNode<Int, String>>()
         val listBefore: List<Pair<Int, String>> =
-            tree.traverse(
-                inOrderInstance,
-            ) { node: RedBlackTreeNode<Int, String> -> Pair(node.key, node.value) }
+            tree.traversed.inOrder { node: RedBlackTreeNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapBefore = listBefore.groupingBy { it }.eachCount().toMutableMap()
         var oldValue = ""
         if (isInsert && changeInNumberOfElements == 0) {
@@ -179,9 +175,7 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
             tree.remove(key)
         }
         val listAfter: List<Pair<Int, String>> =
-            tree.traverse(
-                inOrderInstance,
-            ) { node: RedBlackTreeNode<Int, String> -> Pair(node.key, node.value) }
+            tree.traversed.inOrder { node: RedBlackTreeNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapAfter = listAfter.groupingBy { it }.eachCount().toMutableMap()
         if (changeInNumberOfElements != 0) {
             frequencyMapAfter[Pair(key, changingValue)] = frequencyMapAfter.getOrDefault(Pair(key, changingValue), 0)
@@ -312,6 +306,7 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
                 }
             }
         }
+    }
      */
 
     @Test
@@ -340,5 +335,23 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
         assertEquals(null, tree.search(2))
         assertEquals(true, isBalancedInColourRBTree(tree))
         assertEquals(true, isBinaryTree(tree))
+    }
+
+    @Test
+    fun `node isRed`() {
+        val tree = RedBlackTree<Int, String>()
+        tree[34] = "kajfbhd"
+        tree[56] = "n"
+
+        assertEquals(listOf(false, true), tree.traversed.inOrder { it.isRed() })
+    }
+
+    @Test
+    fun `node isBlack`() {
+        val tree = RedBlackTree<Int, String>()
+        tree[34] = "kajfbhd"
+        tree[56] = "n"
+
+        assertEquals(listOf(true, false), tree.traversed.inOrder { it.isBlack() })
     }
 }

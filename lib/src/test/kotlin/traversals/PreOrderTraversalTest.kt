@@ -1,7 +1,6 @@
 import bst.AVLTree
 import bst.RedBlackTree
 import bst.RegularTree
-import bst.traversals.PreOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -30,8 +29,8 @@ class PreOrderTraversalTest() {
 
     @Test
     fun traversed() {
-        assertEquals(listOf(6, 3, 2, 5, 8), avlTree.traverse(PreOrder()) { it.key })
-        assertEquals(listOf(6, 3, 2, 5, 8), rbTree.traverse(PreOrder()) { it.key })
-        assertEquals(listOf(6, 2, 3, 5, 8), regularTree.traverse(PreOrder()) { it.key })
+        assertEquals(listOf(6, 3, 2, 5, 8), avlTree.traversed.preOrder { it.key })
+        assertEquals(listOf(6, 3, 2, 5, 8), rbTree.traversed.preOrder { it.key })
+        assertEquals(listOf(6, 2, 3, 5, 8), regularTree.traversed.preOrder { it.key })
     }
 }

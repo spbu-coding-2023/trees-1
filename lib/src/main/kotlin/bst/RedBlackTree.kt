@@ -41,7 +41,7 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         return newNode
     }
 
-    private fun RedBlackTreeNode<K, V>.findSibling(): RedBlackTreeNode<K, V>? {
+    private fun RedBlackTreeNode<K, V>.findSiblingIfNotRoot(): RedBlackTreeNode<K, V>? {
         return when (this) {
             this.parent!!.left -> this.parent!!.right
             else -> this.parent!!.left
@@ -55,11 +55,11 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
             root = null
             return valueToReturn
         }
-        removeNode(nodeToRemove)
+        removeNodeIfTreeIsNotJustRoot(nodeToRemove)
         return valueToReturn
     }
 
-    private fun removeNode(nodeToRemove: RedBlackTreeNode<K, V>) {
+    private fun removeNodeIfTreeIsNotJustRoot(nodeToRemove: RedBlackTreeNode<K, V>) {
         val leftChild = nodeToRemove.left
         val rightChild = nodeToRemove.right
         var replacementNode: RedBlackTreeNode<K, V>?
@@ -73,13 +73,13 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         } else {
             replacementNode = leftChild ?: rightChild
         }
-        val nodeAndReplacementAreBlack = (replacementNode == null || replacementNode.isBlack()) and (nodeToRemove.isBlack())
+        val nodeAndReplacementAreBlack = (replacementNode == null || replacementNode.isBlack()) && (nodeToRemove.isBlack())
         if (replacementNode == null) {
             if (nodeAndReplacementAreBlack) {
                 balance(balancer::remover, nodeToRemove)
             } else {
-                if (nodeToRemove.findSibling() != null) {
-                    nodeToRemove.findSibling()!!.setRed()
+                if (nodeToRemove.findSiblingIfNotRoot() != null) {
+                    nodeToRemove.findSiblingIfNotRoot()!!.setRed()
                 }
             }
             if (nodeToRemove.parent!!.left == nodeToRemove) {
@@ -121,7 +121,7 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
             nodeToRemove.value = tempVal
             replacementNode.key = nodeToRemove.key
             nodeToRemove.key = tempKey
-            removeNode(replacementNode)
+            removeNodeIfTreeIsNotJustRoot(replacementNode)
         }
     }
 

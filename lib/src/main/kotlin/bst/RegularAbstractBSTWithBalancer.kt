@@ -5,7 +5,7 @@ import bst.nodes.AbstractBSTNodeWithParent
 
 abstract class RegularAbstractBSTWithBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWithParent<K, V, R>> :
     RegularAbstractBST<K, V, R>() {
-    abstract val balancer: AbstractBSTBalancer<K, V, R>
+    internal abstract val balancer: AbstractBSTBalancer<K, V, R>
 
     protected fun balance(
         balanceFunction: (R) -> R,

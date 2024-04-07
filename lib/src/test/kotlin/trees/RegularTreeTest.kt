@@ -96,11 +96,8 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
             isInsert: Boolean,
     ) {
         var changingValue = value
-        val inOrderInstance = InOrder<Int, String, BSTNode<Int, String>>()
         val listBefore: List<Pair<Int, String>> =
-                tree.traverse(
-                        inOrderInstance,
-                ) { node: BSTNode<Int, String> -> Pair(node.key, node.value) }
+                tree.traversed.inOrder { node: BSTNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapBefore = listBefore.groupingBy { it }.eachCount().toMutableMap()
         var oldValue = ""
         if (isInsert && changeInNumberOfElements == 0) {
@@ -121,9 +118,7 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
             tree.remove(key)
         }
         val listAfter: List<Pair<Int, String>> =
-                tree.traverse(
-                        inOrderInstance,
-                ) { node: BSTNode<Int, String> -> Pair(node.key, node.value) }
+                tree.traversed.inOrder { node: BSTNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapAfter = listAfter.groupingBy { it }.eachCount().toMutableMap()
         if (changeInNumberOfElements != 0) {
             frequencyMapAfter[Pair(key, changingValue)] = frequencyMapAfter.getOrDefault(Pair(key, changingValue), 0)
@@ -197,5 +192,223 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
         assertEquals(true, isBinaryTree(regularTree))
         assertEquals(null, regularTree.search(1))
         assertEquals("6", regularTree.search(0))
+    }
+
+    @Test
+    fun `putAll many`() {
+        regularTree.putAll(listOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")))
+
+        assertEquals(setOf(23, 45, 9), regularTree.keys)
+    }
+
+    @Test
+    fun `putAll none`() {
+        regularTree.putAll(listOf())
+        assertEquals(setOf<Int>(), regularTree.keys)
+    }
+
+    @Test
+    fun `get or default`() {
+        regularTree.put(23, "non-default")
+        regularTree.remove(23)
+
+        assertEquals("default", regularTree.getOrDefault(23, "default"))
+    }
+
+    @Test
+    fun `get or default ok`() {
+        regularTree.put(23, "non-default")
+
+        assertEquals("non-default", regularTree.getOrDefault(23, "default"))
+    }
+
+    @Test
+    fun `contains key true`() {
+        regularTree.put(23, "cat")
+
+        assertEquals(true, regularTree.containsKey(23))
+    }
+
+    @Test
+    fun `contains key false`() {
+        regularTree.put(23, "cat")
+        regularTree.remove(23)
+        assertEquals(false, regularTree.containsKey(23))
+    }
+
+    @Test
+    fun `check put`() {
+        regularTree.put(23, "M")
+
+        assertEquals("M", regularTree.root?.value)
+    }
+
+    @Test
+    fun `get values many`() {
+        regularTree.putAll(listOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")))
+
+        assertEquals(linkedSetOf("Mmm", "M", "Mm"), regularTree.values)
+    }
+
+    @Test
+    fun `get values none`() {
+        regularTree.putAll(listOf())
+
+        assertEquals(linkedSetOf<String>(), regularTree.values)
+    }
+
+    @Test
+    fun `contains value true`() {
+        regularTree.put(23, "dog")
+
+        assertEquals(true, regularTree.containsValue("dog"))
+    }
+
+    @Test
+    fun `contains value false`() {
+        regularTree.put(23, "dog")
+        regularTree.remove(23)
+
+        assertEquals(false, regularTree.containsValue("dog"))
+    }
+
+    @Test
+    fun `get keys many`() {
+        regularTree.putAll(listOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")))
+
+        assertEquals(setOf(9, 23, 45), regularTree.keys)
+    }
+
+    @Test
+    fun `get keys none`() {
+        regularTree.putAll(listOf())
+
+        assertEquals(setOf<String>(), regularTree.keys)
+    }
+
+    @Test
+    fun `get entries many`() {
+        regularTree.putAll(listOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")))
+
+        assertEquals(setOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")), regularTree.entries)
+    }
+
+    @Test
+    fun `get entries none`() {
+        regularTree.putAll(listOf())
+
+        assertEquals(setOf<Pair<Int, String>>(), regularTree.entries)
+    }
+
+    @Test
+    fun `operator set`() {
+        regularTree[23] = "coca"
+
+        assertEquals("coca", regularTree.search(23))
+    }
+
+    @Test
+    fun `operator get`() {
+        regularTree[23] = "coca"
+
+        assertEquals("coca", regularTree[23])
+    }
+
+    @Test
+    fun `size non zero`() {
+        regularTree[23] = "23"
+        regularTree[45] = "45"
+
+        assertEquals(2, regularTree.size)
+    }
+
+    @Test
+    fun `size zero`() {
+        regularTree[23] = "23"
+        regularTree[45] = "45"
+        regularTree.remove(23)
+        regularTree.remove(45)
+
+        assertEquals(0, regularTree.size)
+    }
+
+    @Test
+    fun `size non negative`() {
+        regularTree[23] = "23"
+        regularTree[45] = "45"
+        regularTree.remove(23)
+        regularTree.remove(45)
+        regularTree.remove(45)
+        regularTree.remove(69)
+
+        assertEquals(0, regularTree.size)
+    }
+
+    @Test
+    fun `empty true`() {
+        regularTree[23] = "23"
+        regularTree.remove(23)
+
+        assertEquals(true, regularTree.isEmpty())
+        assertEquals(false, regularTree.isNotEmpty())
+    }
+
+    @Test
+    fun `empty false`() {
+        regularTree[23] = "23"
+
+        assertEquals(false, regularTree.isEmpty())
+        assertEquals(true, regularTree.isNotEmpty())
+    }
+
+    @Test
+    fun `clean non empty`() {
+        regularTree[23] = "23"
+        regularTree[45] = "45"
+        regularTree[69] = "nice"
+
+        regularTree.clean()
+
+        assertEquals(null, regularTree.root)
+    }
+
+    @Test
+    fun `clean empty`() {
+        regularTree[23] = "23"
+        regularTree.remove(23)
+
+        regularTree.clean()
+
+        assertEquals(null, regularTree.root)
+    }
+
+    @Test
+    fun `node getKey`() {
+        regularTree[23] = "w"
+
+        assertEquals(listOf(23), regularTree.traversed.inOrder { it.getKey() })
+    }
+
+    @Test
+    fun `node getValue`() {
+        regularTree[23] = "w"
+
+        assertEquals(listOf("w"), regularTree.traversed.inOrder { it.getValue() })
+    }
+
+    @Test
+    fun `node getRight`() {
+        regularTree[23] = "w"
+        regularTree[45] = "r"
+
+        assertEquals(listOf(regularTree.root?.right, null), regularTree.traversed.inOrder { it.getRight() })
+    }
+
+    @Test
+    fun `node getLeft`() {
+        regularTree[23] = "w"
+        regularTree[9] = "r"
+
+        assertEquals(listOf(null, regularTree.root?.left), regularTree.traversed.inOrder { it.getLeft() })
     }
 }
