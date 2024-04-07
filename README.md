@@ -3,7 +3,7 @@
 Derev'ja is a small kotlin library which provides simple yet powerful interface for working with different binary search trees. This projects implements many trees and adds tools to easily store and manipulate data inside bst.
 ## Installation
 
-Building from source with
+Download from [Releases](https://github.com/spbu-coding-2023/trees-1/releases) or build your own from source with
 
 ```bash
   ./gradlew build
@@ -11,6 +11,7 @@ Building from source with
 
 ## Usage Examples
 ### Create
+Create instance from available tree class and define types for keys and values 
 ```kotlin
 val tree1 = RegularTree<Int, String>()
 val tree2 = AVLTree<Double, Int>()
@@ -18,37 +19,39 @@ val tree3 = RedBlackTree<Int, Int>()
 ```
 ### Insert
 ```kotlin
-tree.insert(23, "A")
+tree.put(23, "Apple")
+```
+or 
+```kotlin
+tree[23] = "Apple"
 ```
 ### Remove
 ```kotlin
-val removedValue = tree.remove(23) // "A"
+// returns "Apple"
+tree.remove(23)
 ```
 ### Search
 ```kotlin
-val value1 = tree.search(23) // "A"
+// returns "Apple"
+tree.search(23)
+```
+or
+```kotlin
+// returns "A"
+tree[23] 
 ```
 ### Traverse
+By specifying traversal type and callback function tree can be traversed in almost any way you like
 ```kotlin
-val keys = tree.traverse(InOrder()) { it.key }
-val values = tree.traverse(LevelOrder()) { it.value }
+// traverses keys inorder
+val preOrderKeys = tree.traversed.preOrder { it.key }
+
+// traverses values in level order
+val levelOrderValues = tree.traversed.levelOrder { it.value } 
 ```
-## References
+## Documentation
 
-| Element                                                                       | Description                                                                                                          |
-|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| `RegularTree<K : Comparable<K>, V>()`                                         | Creates a new instance of a Regular Binary Search Tree.                                                              |
-| `AVLTree<K : Comparable<K>, V>()`                                             | Creates a new instance of a AVL Binary Search Tree.                                                                  |
-| `RedBlackTree<K : Comparable<K>, V>()`                                        | Creates a new instance of a Red Black Binary Search Tree.                                                            |
-| `search(key: K): V?`                                                          | Search a value in the tree. returns value, if no such value exists returns null.                                     |
-| `insert(key: K): R`                                                           | Insert a new value by key in the tree. returns node.                                                                 |
-| `remove(key: K): V?`                                                          | Removes a value by key. returns removed value, if no such value exists returns null.                                 |
-| `traverse<T>(traversal: BSTTraversal, extractionFunction: (R) -> T): List<T>` | Traverses the tree according to traversal, use extractionFunction to get the data from node. returns list of values. |
-| `PreOrder()`                                                                  | Performs a pre-order traversal of the tree.                                                                          |
-| `PostOrder()`                                                                 | Performs a post-order traversal of the tree.                                                                         |
-| `InOrder()`                                                                   | Performs a in-order traversal of the tree.                                                                           |
-| `LevelOrder()`                                                                | Performs a level order traversal of the tree.                                                                        |
-
+For detailed documentation and all methods, check out our [Wiki](https://github.com/spbu-coding-2023/trees-1/wiki) 
 
 ## Contributing
 
@@ -60,14 +63,12 @@ Follow the steps to add your changes to the project:
 - Push your branch to repository
 - Open a pull request to this project
 
-
-
 ## Authors
 
 - [kinokotakenoko9](https://www.github.com/kinokotakenoko9)
 - [Mukovenkov-Roman-Sergeyevich](https://www.github.com/Mukovenkov-Roman-Sergeyevich)
 - [mshipilov5](https://www.github.com/mshipilov5)
+
 ## License
 
 [MIT](LICENSE)
-
