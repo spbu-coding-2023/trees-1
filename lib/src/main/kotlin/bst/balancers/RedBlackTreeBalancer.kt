@@ -3,15 +3,15 @@ package bst.balancers
 import bst.nodes.RedBlackTreeNode
 
 class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>>() {
-    private fun RedBlackTreeNode<K, V>.findUncle(): RedBlackTreeNode<K, V>? {
-        val grandparent = this.findGrandparent()!!
+    private fun RedBlackTreeNode<K, V>.findUncleIfGrandparentExists(): RedBlackTreeNode<K, V>? {
+        val grandparent = this.findGrandparentIfParentExists()!!
         return when (this.parent!!) {
             grandparent.left -> grandparent.right
             else -> grandparent.left
         }
     }
 
-    private fun RedBlackTreeNode<K, V>.findGrandparent(): RedBlackTreeNode<K, V>? {
+    private fun RedBlackTreeNode<K, V>.findGrandparentIfParentExists(): RedBlackTreeNode<K, V>? {
         return this.parent!!.parent
     }
 
@@ -23,8 +23,8 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
         } else if (current.parent!!.isBlack()) {
             // do nothing
         } else {
-            val uncle = current.findUncle() // uncle doesn't need to be updated so val
-            var grandparent = current.findGrandparent() // grandparent exists since parent is red and root is always black
+            val uncle = current.findUncleIfGrandparentExists() // uncle doesn't need to be updated so val
+            var grandparent = current.findGrandparentIfParentExists() // grandparent exists since parent is red and root is always black
             if (uncle != null && uncle.isRed()) {
                 current.parent!!.setBlack()
                 uncle.setBlack()
@@ -38,7 +38,7 @@ class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, Red
                     rotateRight(current.parent!!)
                     current = current.right!!
                 }
-                grandparent = current.findGrandparent()
+                grandparent = current.findGrandparentIfParentExists()
                 current.parent!!.setBlack()
                 grandparent!!.setRed()
                 if (current.parent == grandparent.left) {

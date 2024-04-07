@@ -29,12 +29,12 @@ class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeN
 
     override fun rotateRight(node: AVLTreeNode<K, V>) {
         super.rotateRight(node)
-        updateHeight(node.parent!!)
+        updateHeight(node)
     }
 
     override fun rotateLeft(node: AVLTreeNode<K, V>) {
         super.rotateLeft(node)
-        updateHeight(node.parent!!)
+        updateHeight(node)
     }
 
     override fun inserter(node: AVLTreeNode<K, V>): AVLTreeNode<K, V> {
