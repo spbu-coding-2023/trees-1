@@ -5,9 +5,10 @@ import java.util.ArrayDeque
 
 class LevelOrder<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : BSTTraversal<K, V, R> {
     override fun <T> traverse(
-        node: R,
+        node: R?,
         extractionFunction: (R) -> T,
     ): List<T> {
+        if (node == null) return listOf()
         return levelOrderTraversal(node, extractionFunction, mutableListOf())
     }
 
@@ -15,7 +16,7 @@ class LevelOrder<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : BSTTraver
         node: R,
         extractionFunction: (R) -> T,
         result: MutableList<T>,
-    ): List<T> {
+    ): MutableList<T> {
         val queue = ArrayDeque<R>()
         queue.add(node)
         while (queue.isNotEmpty()) {

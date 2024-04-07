@@ -113,6 +113,7 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
         return current
     }
 
+    // DEPRECATED
     fun <T> traverse(
         traverseMethod: BSTTraversal<K, V, R>,
         extractFunction: (R) -> T,
