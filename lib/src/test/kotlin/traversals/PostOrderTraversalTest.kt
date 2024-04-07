@@ -30,8 +30,8 @@ class PostOrderTraversalTest() {
 
     @Test
     fun traversed() {
-        assertEquals(listOf(2, 5, 3, 8, 6), avlTree.traverse(PostOrder()) { it.key })
-        assertEquals(listOf(2, 5, 3, 8, 6), rbTree.traverse(PostOrder()) { it.key })
-        assertEquals(listOf(5, 3, 2, 8, 6), regularTree.traverse(PostOrder()) { it.key })
+        assertEquals(listOf(2, 5, 3, 8, 6), avlTree.traversed.postOrder { it.key })
+        assertEquals(listOf(2, 5, 3, 8, 6), rbTree.traversed.postOrder { it.key })
+        assertEquals(listOf(5, 3, 2, 8, 6), regularTree.traversed.postOrder { it.key })
     }
 }

@@ -30,8 +30,8 @@ class InOrderTraversalTest() {
 
     @Test
     fun traversed() {
-        assertEquals(listOf(2, 3, 5, 6, 8), avlTree.traverse(InOrder()) { it.key })
-        assertEquals(listOf(2, 3, 5, 6, 8), rbTree.traverse(InOrder()) { it.key })
-        assertEquals(listOf(2, 3, 5, 6, 8), regularTree.traverse(InOrder()) { it.key })
+        assertEquals(listOf(2, 3, 5, 6, 8), avlTree.traversed.inOrder {it.key})
+        assertEquals(listOf(2, 3, 5, 6, 8), rbTree.traversed.inOrder { it.key })
+        assertEquals(listOf(2, 3, 5, 6, 8), regularTree.traversed.inOrder { it.key })
     }
 }
