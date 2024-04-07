@@ -7,11 +7,11 @@ class RedBlackTreeNode<K : Comparable<K>, V>(
 ) : AbstractBSTNodeWithParent<K, V, RedBlackTreeNode<K, V>>(key, value, parent) {
     private var color = 0
 
-    fun setRed() {
+    internal fun setRed() {
         color = 0
     }
 
-    fun setBlack() {
+    internal fun setBlack() {
         color = 1
     }
 
