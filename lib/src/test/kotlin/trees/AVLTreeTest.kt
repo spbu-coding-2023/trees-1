@@ -2,7 +2,6 @@ package trees
 
 import bst.AVLTree
 import bst.nodes.AVLTreeNode
-import bst.traversals.LevelOrder
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
@@ -331,7 +330,7 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
     }
 
     private fun isBalanced(tree: AVLTree<Int, String>): Boolean {
-        for (node in tree.traverse(LevelOrder()) { it }) {
+        for (node in tree.traversed.levelOrder { it }) {
             val heightLeft = calculateHeight(node.left)
             val heightRight = calculateHeight(node.right)
             val isBfInRange = (heightRight - heightLeft) in -1..1
@@ -349,11 +348,8 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
         isInsert: Boolean,
     ) {
         var changingValue = value
-        val inOrderInstance = InOrder<Int, String, AVLTreeNode<Int, String>>()
         val listBefore: List<Pair<Int, String>> =
-            tree.traverse(
-                inOrderInstance,
-            ) { node: AVLTreeNode<Int, String> -> Pair(node.key, node.value) }
+            tree.traversed.inOrder { node: AVLTreeNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapBefore = listBefore.groupingBy { it }.eachCount().toMutableMap()
         var oldValue = ""
         if (isInsert && changeInNumberOfElements == 0) {
@@ -374,9 +370,7 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
             tree.remove(key)
         }
         val listAfter: List<Pair<Int, String>> =
-            tree.traverse(
-                inOrderInstance,
-            ) { node: AVLTreeNode<Int, String> -> Pair(node.key, node.value) }
+            tree.traversed.inOrder { node: AVLTreeNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapAfter = listAfter.groupingBy { it }.eachCount().toMutableMap()
         if (changeInNumberOfElements != 0) {
             frequencyMapAfter[Pair(key, changingValue)] = frequencyMapAfter.getOrDefault(Pair(key, changingValue), 0)
