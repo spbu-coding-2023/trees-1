@@ -96,7 +96,6 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
             isInsert: Boolean,
     ) {
         var changingValue = value
-        val inOrderInstance = InOrder<Int, String, BSTNode<Int, String>>()
         val listBefore: List<Pair<Int, String>> =
                 tree.traversed.inOrder { node: BSTNode<Int, String> -> Pair(node.key, node.value) }
         val frequencyMapBefore = listBefore.groupingBy { it }.eachCount().toMutableMap()
