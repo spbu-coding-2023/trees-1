@@ -659,4 +659,20 @@ class AVLTreeTest : AbstractBSTTest<AVLTree<Int, String>, AVLTreeNode<Int, Strin
         assertEquals("a", tree.search(23))
         assertEquals("c", tree.search(45))
     }
+
+    @Test
+    fun `node getHeight`() {
+        tree[23] = "w"
+        tree[4] = "k"
+
+        assertEquals(listOf(1, 2), tree.traversed.inOrder { it.getHeight() })
+    }
+
+    @Test
+    fun `node getParent`() {
+        tree[23] = "w"
+        tree[4] = "k"
+
+        assertEquals(listOf(tree.root, null), tree.traversed.inOrder { it.getParent() })
+    }
 }
