@@ -336,4 +336,22 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
         assertEquals(true, isBalancedInColourRBTree(tree))
         assertEquals(true, isBinaryTree(tree))
     }
+
+    @Test
+    fun `node isRed`() {
+        val tree = RedBlackTree<Int, String>()
+        tree[34] = "kajfbhd"
+        tree[56] = "n"
+
+        assertEquals(listOf(false, true), tree.traversed.inOrder { it.isRed() })
+    }
+
+    @Test
+    fun `node isBlack`() {
+        val tree = RedBlackTree<Int, String>()
+        tree[34] = "kajfbhd"
+        tree[56] = "n"
+
+        assertEquals(listOf(true, false), tree.traversed.inOrder { it.isBlack() })
+    }
 }

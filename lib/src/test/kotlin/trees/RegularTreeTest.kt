@@ -381,4 +381,34 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
 
         assertEquals(null, regularTree.root)
     }
+
+    @Test
+    fun `node getKey`() {
+        regularTree[23] = "w"
+
+        assertEquals(listOf(23), regularTree.traversed.inOrder { it.getKey() })
+    }
+
+    @Test
+    fun `node getValue`() {
+        regularTree[23] = "w"
+
+        assertEquals(listOf("w"), regularTree.traversed.inOrder { it.getValue() })
+    }
+
+    @Test
+    fun `node getRight`() {
+        regularTree[23] = "w"
+        regularTree[45] = "r"
+
+        assertEquals(listOf(regularTree.root?.right, null), regularTree.traversed.inOrder { it.getRight() })
+    }
+
+    @Test
+    fun `node getLeft`() {
+        regularTree[23] = "w"
+        regularTree[9] = "r"
+
+        assertEquals(listOf(null, regularTree.root?.left), regularTree.traversed.inOrder { it.getLeft() })
+    }
 }
