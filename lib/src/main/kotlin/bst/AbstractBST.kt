@@ -3,7 +3,7 @@ package bst
 import bst.nodes.AbstractBSTNode
 import bst.traversals.BSTTraversed
 
-abstract class AbstractBST<K : Comparable<K>, V : Any, R : AbstractBSTNode<K, V, R>>() : MutableMap<K, V> {
+abstract class AbstractBST<K : Comparable<K>, V : Any, R : AbstractBSTNode<K, V, R>> : MutableMap<K, V> {
     internal abstract var root: R?
 
     val traversed = BSTTraversed { root }
@@ -30,14 +30,6 @@ abstract class AbstractBST<K : Comparable<K>, V : Any, R : AbstractBSTNode<K, V,
         val oldValue = search(key)
         insert(key, value)
         return oldValue
-    }
-
-    constructor(key: K, value: V) : this() {
-        put(key, value)
-    }
-
-    constructor(from: Map<out K, V>) : this() {
-        putAll(from)
     }
 
     final override fun putAll(from: Map<out K, V>) = from.forEach { put(it.key, it.value) }
