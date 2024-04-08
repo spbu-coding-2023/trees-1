@@ -245,16 +245,16 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
 
     @Test
     fun `get values many`() {
-        regularTree.putAll(listOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")))
+        regularTree.putAll(mapOf(23 to "M", 45 to "Mm", 9 to "Mmm"))
 
-        assertEquals(linkedSetOf("Mmm", "M", "Mm"), regularTree.values)
+        assertEquals(mutableListOf("Mmm", "M", "Mm"), regularTree.values)
     }
 
     @Test
     fun `get values none`() {
         regularTree.putAll(listOf())
 
-        assertEquals(linkedSetOf<String>(), regularTree.values)
+        assertEquals(mutableListOf<String>(), regularTree.values)
     }
 
     @Test
@@ -262,13 +262,30 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
         regularTree.put(23, "dog")
 
         assertEquals(true, regularTree.containsValue("dog"))
+
+        regularTree[34] = "dog"
+
+        assertEquals(true, regularTree.containsValue("dog"))
+
+        regularTree[45] = "cat"
+
+        assertEquals(true, regularTree.containsValue("dog"))
     }
 
     @Test
     fun `contains value false`() {
-        regularTree.put(23, "dog")
-        regularTree.remove(23)
+        assertEquals(mutableListOf<String>(), regularTree.values)
+        assertEquals(false, regularTree.containsValue("dog"))
 
+        regularTree[23] = "cat"
+
+        assertEquals(mutableListOf("cat"), regularTree.values)
+        assertEquals(false, regularTree.containsValue("dog"))
+
+        regularTree[34] = "dog"
+        regularTree.remove(34)
+
+        assertEquals(mutableListOf("cat"), regularTree.values)
         assertEquals(false, regularTree.containsValue("dog"))
     }
 
@@ -290,7 +307,7 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
     fun `get entries many`() {
         regularTree.putAll(listOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")))
 
-        assertEquals(setOf(Pair(23, "M"), Pair(45, "Mm"), Pair(9, "Mmm")), regularTree.entries)
+        assertEquals(listOf(Pair(9, "Mmm"), Pair(23, "M"), Pair(45, "Mm")), regularTree.entries.map { it.toPair() }.toList())
     }
 
     @Test
@@ -367,7 +384,7 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
         regularTree[45] = "45"
         regularTree[69] = "nice"
 
-        regularTree.clean()
+        regularTree.clear()
 
         assertEquals(null, regularTree.root)
     }
@@ -377,7 +394,7 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
         regularTree[23] = "23"
         regularTree.remove(23)
 
-        regularTree.clean()
+        regularTree.clear()
 
         assertEquals(null, regularTree.root)
     }
@@ -386,14 +403,14 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
     fun `node getKey`() {
         regularTree[23] = "w"
 
-        assertEquals(listOf(23), regularTree.traversed.inOrder { it.getKey() })
+        assertEquals(listOf(23), regularTree.traversed.inOrder { it.key })
     }
 
     @Test
     fun `node getValue`() {
         regularTree[23] = "w"
 
-        assertEquals(listOf("w"), regularTree.traversed.inOrder { it.getValue() })
+        assertEquals(listOf("w"), regularTree.traversed.inOrder { it.value })
     }
 
     @Test
@@ -410,5 +427,12 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
         regularTree[9] = "r"
 
         assertEquals(listOf(null, regularTree.root?.left), regularTree.traversed.inOrder { it.getLeft() })
+    }
+
+    @Test
+    fun `to string tree`() {
+        regularTree[23] = "23"
+
+        assertEquals("[(23, 23)]", regularTree.toString())
     }
 }

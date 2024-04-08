@@ -3,63 +3,57 @@ package bst
 import bst.nodes.AbstractBSTNode
 import bst.traversals.BSTTraversed
 
-abstract class AbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> {
+abstract class AbstractBST<K : Comparable<K>, V : Any, R : AbstractBSTNode<K, V, R>> : MutableMap<K, V> {
     internal abstract var root: R?
 
     val traversed = BSTTraversed { root }
 
-    abstract fun search(key: K): V?
+    /**
+     * @return finds value by key
+     */
+    internal abstract fun search(key: K): V?
 
+    /**
+     * replaces value if key already present in tree, otherwise adds new node to the tree
+     *
+     * @return inserted node by key-value
+     */
     internal abstract fun insert(
         key: K,
         value: V,
     ): R
 
-    abstract fun remove(key: K): V?
+    final override fun put(
+        key: K,
+        value: V,
+    ): V? {
+        val oldValue = search(key)
+        insert(key, value)
+        return oldValue
+    }
 
-    val size: Int
+    final override fun putAll(from: Map<out K, V>) = from.forEach { put(it.key, it.value) }
+
+    override fun isEmpty(): Boolean = root == null
+
+    override fun containsKey(key: K): Boolean = search(key) != null
+
+    override fun containsValue(value: V): Boolean = values.contains(value)
+
+    override operator fun get(key: K): V? = search(key)
+
+    override val keys: MutableSet<K>
+        get() = traversed.inOrder { it.key }.toMutableSet()
+    override val values: MutableCollection<V>
+        get() = traversed.inOrder { it.value }.toMutableList()
+    override val entries: MutableSet<MutableMap.MutableEntry<K, V>>
+        get() = traversed.inOrder { it }.toMutableSet()
+    override val size: Int
         get() = traversed.inOrder { it }.size
 
-    fun put(
-        key: K,
-        value: V,
-    ) {
-        insert(key, value)
-    }
-
-    fun isEmpty(): Boolean = root == null
-
-    fun isNotEmpty(): Boolean = root != null
-
-    fun containsKey(key: K): Boolean = search(key) != null
-
-    fun containsValue(value: V): Boolean = traversed.inOrder { it.value }.contains(value)
-
-    operator fun get(key: K): V? = search(key)
-
-    fun getOrDefault(
-        key: K,
-        defaultValue: @UnsafeVariance V,
-    ): V {
-        val value = search(key) ?: return defaultValue
-        return value
-    }
-
-    val keys: Set<K>
-        get() = traversed.inOrder { it.key }.toSet()
-    val values: Collection<V>
-        get() = traversed.inOrder { it.value }.toSet()
-    val entries: Set<Pair<K, V>>
-        get() = traversed.inOrder { Pair(it.key, it.value) }.toSet()
-
-    operator fun set(
-        key: K,
-        value: V,
-    ): R = insert(key, value)
-
-    fun putAll(from: List<Pair<K, V>>) = from.forEach { put(it.first, it.second) }
-
-    fun clean() {
+    override fun clear() {
         root = null
     }
+
+    override fun toString(): String = entries.toString()
 }

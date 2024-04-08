@@ -2,7 +2,7 @@ package bst.traversals
 
 import bst.nodes.AbstractBSTNode
 
-class BSTTraversed<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>>(private val getRoot: () -> R?) {
+class BSTTraversed<K : Comparable<K>, V : Any, R : AbstractBSTNode<K, V, R>>(private val getRoot: () -> R?) {
     private val inOrderInstance = InOrder<K, V, R>()
     private val preOrderInstance = PreOrder<K, V, R>()
     private val postOrderInstance = PostOrder<K, V, R>()

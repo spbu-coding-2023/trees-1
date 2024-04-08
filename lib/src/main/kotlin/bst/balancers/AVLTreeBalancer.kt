@@ -3,7 +3,7 @@ package bst.balancers
 import bst.nodes.AVLTreeNode
 import kotlin.math.max
 
-class AVLTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, AVLTreeNode<K, V>>() {
+class AVLTreeBalancer<K : Comparable<K>, V : Any> : AbstractBSTBalancer<K, V, AVLTreeNode<K, V>>() {
     private fun updateHeightAndBelow(node: AVLTreeNode<K, V>?): Int {
         if (node == null) {
             return 0

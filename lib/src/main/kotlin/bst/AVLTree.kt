@@ -5,7 +5,7 @@ import bst.balancers.AbstractBSTBalancer
 import bst.nodes.AVLTreeNode
 import kotlin.math.max
 
-class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTreeNode<K, V>>() {
+class AVLTree<K : Comparable<K>, V : Any> : RegularAbstractBSTWithBalancer<K, V, AVLTreeNode<K, V>>() {
     override val balancer: AbstractBSTBalancer<K, V, AVLTreeNode<K, V>> = AVLTreeBalancer()
 
     override fun setNodeRight(
@@ -29,7 +29,7 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
                 var currentNode = nodeChild
                 while (currentNode != root) {
                     currentNode = currentNode!!.parent!!
-                    currentNode.height = max(currentNode.right?.height ?: 0, currentNode.left?.height ?: 0) + 1
+                    currentNode.height = getHeight(currentNode)
                 }
             }
         }
@@ -60,7 +60,7 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
                 var currentNode = nodeChild
                 while (currentNode != root) {
                     currentNode = currentNode!!.parent!!
-                    currentNode.height = max(currentNode.right?.height ?: 0, currentNode.left?.height ?: 0) + 1
+                    currentNode.height = getHeight(currentNode)
                 }
             }
         }
@@ -91,8 +91,8 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
 
         if (removeNode.left != null && removeNode.right != null) {
             val nextNode = minInOrder(removeNode.right!!)
-            removeNode.key = nextNode.key
-            removeNode.value = nextNode.value
+            removeNode.setKey(nextNode.key)
+            removeNode.setValue(nextNode.value)
             removeNode = nextNode
         }
 
@@ -156,6 +156,6 @@ class AVLTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, AVLTr
         node: AVLTreeNode<K, V>,
         newNode: AVLTreeNode<K, V>,
     ) {
-        node.value = newNode.value
+        node.setValue(newNode.value)
     }
 }
