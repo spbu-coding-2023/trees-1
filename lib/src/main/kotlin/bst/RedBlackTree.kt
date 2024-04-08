@@ -4,14 +4,14 @@ import bst.balancers.AbstractBSTBalancer
 import bst.balancers.RedBlackTreeBalancer
 import bst.nodes.RedBlackTreeNode
 
-class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, RedBlackTreeNode<K, V>>() {
+class RedBlackTree<K : Comparable<K>, V : Any> : RegularAbstractBSTWithBalancer<K, V, RedBlackTreeNode<K, V>>() {
     override val balancer: AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>> = RedBlackTreeBalancer()
 
     override fun setNode(
         node: RedBlackTreeNode<K, V>,
         newNode: RedBlackTreeNode<K, V>,
     ) {
-        node.value = newNode.value
+        node.setValue(newNode.value)
     }
 
     override fun setNodeRight(
@@ -94,8 +94,8 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         }
         if (nodeToRemove.left == null || nodeToRemove.right == null) {
             if (nodeToRemove == root) {
-                nodeToRemove.value = replacementNode.value
-                nodeToRemove.key = replacementNode.key
+                nodeToRemove.setValue(replacementNode.value)
+                nodeToRemove.setKey(replacementNode.key)
                 nodeToRemove.left = null
                 nodeToRemove.right = null
                 replacementNode.parent!!.right = null
@@ -117,10 +117,10 @@ class RedBlackTree<K : Comparable<K>, V> : RegularAbstractBSTWithBalancer<K, V, 
         } else {
             val tempVal = replacementNode.value
             val tempKey = replacementNode.key
-            replacementNode.value = nodeToRemove.value
-            nodeToRemove.value = tempVal
-            replacementNode.key = nodeToRemove.key
-            nodeToRemove.key = tempKey
+            replacementNode.setValue(nodeToRemove.value)
+            nodeToRemove.setValue(tempVal)
+            replacementNode.setKey(nodeToRemove.key)
+            nodeToRemove.setKey(tempKey)
             removeNodeIfTreeIsNotJustRoot(replacementNode)
         }
     }

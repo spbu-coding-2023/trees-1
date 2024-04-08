@@ -1,6 +1,6 @@
 package bst.nodes
 
-class AVLTreeNode<K : Comparable<K>, V>(
+class AVLTreeNode<K : Comparable<K>, V : Any>(
     key: K,
     value: V,
     parent: AVLTreeNode<K, V>?,

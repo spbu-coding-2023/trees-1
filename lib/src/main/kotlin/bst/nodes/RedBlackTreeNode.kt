@@ -1,6 +1,6 @@
 package bst.nodes
 
-class RedBlackTreeNode<K : Comparable<K>, V>(
+class RedBlackTreeNode<K : Comparable<K>, V : Any>(
     key: K,
     value: V,
     parent: RedBlackTreeNode<K, V>?,
