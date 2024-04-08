@@ -428,4 +428,11 @@ class RegularTreeTest : AbstractBSTTest<RegularTree<Int, String>, BSTNode<Int, S
 
         assertEquals(listOf(null, regularTree.root?.left), regularTree.traversed.inOrder { it.getLeft() })
     }
+
+    @Test
+    fun `to string tree`() {
+        regularTree[23] = "23"
+
+        assertEquals("[(23, 23)]", regularTree.toString())
+    }
 }
