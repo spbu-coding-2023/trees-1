@@ -2,7 +2,7 @@ package bst
 
 import bst.nodes.BSTNode
 
-class RegularTree<K : Comparable<K>, V> : RegularAbstractBST<K, V, BSTNode<K, V>>() {
+class RegularTree<K : Comparable<K>, V : Any> : RegularAbstractBST<K, V, BSTNode<K, V>>() {
     override fun search(key: K): V? {
         return super.search(key)
     }
@@ -43,6 +43,6 @@ class RegularTree<K : Comparable<K>, V> : RegularAbstractBST<K, V, BSTNode<K, V>
         node: BSTNode<K, V>,
         newNode: BSTNode<K, V>,
     ) {
-        node.value = newNode.value
+        node.setValue(newNode.value)
     }
 }

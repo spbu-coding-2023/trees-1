@@ -86,14 +86,14 @@ class RedBlackTreeTest : AbstractBSTTest<RedBlackTree<Int, String>, RedBlackTree
     private fun setUpUnbalancedRBTree(): RedBlackTree<Int, String> {
         val redBlackTree = setUpBalancedRBTree()
         redBlackTree.root!!.right!!.left!!.setRed()
-        redBlackTree.root!!.left!!.right!!.key = 20
+        redBlackTree.root!!.left!!.right!!.setKey(20)
         return redBlackTree
     }
 
     private fun setUpAnotherUnbalancedRBTree(): RedBlackTree<Int, String> {
         val redBlackTree = setUpAnotherBalancedRBTree()
         redBlackTree.root!!.left!!.right!!.setRed()
-        redBlackTree.root!!.right!!.left!!.right!!.key = 19
+        redBlackTree.root!!.right!!.left!!.right!!.setKey(19)
         return redBlackTree
     }
 

@@ -2,7 +2,7 @@ package bst.balancers
 
 import bst.nodes.RedBlackTreeNode
 
-class RedBlackTreeBalancer<K : Comparable<K>, V> : AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>>() {
+class RedBlackTreeBalancer<K : Comparable<K>, V : Any> : AbstractBSTBalancer<K, V, RedBlackTreeNode<K, V>>() {
     private fun RedBlackTreeNode<K, V>.findUncleIfGrandparentExists(): RedBlackTreeNode<K, V>? {
         val grandparent = this.findGrandparentIfParentExists()!!
         return when (this.parent!!) {

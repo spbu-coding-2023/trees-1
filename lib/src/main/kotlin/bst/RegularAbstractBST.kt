@@ -2,7 +2,7 @@ package bst
 
 import bst.nodes.AbstractBSTNode
 
-abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
+abstract class RegularAbstractBST<K : Comparable<K>, V : Any, R : AbstractBSTNode<K, V, R>> : AbstractBST<K, V, R>() {
     override var root: R? = null
 
     private fun searchRec(
@@ -96,8 +96,8 @@ abstract class RegularAbstractBST<K : Comparable<K>, V, R : AbstractBSTNode<K, V
                 if (node.right == null) return node.left
 
                 val minInOrderNode = getMinInOrder(node.right!!)
-                node.key = minInOrderNode.key
-                node.value = minInOrderNode.value
+                node.setKey(minInOrderNode.key)
+                node.setValue(minInOrderNode.value)
                 node.right = removeRec(node.right, minInOrderNode.key)
             }
         }

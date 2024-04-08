@@ -2,11 +2,15 @@ package bst.balancers
 
 import bst.nodes.AbstractBSTNodeWithParent
 
-abstract class AbstractBSTBalancer<K : Comparable<K>, V, R : AbstractBSTNodeWithParent<K, V, R>> {
-    // returns root of a balanced tree
+abstract class AbstractBSTBalancer<K : Comparable<K>, V : Any, R : AbstractBSTNodeWithParent<K, V, R>> {
+    /**
+     * @return root of balanced tree
+     */
     abstract fun inserter(node: R): R
 
-    // returns root of a balanced tree
+    /**
+     * @return root of balanced tree
+     */
     abstract fun remover(node: R): R
 
     open fun rotateLeftHasRightChild(node: R) {
