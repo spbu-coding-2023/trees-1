@@ -33,11 +33,6 @@ tree.remove(23)
 ### Search
 ```kotlin
 // returns "Apple"
-tree.search(23)
-```
-or
-```kotlin
-// returns "Apple"
 tree[23] 
 ```
 ### Traverse
@@ -49,6 +44,8 @@ val preOrderKeys = tree.traversed.preOrder { it.key }
 // traverses values in level order
 val levelOrderValues = tree.traversed.levelOrder { it.value } 
 ```
+### Other
+Methods of kotlin [MutableMap](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-map/) interface are all available to use
 ## Documentation
 
 For detailed documentation and all methods, check out our [Wiki](https://github.com/spbu-coding-2023/trees-1/wiki) 
