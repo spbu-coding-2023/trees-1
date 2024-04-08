@@ -30,4 +30,8 @@ abstract class AbstractBSTNode<K : Comparable<K>, V : Any, R : AbstractBSTNode<K
     fun getRight() = right
 
     fun getLeft() = left
+
+    override fun toString(): String {
+        return this.toPair().toString()
+    }
 }

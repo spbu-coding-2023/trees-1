@@ -62,4 +62,6 @@ abstract class AbstractBST<K : Comparable<K>, V : Any, R : AbstractBSTNode<K, V,
     override fun clear() {
         root = null
     }
+
+    override fun toString(): String = entries.toString()
 }
